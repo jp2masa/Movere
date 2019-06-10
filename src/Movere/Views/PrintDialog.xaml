@@ -1,0 +1,75 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Movere.Views"
+        xmlns:vm="clr-namespace:Movere.ViewModels"
+        x:Class="Movere.Views.PrintDialog"
+        MinWidth="240"
+        MinHeight="160"
+        Width="800"
+        Height="480"
+        Title="Print"
+        WindowStartupLocation="CenterOwner">
+    <!--
+        ShowInTaskbar="False"
+    -->
+
+    <DockPanel Margin="8">
+
+        <DockPanel DockPanel.Dock="Bottom"
+                   LastChildFill="False">
+            <StackPanel DockPanel.Dock="Right"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <Button Content="Print"
+                        Command="{Binding PrintCommand}" />
+                <Button Content="Cancel"
+                        Command="{Binding CancelCommand}" />
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Spacing="8">
+
+            <Grid ColumnDefinitions="Auto,8,*">
+
+                <TextBlock Grid.Column="0"
+                           Text="Printer:" />
+
+                <ComboBox Grid.Column="2"
+                          Items="{Binding AvailablePrinters}"
+                          SelectedItem="{Binding PrinterSettings.PrinterName}" />
+
+            </Grid>
+
+            <DockPanel>
+
+                <ItemsControl DockPanel.Dock="Right"
+                              Items="{Binding PrintPreviewPages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Stretch="UniformToFill"  Source="{Binding Image^}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8">
+
+                        <TextBlock Text="Copies:" />
+
+                        <NumericUpDown Minimum="1"
+                                       Maximum="{Binding PrinterSettings.MaximumCopies}"
+                                       Value="{Binding PrinterSettings.Copies}" />
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </DockPanel>
+
+        </StackPanel>
+
+    </DockPanel>
+
+</Window>

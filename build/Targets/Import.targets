@@ -1,0 +1,7 @@
+<Project>
+
+    <Import Project="PackageProperties.targets" />
+
+    <Import Project="PackageVersions.targets" />
+
+</Project>

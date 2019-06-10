@@ -1,0 +1,23 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:Movere.Controls"
+             xmlns:conv="clr-namespace:Movere.Converters"
+             xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
+             x:Class="Movere.Views.FileExplorerAddressBarView">
+
+    <ItemsControl Items="{Binding AddressPieces}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Button Content="{Binding Name}"
+                        Command="{Binding $parent[UserControl].DataContext.OpenAddressPieceCommand}"
+                        CommandParameter="{Binding}" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+</UserControl>

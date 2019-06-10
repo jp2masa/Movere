@@ -1,0 +1,13 @@
+# User-specific files
+
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+
+[Aa]rtifacts/
+[Bb]in/
+[Oo]bj/

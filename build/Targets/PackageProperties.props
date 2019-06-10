@@ -1,0 +1,23 @@
+<Project>
+
+    <PropertyGroup>
+        <PackageVersion Condition="'$(PackageVersionSuffix)' != ''">$(PackageVersion)$(PackageVersionSuffix)</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <BaseDescription>Movere is an implementation of managed dialogs for Avalonia.</BaseDescription>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <Authors>jp2masa</Authors>
+        <Copyright>Copyright © $([System.DateTime]::Now.Year) jp2masa</Copyright>
+        <PackageIconUrl>https://raw.githubusercontent.com/jp2masa/Movere/master/Icon.png</PackageIconUrl>
+        <PackageProjectUrl>http://github.com/jp2masa/Movere</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageTags>movere avalonia dialogs dotnet core csharp vb visual basic fsharp</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/jp2masa/Movere</RepositoryUrl>
+    </PropertyGroup>
+
+</Project>

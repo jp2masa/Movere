@@ -1,0 +1,21 @@
+<Project>
+
+    <PropertyGroup>
+        <AvaloniaVersion>0.8.1-cibuild0002828-beta</AvaloniaVersion>
+        <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
+        <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.3</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
+        <ReactiveUIVersion>9.16.6</ReactiveUIVersion>
+        <SystemDrawingCommonVersion>4.5.1</SystemDrawingCommonVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+        <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
+        <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(MicrosoftCodeAnalysisFxCopAnalyzersVersion)" />
+        <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
+        <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
+    </ItemGroup>
+
+</Project>

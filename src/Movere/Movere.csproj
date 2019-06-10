@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+        <AvaloniaResource Include="**\*.xaml" SubType="Designer" />
+        <AvaloniaResource Include="Resources\**" Exclude="**\*.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.ReactiveUI" />
+        <PackageReference Include="ReactiveUI" />
+        <PackageReference Include="System.Drawing.Common" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="**\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
+        <EmbeddedResource Update="Resources\Strings.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Strings.Designer.cs" />
+    </ItemGroup>
+
+</Project>

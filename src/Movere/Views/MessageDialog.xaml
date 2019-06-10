@@ -1,0 +1,52 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Movere.Views.MessageDialog"
+        CanResize="False"
+        MinWidth="256"
+        MinHeight="96"
+        MaxWidth="512"
+        MaxHeight="256"
+        SizeToContent="WidthAndHeight"
+        Title="{Binding Title}"
+        WindowStartupLocation="CenterOwner">
+
+    <DockPanel Margin="4">
+
+        <ItemsControl DockPanel.Dock="Bottom"
+                      HorizontalAlignment="Right"
+                      Margin="4"
+                      Items="{Binding DialogResults}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="4"
+                            Content="{Binding Name}"
+                            Command="{Binding $parent[Window].DataContext.CloseCommand}"
+                            CommandParameter="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <DockPanel Margin="4">
+
+            <Image DockPanel.Dock="Left"
+                   IsVisible="{Binding !!Icon}"
+                   Margin="12"
+                   Width="48"
+                   Height="48"
+                   Source="{Binding Icon}" />
+
+            <TextBlock Margin="4"
+                       VerticalAlignment="Stretch"
+                       Text="{Binding Message}"
+                       TextWrapping="Wrap" />
+
+        </DockPanel>
+
+    </DockPanel>
+
+</Window>

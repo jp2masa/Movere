@@ -1,0 +1,26 @@
+<Project>
+
+    <PropertyGroup>
+        <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>Enable</Nullable>
+        <NullableContextOptions>Enable</NullableContextOptions>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageVersion>0.1.0</PackageVersion>
+        <PackageVersionSuffix Condition="'$(APPVEYOR)' == 'True'">-build.$(APPVEYOR_BUILD_NUMBER)+$(APPVEYOR_REPO_COMMIT.Substring(0, 7))</PackageVersionSuffix>
+        <PackageVersionSuffix Condition="'$(PackageVersionSuffix)' == ''  AND '$(DesignTimeBuild)' != 'True'">-localbuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</PackageVersionSuffix>
+        <PackageVersionSuffix Condition="'$(APPVEYOR_REPO_TAG)' == 'True'"></PackageVersionSuffix>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Properties" />
+    </ItemGroup>
+
+    <Import Project="build\Targets\Import.props" />
+
+</Project>

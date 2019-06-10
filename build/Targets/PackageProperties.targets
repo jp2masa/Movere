@@ -1,0 +1,10 @@
+<Project>
+
+    <PropertyGroup>
+        <PackageDescription Condition="'$(PackageDescription)' != ''">$(PackageDescription)
+
+$(BaseDescription)</PackageDescription>
+        <PackageDescription Condition="'$(PackageDescription)' == ''">$(BaseDescription)</PackageDescription>
+    </PropertyGroup>
+
+</Project>

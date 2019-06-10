@@ -1,0 +1,9 @@
+<Project>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" PrivateAssets="All" />
+    </ItemGroup>
+
+    <Import Project="build\Targets\Import.targets" />
+
+</Project>

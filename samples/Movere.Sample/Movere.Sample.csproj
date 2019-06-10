@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+        <TieredCompilation>True</TieredCompilation>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+        <AvaloniaResource Include="**\*.xaml" SubType="Designer" />
+        <AvaloniaResource Include="Resources\**" Exclude="**\*.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia.Desktop" />
+        <PackageReference Include="Avalonia.Skia.Linux.Natives" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Movere\Movere.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,7 @@
+<Project>
+
+    <Import Project="RepoLayout.props" />
+    
+    <Import Project="PackageProperties.props" />
+
+</Project>

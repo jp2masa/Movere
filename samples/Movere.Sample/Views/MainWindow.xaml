@@ -1,0 +1,31 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Movere.Sample.Views.MainWindow"
+        MinWidth="800"
+        MinHeight="480"
+        Icon="/Resources/Icon.png"
+        Title="Avalonia Dialogs Sample"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ColumnDefinitions="*,*,*">
+
+        <StackPanel Grid.Column="1"
+                    Spacing="8">
+
+            <Button Content="Show Message"
+                    Command="{Binding ShowMessageCommand}" />
+
+            <Button Content="Open File"
+                    Command="{Binding OpenFileCommand}" />
+
+            <Button Content="Save File"
+                    Command="{Binding SaveFileCommand}" />
+
+            <Button Content="Print"
+                    Command="{Binding PrintCommand}" />
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

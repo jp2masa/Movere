@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:Movere.Controls"
+             xmlns:conv="clr-namespace:Movere.Converters"
+             xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
+             x:Class="Movere.Views.FileExplorerFolderView">
+
+    <ListBox SelectionMode="{Binding AllowMultipleSelection, Converter={x:Static conv:AllowMultipleSelectionConverter.Instance}}"
+             Items="{Binding Items}"
+             SelectedItem="{Binding SelectedItem}"
+             SelectedItems="{Binding SelectedItems}">
+        <ListBox.DataTemplates>
+            <DataTemplate DataType="io:FileInfo">
+                <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFileCommand}"
+                                             DoubleClickCommandParameter="{Binding}">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="4">
+                        <Image Width="16" Height="16" Source="/Resources/Icons/File.png" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </c:DoubleClickContentControl>
+            </DataTemplate>
+            <DataTemplate DataType="io:DirectoryInfo">
+                <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFolderCommand}"
+                                             DoubleClickCommandParameter="{Binding}">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="4">
+                        <Image Width="16" Height="16" Source="/Resources/Icons/Folder.png" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </c:DoubleClickContentControl>
+            </DataTemplate>
+        </ListBox.DataTemplates>
+    </ListBox>
+
+</UserControl>
