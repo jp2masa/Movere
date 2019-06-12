@@ -8,6 +8,43 @@
 
 Movere is an implementation of managed dialogs for Avalonia. Currently there are message dialogs, as well as open and save file dialogs, and a print dialog (based on `System.Drawing.Printing`) is WIP.
 
+## Getting Started
+
+1. Create a dialog service for `Window` (owner):
+
+```cs
+var messageDialogService = new MessageDialogService(owner);
+```
+
+2. Pass the service to View Model:
+
+```cs
+window.DataContext = new ViewModel(messageDialogService);
+```
+
+3. Show dialog from View Model when you need to:
+
+```cs
+private async Task ShowInfo() =>
+    _messageDialogService.ShowMessageDialogAsync(
+        new MessageDialogOptions(
+            DialogIcon.Info,
+            "Message Dialog",
+            "Some info",
+            DialogResultSet.OK));
+```
+
+Available icons are:
+
+- `DialogIcon.None`
+- `DialogIcon.Info`
+- `DialogIcon.Warning`
+- `DialogIcon.Error`
+
+To add your own icon, just create an instance of `DialogIcon` and pass the resource string, e.g `avares://My.App/Resources/Icons/MyIcon.png`.
+
+Dialog results are extensible as well, and support localization.
+
 ## Roadmap
 
 - Improve file dialogs (including performance).
