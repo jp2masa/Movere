@@ -25,7 +25,7 @@ window.DataContext = new ViewModel(messageDialogService);
 3. Show dialog from View Model when you need to:
 
 ```cs
-private async Task ShowInfo() =>
+private Task ShowInfo() =>
     _messageDialogService.ShowMessageDialogAsync(
         new MessageDialogOptions(
             DialogIcon.Info,
