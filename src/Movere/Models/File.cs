@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Movere.Models
 {
-    internal sealed class File : IEquatable<File>
+    public sealed class File : IEquatable<File>
     {
         private readonly FileInfo _info;
 

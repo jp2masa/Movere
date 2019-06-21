@@ -6,7 +6,7 @@ using System.Security;
 
 namespace Movere.Models
 {
-    internal sealed class Folder : IEquatable<Folder>
+    public sealed class Folder : IEquatable<Folder>
     {
         private readonly DirectoryInfo _info;
 

@@ -3,10 +3,11 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 
 namespace Movere.Controls
 {
-    public class DoubleClickContentControl : ContentControl
+    internal class DoubleClickContentControl : ContentControl
     {
         public static readonly DirectProperty<DoubleClickContentControl, ICommand?> DoubleClickCommandProperty =
             AvaloniaProperty.RegisterDirect<DoubleClickContentControl, ICommand?>(
@@ -18,6 +19,26 @@ namespace Movere.Controls
             AvaloniaProperty.Register<DoubleClickContentControl, object?>(nameof(DoubleClickCommandParameter));
 
         private ICommand? _doubleClickCommand;
+
+        public DoubleClickContentControl()
+        {
+            // doesn't work, need to investigate why
+            // for now OnPointerPressed is overridden
+            // DoubleTapped += OnDoubleTapped;
+        }
+
+        protected virtual void OnDoubleTapped(object sender, RoutedEventArgs e)
+        {
+            if (DoubleClickCommand != null)
+            {
+                var parameter = DoubleClickCommandParameter;
+
+                if (DoubleClickCommand.CanExecute(parameter))
+                {
+                    DoubleClickCommand.Execute(parameter);
+                }
+            }
+        }
 
         public ICommand? DoubleClickCommand
         {

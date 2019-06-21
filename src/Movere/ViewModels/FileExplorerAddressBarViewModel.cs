@@ -11,15 +11,19 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    internal sealed class FileExplorerAddressBarViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerAddressBarViewModel : ReactiveObject, IDisposable
     {
         private readonly Subject<AddressPiece> _addressPieceOpened;
+
+        private bool _isEditing;
 
         private string _address;
         private ObservableCollection<AddressPiece> _addressPieces;
 
         public FileExplorerAddressBarViewModel()
         {
+            EditCommand = ReactiveCommand.Create(() => IsEditing = true);
+
             _address = String.Empty;
             _addressPieces = new ObservableCollection<AddressPiece>();
 
@@ -33,6 +37,14 @@ namespace Movere.ViewModels
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
             AddressChanged.Subscribe(UpdateAddressPieces);
         }
+
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set => this.RaiseAndSetIfChanged(ref _isEditing, value);
+        }
+
+        public ICommand EditCommand { get; }
 
         public string Address
         {

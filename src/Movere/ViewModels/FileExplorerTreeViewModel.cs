@@ -10,7 +10,7 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    internal sealed class FileExplorerTreeViewModel : ReactiveObject
+    public sealed class FileExplorerTreeViewModel : ReactiveObject
     {
         private readonly DriveInfo[] _drives;
         private Folder? _selectedFolder;

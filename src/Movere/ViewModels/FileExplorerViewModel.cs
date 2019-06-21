@@ -11,7 +11,7 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    internal sealed class FileExplorerViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerViewModel : ReactiveObject, IDisposable
     {
         private readonly Subject<FileInfo> _fileOpened;
 
@@ -33,6 +33,8 @@ namespace Movere.ViewModels
             _fileOpened = new Subject<FileInfo>();
             FileOpened = _fileOpened.AsObservable();
 
+            CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
+
             OpenFileCommand = ReactiveCommand.Create<FileInfo>(file => _fileOpened.OnNext(file));
 
             OpenFolderCommand = ReactiveCommand.Create<DirectoryInfo>(folder => NavigateTo(new Folder(folder)));
@@ -49,14 +51,13 @@ namespace Movere.ViewModels
                 NavigateUp,
                 this.ObservableForProperty(vm => vm.CurrentFolder).Select(x => x.Value.Parent != null));
 
+            AddressBar.AddressChanged.Subscribe(address => NavigateToAddress(address));
             AddressBar.AddressPieceOpened.Subscribe(address => NavigateTo(new Folder(address.Directory)));
 
             FileExplorerTree.SelectedFolderChanged.Subscribe(folder => NavigateTo(folder));
             FileExplorerFolder.FolderOpened.Subscribe(folder => NavigateTo(new Folder(folder)));
 
             FileOpened = FileExplorerFolder.FileOpened;
-
-            CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
             this.WhenAnyValue(vm => vm.CurrentFolder)
                 .Subscribe(CurrentFolderChanged);
@@ -140,6 +141,32 @@ namespace Movere.ViewModels
             }
 
             CurrentFolder = folder;
+        }
+
+        private void NavigateToAddress(string address)
+        {
+            if (Directory.Exists(address))
+            {
+                var path = Path.GetFullPath(address);
+                var folder = new Folder(new DirectoryInfo(path));
+
+                NavigateTo(folder);
+
+                return;
+            }
+
+            if (System.IO.File.Exists(address))
+            {
+                using (var process = new System.Diagnostics.Process())
+                {
+                    process.StartInfo.FileName = address;
+                    process.StartInfo.UseShellExecute = true;
+
+                    process.Start();
+                }
+            }
+
+            AddressBar.Address = CurrentFolder.FullPath;
         }
 
         private void CurrentFolderChanged(Folder folder)

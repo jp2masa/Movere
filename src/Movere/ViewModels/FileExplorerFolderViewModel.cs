@@ -12,7 +12,7 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    internal sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
         private readonly Subject<FileInfo> _fileOpened;
         private readonly Subject<DirectoryInfo> _folderOpened;
