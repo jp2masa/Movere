@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
-
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-
-using Serilog;
 
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
@@ -20,41 +18,40 @@ namespace Movere.Sample
             AvaloniaXamlLoader.Load(this);
         }
 
-        private static void Main()
+        public override void OnFrameworkInitializationCompleted()
         {
-            InitializeLogging();
+            base.OnFrameworkInitializationCompleted();
 
-            var builder = BuildAvaloniaApp();
-            builder.SetupWithoutStarting();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                var mainWindow = new MainWindow();
 
-            var mainWindow = new MainWindow();
+                var messageDialogService = new MessageDialogService(mainWindow);
 
-            var messageDialogService = new MessageDialogService(mainWindow);
+                var openFileDialogService = new OpenFileDialogService(mainWindow);
+                var saveFileDialogService = new SaveFileDialogService(mainWindow);
 
-            var openFileDialogService = new OpenFileDialogService(mainWindow);
-            var saveFileDialogService = new SaveFileDialogService(mainWindow);
+                var printDialogService = new PrintDialogService(mainWindow);
 
-            var printDialogService = new PrintDialogService(mainWindow);
+                mainWindow.DataContext = new MainWindowViewModel(
+                    messageDialogService,
+                    openFileDialogService,
+                    saveFileDialogService,
+                    printDialogService);
 
-            mainWindow.DataContext = new MainWindowViewModel(
-                messageDialogService,
-                openFileDialogService,
-                saveFileDialogService,
-                printDialogService);
-
-            builder.Instance.Run(mainWindow);
+                desktop.MainWindow = mainWindow;
+            }
         }
+
+        private static int Main(string[] args) =>
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
 
         private static AppBuilder BuildAvaloniaApp() =>
             AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+#if DEBUG
+                .LogToDebug()
+#endif
                 .UseReactiveUI();
-
-        [Conditional("DEBUG")]
-        private static void InitializeLogging() =>
-            SerilogLogger.Initialize(new LoggerConfiguration()
-                .MinimumLevel.Warning()
-                .WriteTo.Trace(outputTemplate: "{Area}: {Message}")
-                .CreateLogger());
     }
 }
