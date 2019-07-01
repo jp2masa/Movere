@@ -33,7 +33,7 @@ namespace Movere.Converters
                     }
                 }
 
-                return AvaloniaProperty.UnsetValue;
+                return BindingOperations.DoNothing;
             }
 
             throw new NotSupportedException();
