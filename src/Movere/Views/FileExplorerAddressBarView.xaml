@@ -13,14 +13,21 @@
                       Items="{Binding AddressPieces}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
+                    <c:BreadcrumbPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Name}"
-                            Command="{Binding $parent[UserControl].DataContext.OpenAddressPieceCommand}"
-                            CommandParameter="{Binding}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Classes="transparent"
+                                Padding="2,4"
+                                Content="{Binding Name}"
+                                Command="{Binding $parent[UserControl].DataContext.OpenAddressPieceCommand}"
+                                CommandParameter="{Binding}" />
+                        <Button Classes="transparent"
+                                Padding="2,4"
+                                Content="»" />
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

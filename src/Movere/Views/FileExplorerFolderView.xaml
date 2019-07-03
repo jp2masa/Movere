@@ -2,15 +2,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:conv="clr-namespace:Movere.Converters"
-             xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
+             xmlns:m="clr-namespace:Movere.Models"
              x:Class="Movere.Views.FileExplorerFolderView">
 
     <ListBox SelectionMode="{Binding AllowMultipleSelection, Converter={x:Static conv:AllowMultipleSelectionConverter.Instance}}"
              Items="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
+        <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <Template>
+                            <ContextMenu>
+                                <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
+                            </ContextMenu>
+                        </Template>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ListBox.Styles>
         <ListBox.DataTemplates>
-            <DataTemplate DataType="io:FileInfo">
+            <DataTemplate DataType="m:File">
                 <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFileCommand}"
                                              DoubleClickCommandParameter="{Binding}">
                     <StackPanel Orientation="Horizontal"
@@ -20,7 +33,7 @@
                     </StackPanel>
                 </c:DoubleClickContentControl>
             </DataTemplate>
-            <DataTemplate DataType="io:DirectoryInfo">
+            <DataTemplate DataType="m:Folder">
                 <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFolderCommand}"
                                              DoubleClickCommandParameter="{Binding}">
                     <StackPanel Orientation="Horizontal"

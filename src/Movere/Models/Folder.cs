@@ -6,7 +6,7 @@ using System.Security;
 
 namespace Movere.Models
 {
-    public sealed class Folder : IEquatable<Folder>
+    public sealed class Folder : FileSystemEntry, IEquatable<Folder>
     {
         private readonly DirectoryInfo _info;
 
@@ -15,13 +15,17 @@ namespace Movere.Models
             _info = info;
         }
 
-        public string Name => _info.Name;
+        public override string Name => _info.Name;
 
-        public string FullPath => _info.FullName;
+        public override string FullPath => _info.FullName;
 
         public Folder? Parent => _info.Parent == null ? null : new Folder(_info.Parent);
 
         public IEnumerable<Folder> Folders => GetFolders();
+
+        public IEnumerable<File> Files => GetFiles();
+
+        public IEnumerable<FileSystemEntry> Entries => Folders.Concat<FileSystemEntry>(Files);
 
         public IEnumerable<FileSystemInfo> EnumerateEntries()
         {
@@ -35,9 +39,9 @@ namespace Movere.Models
             }
         }
 
-        public bool Equals(Folder other) => String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(Folder other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
-        public override bool Equals(object obj) => obj is Folder file && Equals(file);
+        public override bool Equals(object obj) => obj is Folder folder && Equals(folder);
 
         public override int GetHashCode() => HashCode.Combine(FullPath);
 
@@ -52,6 +56,18 @@ namespace Movere.Models
             catch (Exception e) when (e is SecurityException || e is UnauthorizedAccessException)
             {
                 return Array.Empty<Folder>();
+            }
+        }
+
+        private IEnumerable<File> GetFiles()
+        {
+            try
+            {
+                return _info.EnumerateFiles().Select(f => new File(f));
+            }
+            catch (Exception e) when (e is SecurityException || e is UnauthorizedAccessException)
+            {
+                return Array.Empty<File>();
             }
         }
     }

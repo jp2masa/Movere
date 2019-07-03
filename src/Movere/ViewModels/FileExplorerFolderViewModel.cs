@@ -4,45 +4,50 @@ using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Services;
+using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
-        private readonly Subject<FileInfo> _fileOpened;
-        private readonly Subject<DirectoryInfo> _folderOpened;
+        private readonly Subject<File> _fileOpened;
+        private readonly Subject<Folder> _folderOpened;
 
         private Folder? _folder;
 
-        private ObservableCollection<FileSystemInfo> _fileSystemInfos;
+        private ObservableCollection<FileSystemEntry> _entries;
         private IDisposable _folderEnumerationDisposable;
 
-        private FileSystemInfo? _selectedItem;
+        private FileSystemEntry? _selectedItem;
 
         public FileExplorerFolderViewModel(bool allowMultipleSelection)
         {
             AllowMultipleSelection = allowMultipleSelection;
 
-            _fileSystemInfos = new ObservableCollection<FileSystemInfo>();
+            _entries = new ObservableCollection<FileSystemEntry>();
             _folderEnumerationDisposable = Disposable.Empty;
 
-            _fileOpened = new Subject<FileInfo>();
-            _folderOpened = new Subject<DirectoryInfo>();
+            _fileOpened = new Subject<File>();
+            _folderOpened = new Subject<Folder>();
 
             FileOpened = _fileOpened.AsObservable();
             FolderOpened = _folderOpened.AsObservable();
 
-            Items = new ReadOnlyObservableCollection<FileSystemInfo>(_fileSystemInfos);
+            Items = new ReadOnlyObservableCollection<FileSystemEntry>(_entries);
 
-            SelectedItems = new ObservableCollection<FileSystemInfo>();
+            SelectedItems = new ObservableCollection<FileSystemEntry>();
 
-            OpenFileCommand = ReactiveCommand.Create<FileInfo>(file => _fileOpened.OnNext(file));
-            OpenFolderCommand = ReactiveCommand.Create<DirectoryInfo>(folder => _folderOpened.OnNext(folder));
+            OpenFileCommand = ReactiveCommand.Create<File>(file => _fileOpened.OnNext(file));
+            OpenFolderCommand = ReactiveCommand.Create<Folder>(folder => _folderOpened.OnNext(folder));
+
+            CopyCommand = ReactiveCommand.Create(Copy);
 
             this.WhenAnyValue(vm => vm.Folder)
                 .Subscribe(CurrentFolderChanged);
@@ -56,23 +61,25 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _folder, value);
         }
 
-        public ReadOnlyObservableCollection<FileSystemInfo> Items { get; }
+        public ReadOnlyObservableCollection<FileSystemEntry> Items { get; }
 
-        public FileSystemInfo? SelectedItem
+        public FileSystemEntry? SelectedItem
         {
             get => _selectedItem;
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
-        public ObservableCollection<FileSystemInfo> SelectedItems { get; }
+        public ObservableCollection<FileSystemEntry> SelectedItems { get; }
 
         public ICommand OpenFileCommand { get; }
 
         public ICommand OpenFolderCommand { get; }
 
-        public IObservable<FileInfo> FileOpened { get; }
+        public ICommand CopyCommand { get; }
 
-        public IObservable<DirectoryInfo> FolderOpened { get; }
+        public IObservable<File> FileOpened { get; }
+
+        public IObservable<Folder> FolderOpened { get; }
 
         public void Dispose()
         {
@@ -80,11 +87,16 @@ namespace Movere.ViewModels
             _folderOpened.Dispose();
         }
 
+        private async Task Copy()
+        {
+
+        }
+
         private void CurrentFolderChanged(Folder? folder)
         {
             _folderEnumerationDisposable.Dispose();
 
-            _fileSystemInfos.Clear();
+            _entries.Clear();
 
             if (Folder == null)
             {
@@ -92,10 +104,10 @@ namespace Movere.ViewModels
                 return;
             }
 
-            _folderEnumerationDisposable = Folder.EnumerateEntries()
+            _folderEnumerationDisposable = Folder.Entries
                 .ToObservable()
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(info => _fileSystemInfos.Add(info));
+                .Subscribe(entry => _entries.Add(entry));
         }
     }
 }

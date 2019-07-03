@@ -7,6 +7,7 @@ using ReactiveUI;
 
 using Movere.Models;
 using Movere.Services;
+using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
@@ -48,9 +49,9 @@ namespace Movere.ViewModels
 
         private async Task SaveAsync()
         {
-            if (FileExplorer.FileExplorerFolder.SelectedItem is DirectoryInfo directory)
+            if (FileExplorer.FileExplorerFolder.SelectedItem is Folder folder)
             {
-                FileExplorer.NavigateTo(new Folder(directory));
+                FileExplorer.NavigateTo(folder);
                 return;
             }
 
@@ -83,16 +84,16 @@ namespace Movere.ViewModels
                 }
             }
 
-            Close(new SaveFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItem?.FullName));
+            Close(new SaveFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItem?.FullPath));
         }
 
         private void Cancel() => Close(new SaveFileDialogResult(null));
 
         private void Close(SaveFileDialogResult result) => _closeAction(result);
 
-        private void SelectedItemChanged(FileSystemInfo? entry)
+        private void SelectedItemChanged(FileSystemEntry? entry)
         {
-            if (entry is FileInfo file)
+            if (entry is File file)
             {
                 FileName = file.Name;
             }

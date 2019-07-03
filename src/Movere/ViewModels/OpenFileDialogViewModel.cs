@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
@@ -45,9 +46,9 @@ namespace Movere.ViewModels
 
         private void Open()
         {
-            if (FileExplorer.FileExplorerFolder.SelectedItem is DirectoryInfo directory)
+            if (FileExplorer.FileExplorerFolder.SelectedItem is Folder folder)
             {
-                FileExplorer.NavigateTo(new Folder(directory));
+                FileExplorer.NavigateTo(folder);
                 return;
             }
 
@@ -58,9 +59,9 @@ namespace Movere.ViewModels
 
         private void Close(OpenFileDialogResult result) => _closeAction(result);
 
-        private void SelectedItemChanged(FileSystemInfo? entry)
+        private void SelectedItemChanged(FileSystemEntry? entry)
         {
-            if (entry is FileInfo file)
+            if (entry is File file)
             {
                 FileName = file.Name;
             }

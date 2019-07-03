@@ -8,12 +8,13 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
     public sealed class FileExplorerViewModel : ReactiveObject, IDisposable
     {
-        private readonly Subject<FileInfo> _fileOpened;
+        private readonly Subject<File> _fileOpened;
 
         private readonly Stack<Folder> _navigationHistoryBack;
         private readonly Stack<Folder> _navigationHistoryForward;
@@ -30,12 +31,12 @@ namespace Movere.ViewModels
             _navigationHistoryBack = new Stack<Folder>();
             _navigationHistoryForward = new Stack<Folder>();
             
-            _fileOpened = new Subject<FileInfo>();
+            _fileOpened = new Subject<File>();
             FileOpened = _fileOpened.AsObservable();
 
             CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
-            OpenFileCommand = ReactiveCommand.Create<FileInfo>(file => _fileOpened.OnNext(file));
+            OpenFileCommand = ReactiveCommand.Create<File>(file => _fileOpened.OnNext(file));
 
             OpenFolderCommand = ReactiveCommand.Create<DirectoryInfo>(folder => NavigateTo(new Folder(folder)));
 
@@ -55,7 +56,7 @@ namespace Movere.ViewModels
             AddressBar.AddressPieceOpened.Subscribe(address => NavigateTo(new Folder(address.Directory)));
 
             FileExplorerTree.SelectedFolderChanged.Subscribe(folder => NavigateTo(folder));
-            FileExplorerFolder.FolderOpened.Subscribe(folder => NavigateTo(new Folder(folder)));
+            FileExplorerFolder.FolderOpened.Subscribe(folder => NavigateTo(folder));
 
             FileOpened = FileExplorerFolder.FileOpened;
 
@@ -77,7 +78,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _currentFolder, value);
         }
 
-        public IObservable<FileInfo> FileOpened { get; }
+        public IObservable<File> FileOpened { get; }
 
         public ICommand OpenFileCommand { get; }
 

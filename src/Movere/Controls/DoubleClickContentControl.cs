@@ -56,7 +56,7 @@ namespace Movere.Controls
         {
             base.OnPointerPressed(e);
 
-            if (e.ClickCount == 2)
+            if (e.ClickCount == 2 && e.InputModifiers.HasFlag(InputModifiers.LeftMouseButton))
             {
                 if (DoubleClickCommand != null)
                 {

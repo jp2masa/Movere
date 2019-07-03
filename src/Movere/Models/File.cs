@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Movere.Models
 {
-    public sealed class File : IEquatable<File>
+    public sealed class File : FileSystemEntry, IEquatable<File>
     {
         private readonly FileInfo _info;
 
@@ -12,11 +12,11 @@ namespace Movere.Models
             _info = info;
         }
 
-        public string Name => _info.Name;
+        public override string Name => _info.Name;
 
-        public string FullPath => _info.FullName;
+        public override string FullPath => _info.FullName;
 
-        public bool Equals(File other) => String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(File other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
         public override bool Equals(object obj) => obj is File file && Equals(file);
 
