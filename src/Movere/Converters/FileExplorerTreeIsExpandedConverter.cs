@@ -27,7 +27,7 @@ namespace Movere.Converters
                 if (values[1] is Folder selectedFolder)
                 {
                     if (selectedFolder.Parent != null
-                        && selectedFolder.Parent.FullPath.StartsWith(itemFolder.FullPath))
+                        && selectedFolder.Parent.FullPath.StartsWith(itemFolder.FullPath, StringComparison.Ordinal))
                     {
                         return true;
                     }

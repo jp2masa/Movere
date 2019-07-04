@@ -43,6 +43,7 @@ https://raw.githubusercontent.com/Cyan4973/xxHash/5c174cfa4e45a42f94082dc0d4539b
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace System
@@ -50,6 +51,9 @@ namespace System
     // xxHash32 is used for the hash code.
     // https://github.com/Cyan4973/xxHash
 
+    [SuppressMessage("Design", "CA1066:Type {0} should implement IEquatable<T> because it overrides Equals")]
+    [SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types")]
+    [SuppressMessage("Usage", "CA2231:Overload operator equals on overriding value type Equals")]
     public struct HashCode
     {
         private static readonly uint s_seed = GenerateGlobalSeed();
@@ -419,10 +423,12 @@ namespace System
 
         [Obsolete("HashCode is a mutable struct and should not be compared with other HashCodes. Use ToHashCode to retrieve the computed hash code.", error: true)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [SuppressMessage("Design", "CA1065:Do not raise exceptions in unexpected locations")]
         public override int GetHashCode() => throw new NotSupportedException();
 
         [Obsolete("HashCode is a mutable struct and should not be compared with other HashCodes.", error: true)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [SuppressMessage("Design", "CA1065:Do not raise exceptions in unexpected locations")]
         public override bool Equals(object? obj) => throw new NotSupportedException();
 #pragma warning restore 0809
     }

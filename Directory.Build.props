@@ -8,6 +8,11 @@
         <LangVersion>8.0</LangVersion>
         <Nullable>Enable</Nullable>
         <NullableContextOptions>Enable</NullableContextOptions>
+        <!--
+            CA1812: internal class that is apparently never instantiated
+                    justification: internal view types, instantiated in the XAML files
+        -->
+        <NoWarn>CA1812;$(NoWarn)</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
