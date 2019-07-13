@@ -70,8 +70,6 @@ namespace Movere.ViewModels
 
         public FileExplorerFolderViewModel FileExplorerFolder{ get; }
 
-        public bool AllowMultipleSelection => true;
-
         public Folder CurrentFolder
         {
             get => _currentFolder;
