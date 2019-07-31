@@ -1,4 +1,6 @@
-﻿using Movere.Resources;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Movere.Resources;
 
 namespace Movere.Models
 {
@@ -21,6 +23,7 @@ namespace Movere.Models
             _name = name;
         }
 
+        [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
         public string Name => _name.GetString();
 
         private static LocalizedString LocalizedName(string resourceName) =>
