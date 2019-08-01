@@ -87,10 +87,7 @@ namespace Movere.ViewModels
             _folderOpened.Dispose();
         }
 
-        private async Task Copy()
-        {
-
-        }
+        private Task Copy() => Task.CompletedTask;
 
         private void CurrentFolderChanged(Folder? folder)
         {

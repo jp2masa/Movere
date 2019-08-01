@@ -51,10 +51,12 @@ namespace Movere.Sample.ViewModels
                 new MessageDialogOptions(
                     DialogIcon.Error,
                     "Message Dialog",
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                     "Some really really really really really really really really really really really " +
                     "really really really really really really really really really really really really " +
                     "really really really really really really really really really really really really " +
                     "really really really really really really really really really long message",
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                     DialogResultSet.AbortRetryIgnore));
 
         private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync();
