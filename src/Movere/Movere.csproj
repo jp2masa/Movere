@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="**\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
+        <Compile Update="Resources\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
         <EmbeddedResource Update="Resources\Strings.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Strings.Designer.cs" />
     </ItemGroup>
 

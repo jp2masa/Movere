@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Resources;
 using Movere.Services;
 using File = Movere.Models.File;
 
@@ -69,8 +70,8 @@ namespace Movere.ViewModels
                 var result = await _messageDialogService.ShowMessageDialogAsync(
                     new MessageDialogOptions(
                         DialogIcon.Warning,
-                        "Save",
-                        "The file already exists, overwrite it?",
+                        Strings.Save,
+                        Strings.FileAlreadyExistsMessage,
                         DialogResultSet.YesNoCancel));
 
                 if (result != DialogResult.Yes)

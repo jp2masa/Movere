@@ -123,6 +123,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="FileAlreadyExistsMessage" xml:space="preserve">
+    <value>The file already exists, overwrite it?</value>
+  </data>
   <data name="Ignore" xml:space="preserve">
     <value>Ignore</value>
   </data>
@@ -132,8 +135,17 @@
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
