@@ -58,15 +58,7 @@ namespace Movere.Controls
 
             if (e.ClickCount == 2 && e.InputModifiers.HasFlag(InputModifiers.LeftMouseButton))
             {
-                if (DoubleClickCommand != null)
-                {
-                    var parameter = DoubleClickCommandParameter;
-
-                    if (DoubleClickCommand.CanExecute(parameter))
-                    {
-                        DoubleClickCommand.Execute(DoubleClickCommandParameter);
-                    }
-                }
+                OnDoubleTapped(this, e);
             }
         }
     }
