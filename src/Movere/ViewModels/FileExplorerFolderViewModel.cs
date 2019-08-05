@@ -85,6 +85,8 @@ namespace Movere.ViewModels
         {
             _fileOpened.Dispose();
             _folderOpened.Dispose();
+
+            _folderEnumerationDisposable.Dispose();
         }
 
         private Task Copy() => Task.CompletedTask;
