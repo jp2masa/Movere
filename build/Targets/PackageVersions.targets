@@ -4,7 +4,7 @@
         <AvaloniaVersion>0.8.999-cibuild0003269-beta</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.4</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
-        <ReactiveUIVersion>9.19.5</ReactiveUIVersion>
+        <ReactiveUIVersion>9.20.1</ReactiveUIVersion>
         <SystemDrawingCommonVersion>4.5.1</SystemDrawingCommonVersion>
     </PropertyGroup>
 
