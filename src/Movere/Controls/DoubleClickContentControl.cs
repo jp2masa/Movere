@@ -2,7 +2,6 @@
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 
 namespace Movere.Controls
@@ -22,9 +21,7 @@ namespace Movere.Controls
 
         public DoubleClickContentControl()
         {
-            // doesn't work, need to investigate why
-            // for now OnPointerPressed is overridden
-            // DoubleTapped += OnDoubleTapped;
+            DoubleTapped += OnDoubleTapped;
         }
 
         protected virtual void OnDoubleTapped(object sender, RoutedEventArgs e)
@@ -50,16 +47,6 @@ namespace Movere.Controls
         {
             get => GetValue(DoubleClickCommandParameterProperty);
             set => SetValue(DoubleClickCommandParameterProperty, value);
-        }
-
-        protected override void OnPointerPressed(PointerPressedEventArgs e)
-        {
-            base.OnPointerPressed(e);
-
-            if (e.ClickCount == 2 && e.InputModifiers.HasFlag(InputModifiers.LeftMouseButton))
-            {
-                OnDoubleTapped(this, e);
-            }
         }
     }
 }
