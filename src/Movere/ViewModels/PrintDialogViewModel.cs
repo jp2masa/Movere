@@ -18,7 +18,9 @@ namespace Movere.ViewModels
 
         private IReadOnlyList<PrintPreviewPageViewModel> _printPreviewPages;
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public PrintDialogViewModel(PrintDocument document, Action<bool> closeAction)
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             _document = document;
             _closeAction = closeAction;
@@ -42,6 +44,8 @@ namespace Movere.ViewModels
             System.Drawing.Printing.PrinterSettings.InstalledPrinters.CopyTo(printers, 0);
 
             AvailablePrinters = printers;
+
+            PrintPreviewPages = Array.Empty<PrintPreviewPageViewModel>();
         }
 
         public ICommand PrintCommand { get; }

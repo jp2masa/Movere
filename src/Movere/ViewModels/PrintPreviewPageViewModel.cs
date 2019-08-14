@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Media.Imaging;
