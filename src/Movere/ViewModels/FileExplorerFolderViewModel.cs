@@ -17,6 +17,8 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
+        private readonly IClipboardService _clipboardService;
+
         private readonly Subject<File> _fileOpened;
         private readonly Subject<Folder> _folderOpened;
 
@@ -27,8 +29,10 @@ namespace Movere.ViewModels
 
         private FileSystemEntry? _selectedItem;
 
-        public FileExplorerFolderViewModel(bool allowMultipleSelection)
+        public FileExplorerFolderViewModel(IClipboardService clipboardService, bool allowMultipleSelection)
         {
+            _clipboardService = clipboardService;
+
             AllowMultipleSelection = allowMultipleSelection;
 
             _entries = new ObservableCollection<FileSystemEntry>();
@@ -89,7 +93,17 @@ namespace Movere.ViewModels
             _folderEnumerationDisposable.Dispose();
         }
 
-        private Task Copy() => Task.CompletedTask;
+        private Task Copy()
+        {
+            var files = new string[SelectedItems.Count];
+
+            for (int i = 0; i < SelectedItems.Count; i++)
+            {
+                files[i] = SelectedItems[i].FullPath;
+            }
+
+            return _clipboardService.SetFilesAsync(files);
+        }
 
         private void CurrentFolderChanged(Folder? folder)
         {

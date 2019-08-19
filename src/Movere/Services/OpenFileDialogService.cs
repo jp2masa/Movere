@@ -20,7 +20,10 @@ namespace Movere.Services
         public Task<OpenFileDialogResult> ShowDialogAsync()
         {
             var dialog = new OpenFileDialog();
-            var viewModel = new OpenFileDialogViewModel(dialog.Close);
+
+            var viewModel = new OpenFileDialogViewModel(
+                new ClipboardService(),
+                dialog.Close);
 
             dialog.DataContext = viewModel;
 

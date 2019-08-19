@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Services;
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
@@ -22,13 +23,13 @@ namespace Movere.ViewModels
         private Folder _currentFolder;
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized.
-        public FileExplorerViewModel(bool allowMultipleSelection)
+        public FileExplorerViewModel(IClipboardService clipboardService, bool allowMultipleSelection)
 #pragma warning restore CS8618 // Non-nullable field is uninitialized.
         {
             AddressBar = new FileExplorerAddressBarViewModel();
 
             FileExplorerTree = new FileExplorerTreeViewModel();
-            FileExplorerFolder = new FileExplorerFolderViewModel(allowMultipleSelection);
+            FileExplorerFolder = new FileExplorerFolderViewModel(clipboardService, allowMultipleSelection);
 
             _navigationHistoryBack = new Stack<Folder>();
             _navigationHistoryForward = new Stack<Folder>();

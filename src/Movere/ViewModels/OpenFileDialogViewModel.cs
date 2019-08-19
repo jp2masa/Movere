@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Services;
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
@@ -16,13 +17,13 @@ namespace Movere.ViewModels
 
         private string _fileName;
 
-        public OpenFileDialogViewModel(Action<OpenFileDialogResult> closeAction)
+        public OpenFileDialogViewModel(IClipboardService clipboardService, Action<OpenFileDialogResult> closeAction)
         {
             _closeAction = closeAction;
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(true);
+            FileExplorer = new FileExplorerViewModel(clipboardService, true);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
