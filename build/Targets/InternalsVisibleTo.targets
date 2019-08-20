@@ -1,0 +1,16 @@
+<Project>
+
+    <Target Name="GenerateInternalsVisibleTo" BeforeTargets="GetAssemblyAttributes" Condition="'@(InternalsVisibleTo)' != ''">
+
+        <Error Text="Unknown public key '%(InternalsVisibleTo.Key)'!" Condition="'%(InternalsVisibleTo.Key)' != '' AND '%(InternalsVisibleTo.PublicKey)' == ''" />
+
+        <ItemGroup>
+            <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+                <_Parameter1 Condition="'%(InternalsVisibleTo.PublicKey)' == ''">%(InternalsVisibleTo.Identity)</_Parameter1>
+                <_Parameter1 Condition="'%(InternalsVisibleTo.PublicKey)' != ''">%(InternalsVisibleTo.Identity), PublicKey=%(InternalsVisibleTo.PublicKey)</_Parameter1>
+            </AssemblyAttribute>
+        </ItemGroup>
+
+    </Target>
+
+</Project>
