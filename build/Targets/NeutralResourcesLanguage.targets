@@ -1,0 +1,9 @@
+<Project>
+
+    <ItemGroup Condition="'$(NeutralResourcesLanguage)' != ''">
+        <AssemblyAttribute Include="System.Resources.NeutralResourcesLanguage">
+            <_Parameter1>$(NeutralResourcesLanguage)</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+</Project>

@@ -1,6 +1,7 @@
 <Project>
 
     <Import Project="InternalsVisibleTo.targets" />
+    <Import Project="NeutralResourcesLanguage.targets" />
 
     <Import Project="PackageProperties.targets" />
 
