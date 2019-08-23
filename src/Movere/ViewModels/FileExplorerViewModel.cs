@@ -56,7 +56,7 @@ namespace Movere.ViewModels
                 this.ObservableForProperty(vm => vm.CurrentFolder).Select(x => x.Value.Parent != null));
 
             AddressBar.AddressChanged.Subscribe(address => NavigateToAddress(address));
-            AddressBar.AddressPieceOpened.Subscribe(address => NavigateTo(new Folder(address.Directory)));
+            AddressBar.AddressPieceOpened.Subscribe(folder => NavigateTo(folder));
 
             FileExplorerTree.SelectedFolderChanged.Subscribe(folder => NavigateTo(folder));
             FileExplorerFolder.FolderOpened.Subscribe(folder => NavigateTo(folder));

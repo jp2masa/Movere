@@ -13,26 +13,26 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerAddressBarViewModel : ReactiveObject, IDisposable
     {
-        private readonly Subject<AddressPiece> _addressPieceOpened;
+        private readonly Subject<Folder> _addressPieceOpened;
 
         private bool _isEditing;
 
         private string _address;
-        private ObservableCollection<AddressPiece> _addressPieces;
+        private ObservableCollection<Folder> _addressPieces;
 
         public FileExplorerAddressBarViewModel()
         {
             EditCommand = ReactiveCommand.Create(() => IsEditing = true);
 
             _address = String.Empty;
-            _addressPieces = new ObservableCollection<AddressPiece>();
+            _addressPieces = new ObservableCollection<Folder>();
 
-            AddressPieces = new ReadOnlyObservableCollection<AddressPiece>(_addressPieces);
+            AddressPieces = new ReadOnlyObservableCollection<Folder>(_addressPieces);
 
-            _addressPieceOpened = new Subject<AddressPiece>();
+            _addressPieceOpened = new Subject<Folder>();
             AddressPieceOpened = _addressPieceOpened.AsObservable();
 
-            OpenAddressPieceCommand = ReactiveCommand.Create<AddressPiece>(_addressPieceOpened.OnNext);
+            OpenAddressPieceCommand = ReactiveCommand.Create<Folder>(_addressPieceOpened.OnNext);
 
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
             AddressChanged.Subscribe(UpdateAddressPieces);
@@ -54,11 +54,11 @@ namespace Movere.ViewModels
 
         public IObservable<string> AddressChanged { get; }
 
-        public ReadOnlyObservableCollection<AddressPiece> AddressPieces { get; }
+        public ReadOnlyObservableCollection<Folder> AddressPieces { get; }
 
         public ICommand OpenAddressPieceCommand { get; }
 
-        public IObservable<AddressPiece> AddressPieceOpened { get; }
+        public IObservable<Folder> AddressPieceOpened { get; }
 
         private void UpdateAddressPieces(string address)
         {
@@ -68,20 +68,20 @@ namespace Movere.ViewModels
                 var directory = new DirectoryInfo(path);
 
                 _addressPieces.Clear();
-                AddAddressPieces(_addressPieces, directory);
+                AddAddressPieces(_addressPieces, new Folder(directory));
             }
         }
 
-        private void AddAddressPieces(ObservableCollection<AddressPiece> pieces, DirectoryInfo directory)
+        private void AddAddressPieces(ObservableCollection<Folder> pieces, Folder folder)
         {
-            var parent = directory.Parent;
+            var parent = folder.Parent;
 
             if (parent != null)
             {
                 AddAddressPieces(pieces, parent);
             }
 
-            pieces.Add(new AddressPiece(directory.Name, directory));
+            pieces.Add(folder);
         }
 
         public void Dispose() => _addressPieceOpened.Dispose();
