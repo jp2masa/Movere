@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 
@@ -19,7 +18,7 @@ namespace Movere.Converters
         {
             if (values.Any(v => v is BindingNotification notification && notification.ErrorType == BindingErrorType.Error))
             {
-                return AvaloniaProperty.UnsetValue;
+                return BindingOperations.DoNothing;
             }
 
             if (values.Count == 2 && values[0] is Folder itemFolder && targetType == typeof(bool))
