@@ -21,9 +21,9 @@ namespace Movere.ViewModels
 
             FolderHierarchy = _drives.Select(d => new Folder(d.RootDirectory));
 
-#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
-            SelectedFolderChanged = this.WhenAnyValue(vm => vm.SelectedFolder).Where(folder => folder != null);
-#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
+            SelectedFolderChanged = from folder in this.WhenAnyValue(vm => vm.SelectedFolder)
+                                    where folder != null
+                                    select folder;
         }
 
         public IEnumerable<Folder> FolderHierarchy { get; }
