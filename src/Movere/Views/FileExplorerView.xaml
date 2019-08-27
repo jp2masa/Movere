@@ -75,7 +75,7 @@
             <TextBox Grid.Column="5"
                      Margin="4"
                      IsEnabled="False"
-                     Watermark="{Binding CurrentFolder.Name, StringFormat=Search in \{0\}}"
+                     Watermark="{Binding CurrentFolder.Name, StringFormat=Search in {0}}"
                      Text="{Binding SearchText}" />
 
         </Grid>
