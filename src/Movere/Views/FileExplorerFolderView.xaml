@@ -1,5 +1,7 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:conv="clr-namespace:Movere.Converters"
              xmlns:m="clr-namespace:Movere.Models"
@@ -11,14 +13,18 @@
              SelectedItems="{Binding SelectedItems}">
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
+                <Setter Property="i:Interaction.Behaviors">
+                    <ia:EventTriggerBehavior EventName="DoubleTapped">
+                        <ia:InvokeCommandAction Command="{Binding $parent[UserControl].DataContext.OpenFileCommand}"
+                                                CommandParameter="{Binding}" />
+                    </ia:EventTriggerBehavior>
+                </Setter>
                 <Setter Property="ContextMenu">
-                    <Setter.Value>
-                        <Template>
-                            <ContextMenu>
-                                <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
-                            </ContextMenu>
-                        </Template>
-                    </Setter.Value>
+                    <Template>
+                        <ContextMenu>
+                            <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
+                        </ContextMenu>
+                    </Template>
                 </Setter>
             </Style>
         </ListBox.Styles>

@@ -3,6 +3,7 @@
     <PropertyGroup>
         <AvaloniaVersion>0.8.999-cibuild0004115-beta</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
+        <AvaloniaXamlBehaviorsVersion>0.9.0-build20190920-01</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.4</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
         <ReactiveUIVersion>9.22.1</ReactiveUIVersion>
         <SystemDrawingCommonVersion>4.5.1</SystemDrawingCommonVersion>
@@ -13,6 +14,7 @@
         <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
+        <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(MicrosoftCodeAnalysisFxCopAnalyzersVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
