@@ -30,24 +30,18 @@
         </ListBox.Styles>
         <ListBox.DataTemplates>
             <DataTemplate DataType="m:File">
-                <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFileCommand}"
-                                             DoubleClickCommandParameter="{Binding}">
-                    <StackPanel Orientation="Horizontal"
-                                Spacing="4">
-                        <Image Width="16" Height="16" Source="/Resources/Icons/File.png" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </c:DoubleClickContentControl>
+                <StackPanel Orientation="Horizontal"
+                            Spacing="4">
+                    <Image Width="16" Height="16" Source="/Resources/Icons/File.png" />
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
             </DataTemplate>
             <DataTemplate DataType="m:Folder">
-                <c:DoubleClickContentControl DoubleClickCommand="{Binding $parent[UserControl].DataContext.OpenFolderCommand}"
-                                             DoubleClickCommandParameter="{Binding}">
-                    <StackPanel Orientation="Horizontal"
-                                Spacing="4">
-                        <Image Width="16" Height="16" Source="/Resources/Icons/Folder.png" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </c:DoubleClickContentControl>
+                <StackPanel Orientation="Horizontal"
+                            Spacing="4">
+                    <Image Width="16" Height="16" Source="/Resources/Icons/Folder.png" />
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
             </DataTemplate>
         </ListBox.DataTemplates>
     </ListBox>
