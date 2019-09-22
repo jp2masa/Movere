@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -19,13 +18,13 @@ namespace Movere.ViewModels
     {
         private readonly IClipboardService _clipboardService;
 
-        private readonly Subject<File> _fileOpened;
-        private readonly Subject<Folder> _folderOpened;
+        private readonly Subject<File> _fileOpened = new Subject<File>();
+        private readonly Subject<Folder> _folderOpened = new Subject<Folder>();
 
         private Folder? _folder;
 
-        private ObservableCollection<FileSystemEntry> _entries;
-        private IDisposable _folderEnumerationDisposable;
+        private ObservableCollection<FileSystemEntry> _entries = new ObservableCollection<FileSystemEntry>();
+        private IDisposable _folderEnumerationDisposable = Disposable.Empty;
 
         private FileSystemEntry? _selectedItem;
 
@@ -35,21 +34,13 @@ namespace Movere.ViewModels
 
             AllowMultipleSelection = allowMultipleSelection;
 
-            _entries = new ObservableCollection<FileSystemEntry>();
-            _folderEnumerationDisposable = Disposable.Empty;
-
-            _fileOpened = new Subject<File>();
-            _folderOpened = new Subject<Folder>();
-
             FileOpened = _fileOpened.AsObservable();
             FolderOpened = _folderOpened.AsObservable();
 
             Items = new ReadOnlyObservableCollection<FileSystemEntry>(_entries);
-
             SelectedItems = new ObservableCollection<FileSystemEntry>();
 
-            OpenFileCommand = ReactiveCommand.Create<File>(file => _fileOpened.OnNext(file));
-            OpenFolderCommand = ReactiveCommand.Create<Folder>(folder => _folderOpened.OnNext(folder));
+            OpenItemCommand = ReactiveCommand.Create<FileSystemEntry>(ItemOpened);
 
             CopyCommand = ReactiveCommand.Create(Copy);
 
@@ -75,9 +66,7 @@ namespace Movere.ViewModels
 
         public ObservableCollection<FileSystemEntry> SelectedItems { get; }
 
-        public ICommand OpenFileCommand { get; }
-
-        public ICommand OpenFolderCommand { get; }
+        public ICommand OpenItemCommand { get; }
 
         public ICommand CopyCommand { get; }
 
@@ -91,6 +80,19 @@ namespace Movere.ViewModels
             _folderOpened.Dispose();
 
             _folderEnumerationDisposable.Dispose();
+        }
+
+        private void ItemOpened(FileSystemEntry item)
+        {
+            switch (item)
+            {
+                case File file:
+                    _fileOpened.OnNext(file);
+                    return;
+                case Folder folder:
+                    _folderOpened.OnNext(folder);
+                    return;
+            }
         }
 
         private Task Copy()

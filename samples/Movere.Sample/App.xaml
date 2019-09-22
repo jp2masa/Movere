@@ -7,8 +7,6 @@
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
 
-        <StyleInclude Source="avares://Movere/Styles/Styles.xaml"/>
-
     </Application.Styles>
 
 </Application>
