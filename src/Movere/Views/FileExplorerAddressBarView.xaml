@@ -1,12 +1,23 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:r="clr-namespace:System.Reactive;assembly=System.Reactive"
              xmlns:c="clr-namespace:Movere.Controls"
-             x:Class="Movere.Views.FileExplorerAddressBarView">
+             x:Class="Movere.Views.FileExplorerAddressBarView"
+             BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+             BorderThickness="{DynamicResource ThemeBorderThickness}">
 
-    <c:OverlappedItemsPanel Background="Transparent"
-                            TappedCommand="{Binding EditCommand}">
+    <c:OverlappedItemsPanel Background="Transparent">
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+                <ia:InvokeCommandAction Command="{Binding EditCommand}"
+                                        CommandParameter="{x:Static r:Unit.Default}" />
+            </ia:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
 
         <TextBox IsVisible="{Binding IsEditing}"
+                 BorderThickness="0"
                  Text="{Binding Address}" />
 
         <ItemsControl IsVisible="{Binding !IsEditing}"
@@ -20,11 +31,13 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Button Classes="transparent"
+                                BorderThickness="0"
                                 Padding="2,4"
                                 Content="{Binding Name}"
                                 Command="{Binding $parent[UserControl].DataContext.OpenAddressPieceCommand}"
                                 CommandParameter="{Binding}" />
                         <Button Classes="transparent"
+                                BorderThickness="0"
                                 Padding="2,4"
                                 Content="»" />
                     </StackPanel>
