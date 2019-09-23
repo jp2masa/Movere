@@ -13,12 +13,12 @@ using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
-    public sealed class FileExplorerViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerViewModel : ReactiveObject
     {
-        private readonly Subject<File> _fileOpened;
+        private readonly Subject<File> _fileOpened = new Subject<File>();
 
-        private readonly Stack<Folder> _navigationHistoryBack;
-        private readonly Stack<Folder> _navigationHistoryForward;
+        private readonly Stack<Folder> _navigationHistoryBack = new Stack<Folder>();
+        private readonly Stack<Folder> _navigationHistoryForward = new Stack<Folder>();
 
         private Folder _currentFolder;
 
@@ -30,30 +30,22 @@ namespace Movere.ViewModels
 
             FileExplorerTree = new FileExplorerTreeViewModel();
             FileExplorerFolder = new FileExplorerFolderViewModel(clipboardService, allowMultipleSelection);
-
-            _navigationHistoryBack = new Stack<Folder>();
-            _navigationHistoryForward = new Stack<Folder>();
             
-            _fileOpened = new Subject<File>();
             FileOpened = _fileOpened.AsObservable();
 
             CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
-            OpenFileCommand = ReactiveCommand.Create<File>(file => _fileOpened.OnNext(file));
-
-            OpenFolderCommand = ReactiveCommand.Create<DirectoryInfo>(folder => NavigateTo(new Folder(folder)));
-
             NavigateBackCommand = ReactiveCommand.Create(
                 NavigateBack,
-                this.ObservableForProperty(vm => vm.CanNavigateBack).Select(x => x.Value));
+                this.WhenAnyValue(vm => vm.CanNavigateBack));
 
             NavigateForwardCommand = ReactiveCommand.Create(
                 NavigateForward,
-                this.ObservableForProperty(vm => vm.CanNavigateForward).Select(x => x.Value));
+                this.WhenAnyValue(vm => vm.CanNavigateForward));
 
             NavigateUpCommand = ReactiveCommand.Create(
                 NavigateUp,
-                this.ObservableForProperty(vm => vm.CurrentFolder).Select(x => x.Value.Parent != null));
+                this.WhenAnyValue(vm => vm.CurrentFolder).Select(x => x.Parent != null));
 
             AddressBar.AddressChanged.Subscribe(address => NavigateToAddress(address));
             AddressBar.AddressPieceOpened.Subscribe(folder => NavigateTo(folder));
@@ -80,10 +72,6 @@ namespace Movere.ViewModels
         }
 
         public IObservable<File> FileOpened { get; }
-
-        public ICommand OpenFileCommand { get; }
-
-        public ICommand OpenFolderCommand { get; }
 
         public ICommand NavigateBackCommand { get; }
 
@@ -178,7 +166,5 @@ namespace Movere.ViewModels
             FileExplorerTree.SelectedFolder = folder;
             FileExplorerFolder.Folder = folder;
         }
-
-        public void Dispose() => _fileOpened.Dispose();
     }
 }
