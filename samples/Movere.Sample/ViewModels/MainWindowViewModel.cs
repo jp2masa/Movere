@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Drawing.Printing;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using ReactiveUI;
@@ -65,10 +67,15 @@ namespace Movere.Sample.ViewModels
 
         private async Task PrintAsync()
         {
-            using (var document = new System.Drawing.Printing.PrintDocument())
-            {
-                await _printDialogService.ShowDialogAsync(document);
-            }
+            using var document = new PrintDocument();
+
+            document.PrintPage += PrintDocument;
+            await _printDialogService.ShowDialogAsync(document);
+        }
+
+        private static void PrintDocument(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString("Hello World!", SystemFonts.DefaultFont, Brushes.Black, new PointF(4, 4));
         }
     }
 }
