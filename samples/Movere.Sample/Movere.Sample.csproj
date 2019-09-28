@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
         <OutputType>WinExe</OutputType>
         <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
         <TieredCompilation>True</TieredCompilation>
