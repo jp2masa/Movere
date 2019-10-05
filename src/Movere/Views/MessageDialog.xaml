@@ -1,5 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:Movere.Converters"
         x:Class="Movere.Views.MessageDialog"
         CanResize="False"
         MinWidth="256"
@@ -9,6 +10,9 @@
         SizeToContent="WidthAndHeight"
         Title="{Binding Title}"
         WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <conv:DialogResultIsCancelConverter x:Key="DialogResultIsCancelConverter" />
+    </Window.Resources>
 
     <DockPanel Margin="4">
 
@@ -26,7 +30,8 @@
                     <Button Margin="4"
                             Content="{Binding Name}"
                             Command="{Binding $parent[Window].DataContext.CloseCommand}"
-                            CommandParameter="{Binding}" />
+                            CommandParameter="{Binding}"
+                            IsCancel="{Binding, Converter={StaticResource DialogResultIsCancelConverter}}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
