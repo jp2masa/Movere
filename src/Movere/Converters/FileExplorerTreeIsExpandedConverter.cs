@@ -12,8 +12,6 @@ namespace Movere.Converters
 {
     internal sealed class FileExplorerTreeIsExpandedConverter : IMultiValueConverter
     {
-        public static readonly FileExplorerTreeIsExpandedConverter Instance = new FileExplorerTreeIsExpandedConverter();
-
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values.Any(v => v is BindingNotification notification && notification.ErrorType == BindingErrorType.Error))

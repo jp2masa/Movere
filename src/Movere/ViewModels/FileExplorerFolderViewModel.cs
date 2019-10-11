@@ -18,12 +18,15 @@ namespace Movere.ViewModels
     {
         private readonly IClipboardService _clipboardService;
 
+        private readonly ObservableCollection<FileSystemEntry> _entries = new ObservableCollection<FileSystemEntry>();
+
         private readonly Subject<File> _fileOpened = new Subject<File>();
         private readonly Subject<Folder> _folderOpened = new Subject<Folder>();
 
+        private ItemsView _itemsView = ItemsView.List;
+
         private Folder? _folder;
 
-        private ObservableCollection<FileSystemEntry> _entries = new ObservableCollection<FileSystemEntry>();
         private IDisposable _folderEnumerationDisposable = Disposable.Empty;
 
         private FileSystemEntry? _selectedItem;
@@ -46,6 +49,12 @@ namespace Movere.ViewModels
 
             this.WhenAnyValue(vm => vm.Folder)
                 .Subscribe(CurrentFolderChanged);
+        }
+
+        public ItemsView ItemsView
+        {
+            get => _itemsView;
+            set => this.RaiseAndSetIfChanged(ref _itemsView, value);
         }
 
         public bool AllowMultipleSelection { get; }

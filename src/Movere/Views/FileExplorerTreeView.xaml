@@ -3,15 +3,19 @@
              xmlns:conv="clr-namespace:Movere.Converters"
              xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
              x:Class="Movere.Views.FileExplorerTreeView">
+    <UserControl.Resources>
+        <conv:FileExplorerTreeIsExpandedConverter x:Key="FileExplorerTreeIsExpandedConverter" />
+    </UserControl.Resources>
 
     <TreeView Grid.Column="0"
+              BorderThickness="0"
               Items="{Binding FolderHierarchy}"
               SelectedItem="{Binding SelectedFolder}">
         <TreeView.Styles>
             <Style Selector="TreeViewItem">
                 <Setter Property="IsExpanded">
                     <Setter.Value>
-                        <MultiBinding Converter="{x:Static conv:FileExplorerTreeIsExpandedConverter.Instance}">
+                        <MultiBinding Converter="{StaticResource FileExplorerTreeIsExpandedConverter}">
                             <Binding />
                             <Binding Path="DataContext.SelectedFolder" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
                         </MultiBinding>

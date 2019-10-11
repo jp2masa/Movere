@@ -8,8 +8,6 @@ namespace Movere.Converters
 {
     internal sealed class AllowMultipleSelectionConverter : IValueConverter
     {
-        public static readonly AllowMultipleSelectionConverter Instance = new AllowMultipleSelectionConverter();
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool b && targetType == typeof(SelectionMode))

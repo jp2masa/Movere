@@ -5,14 +5,29 @@
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:conv="clr-namespace:Movere.Converters"
              xmlns:m="clr-namespace:Movere.Models"
+             xmlns:v="clr-namespace:Movere.Views"
              x:Class="Movere.Views.FileExplorerFolderView">
+    <UserControl.Resources>
+        <m:ItemsView x:Key="List">List</m:ItemsView>
+        <m:ItemsView x:Key="Grid">Grid</m:ItemsView>
+        <ResourceDictionary x:Key="Views">
+            <v:ListFolderView x:Key="{StaticResource List}" />
+            <v:GridFolderView x:Key="{StaticResource Grid}" />
+        </ResourceDictionary>
+        <conv:AllowMultipleSelectionConverter x:Key="AllowMultipleSelectionConverter" />
+        <conv:ItemsViewConverter x:Key="ItemsViewConverter" />
+    </UserControl.Resources>
 
-    <ListBox SelectionMode="{Binding AllowMultipleSelection, Converter={x:Static conv:AllowMultipleSelectionConverter.Instance}}"
+    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             BorderThickness="0"
+             SelectionMode="{Binding AllowMultipleSelection, Converter={StaticResource AllowMultipleSelectionConverter}}"
+             c:ItemsControlView.ItemsView="{Binding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
              Items="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
+                <Setter Property="Padding" Value="3" />
                 <Setter Property="Template">
                     <ControlTemplate>
                         <ContentPresenter Name="PART_ContentPresenter"
@@ -41,23 +56,12 @@
                     </Template>
                 </Setter>
             </Style>
+            <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush}"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="2"/>
+            </Style>
         </ListBox.Styles>
-        <ListBox.DataTemplates>
-            <DataTemplate DataType="m:File">
-                <StackPanel Orientation="Horizontal"
-                            Spacing="4">
-                    <Image Width="16" Height="16" Source="/Resources/Icons/File.png" />
-                    <TextBlock Text="{Binding Name}" />
-                </StackPanel>
-            </DataTemplate>
-            <DataTemplate DataType="m:Folder">
-                <StackPanel Orientation="Horizontal"
-                            Spacing="4">
-                    <Image Width="16" Height="16" Source="/Resources/Icons/Folder.png" />
-                    <TextBlock Text="{Binding Name}" />
-                </StackPanel>
-            </DataTemplate>
-        </ListBox.DataTemplates>
     </ListBox>
 
 </UserControl>

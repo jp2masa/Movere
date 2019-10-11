@@ -1,0 +1,31 @@
+﻿<c:ItemsControlView xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:Movere.Controls"
+                    xmlns:m="clr-namespace:Movere.Models"
+                    x:Class="Movere.Views.ListFolderView">
+    <c:ItemsControlView.PanelTemplate>
+        <ItemsPanelTemplate>
+            <VirtualizingStackPanel />
+        </ItemsPanelTemplate>
+    </c:ItemsControlView.PanelTemplate>
+    <c:ItemsControlView.DataTemplates>
+        <DataTemplate DataType="m:File">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="4">
+                <Image Width="16"
+                       Height="16"
+                       Source="/Resources/Icons/File.png" />
+                <TextBlock Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="m:Folder">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="4">
+                <Image Width="16"
+                       Height="16"
+                       Source="/Resources/Icons/Folder.png" />
+                <TextBlock Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+    </c:ItemsControlView.DataTemplates>
+</c:ItemsControlView>
