@@ -8,23 +8,36 @@
              BorderBrush="{DynamicResource ThemeBorderMidBrush}"
              BorderThickness="{DynamicResource ThemeBorderThickness}">
 
-    <c:OverlappedItemsPanel Background="Transparent">
-        <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="Tapped">
-                <ia:InvokeCommandAction Command="{Binding EditCommand}"
-                                        CommandParameter="{x:Static r:Unit.Default}" />
-            </ia:EventTriggerBehavior>
-        </i:Interaction.Behaviors>
+    <c:OverlappedItemsPanel>
 
         <TextBox IsVisible="{Binding IsEditing}"
                  BorderThickness="0"
-                 Text="{Binding Address}" />
+                 Text="{Binding TextBoxAddress}">
+            <i:Interaction.Behaviors>
+                <ia:EventTriggerBehavior EventName="LostFocus">
+                    <ia:InvokeCommandAction Command="{Binding CancelNavigation}" />
+                </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <TextBox.KeyBindings>
+                <KeyBinding Gesture="Escape"
+                            Command="{Binding CancelNavigation}" />
+                <KeyBinding Gesture="Enter"
+                            Command="{Binding CommitNavigation}" />
+            </TextBox.KeyBindings>
+        </TextBox>
 
         <ItemsControl IsVisible="{Binding !IsEditing}"
                       Items="{Binding AddressPieces}">
+            <i:Interaction.Behaviors>
+                <ia:EventTriggerBehavior EventName="Tapped">
+                    <ia:ChangePropertyAction TargetObject="{Binding}"
+                                             PropertyName="IsEditing"
+                                             Value="True" />
+                </ia:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <c:BreadcrumbPanel />
+                    <c:BreadcrumbPanel Background="Transparent" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

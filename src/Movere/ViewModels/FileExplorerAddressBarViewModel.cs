@@ -13,29 +13,25 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerAddressBarViewModel : ReactiveObject, IDisposable
     {
-        private readonly Subject<Folder> _addressPieceOpened;
+        private readonly Subject<Folder> _addressPieceOpened = new Subject<Folder>();
+
+        private readonly ObservableCollection<Folder> _addressPieces = new ObservableCollection<Folder>();
 
         private bool _isEditing;
 
-        private string _address;
-        private ObservableCollection<Folder> _addressPieces;
+        private string _address = String.Empty;
+        private string _textBoxAddress = String.Empty;
 
         public FileExplorerAddressBarViewModel()
         {
-            EditCommand = ReactiveCommand.Create(() => IsEditing = true);
-
-            _address = String.Empty;
-            _addressPieces = new ObservableCollection<Folder>();
-
             AddressPieces = new ReadOnlyObservableCollection<Folder>(_addressPieces);
 
-            _addressPieceOpened = new Subject<Folder>();
             AddressPieceOpened = _addressPieceOpened.AsObservable();
 
             OpenAddressPieceCommand = ReactiveCommand.Create<Folder>(_addressPieceOpened.OnNext);
 
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
-            AddressChanged.Subscribe(UpdateAddressPieces);
+            AddressChanged.Subscribe(UpdateAddress);
         }
 
         public bool IsEditing
@@ -44,12 +40,17 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _isEditing, value);
         }
 
-        public ICommand EditCommand { get; }
-
         public string Address
         {
             get => _address;
             set => this.RaiseAndSetIfChanged(ref _address, value);
+        }
+
+        [Obsolete("This should only be used by the view")]
+        public string TextBoxAddress
+        {
+            get => _textBoxAddress;
+            set => this.RaiseAndSetIfChanged(ref _textBoxAddress, value);
         }
 
         public IObservable<string> AddressChanged { get; }
@@ -59,6 +60,24 @@ namespace Movere.ViewModels
         public ICommand OpenAddressPieceCommand { get; }
 
         public IObservable<Folder> AddressPieceOpened { get; }
+
+        public void CancelNavigation()
+        {
+            TextBoxAddress = Address;
+            IsEditing = false;
+        }
+
+        public void CommitNavigation()
+        {
+            Address = TextBoxAddress;
+            IsEditing = false;
+        }
+
+        private void UpdateAddress(string address)
+        {
+            TextBoxAddress = address;
+            UpdateAddressPieces(address);
+        }
 
         private void UpdateAddressPieces(string address)
         {
