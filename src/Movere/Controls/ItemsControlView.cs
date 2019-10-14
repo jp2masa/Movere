@@ -7,7 +7,7 @@ using Avalonia.Controls.Templates;
 
 namespace Movere.Controls
 {
-    public class ItemsControlView : AvaloniaObject
+    public class ItemsControlView : StyledElement
     {
         private static readonly ITemplate<IPanel> DefaultPanelTemplate =
             new FuncTemplate<IPanel>(() => new VirtualizingStackPanel());
