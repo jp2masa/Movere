@@ -16,6 +16,7 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
+        private readonly IFileIconProvider _fileIconProvider;
         private readonly IClipboardService _clipboardService;
 
         private readonly ObservableCollection<FileSystemEntry> _entries = new ObservableCollection<FileSystemEntry>();
@@ -31,8 +32,12 @@ namespace Movere.ViewModels
 
         private FileSystemEntry? _selectedItem;
 
-        public FileExplorerFolderViewModel(IClipboardService clipboardService, bool allowMultipleSelection)
+        public FileExplorerFolderViewModel(
+            IFileIconProvider fileIconProvider,
+            IClipboardService clipboardService,
+            bool allowMultipleSelection)
         {
+            _fileIconProvider = fileIconProvider;
             _clipboardService = clipboardService;
 
             AllowMultipleSelection = allowMultipleSelection;
@@ -50,6 +55,8 @@ namespace Movere.ViewModels
             this.WhenAnyValue(vm => vm.Folder)
                 .Subscribe(CurrentFolderChanged);
         }
+
+        public IFileIconProvider FileIconProvider => _fileIconProvider;
 
         public ItemsView ItemsView
         {

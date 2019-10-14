@@ -17,13 +17,16 @@ namespace Movere.ViewModels
 
         private string _fileName;
 
-        public OpenFileDialogViewModel(IClipboardService clipboardService, Action<OpenFileDialogResult> closeAction)
+        public OpenFileDialogViewModel(
+            IFileIconProvider fileIconProvider,
+            IClipboardService clipboardService,
+            Action<OpenFileDialogResult> closeAction)
         {
             _closeAction = closeAction;
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(clipboardService, true);
+            FileExplorer = new FileExplorerViewModel(fileIconProvider, clipboardService, true);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);

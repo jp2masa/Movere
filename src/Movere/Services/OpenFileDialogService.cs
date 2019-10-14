@@ -22,6 +22,7 @@ namespace Movere.Services
             var dialog = new OpenFileDialog();
 
             var viewModel = new OpenFileDialogViewModel(
+                new DefaultFileIconProvider(),
                 new ClipboardService(),
                 dialog.Close);
 

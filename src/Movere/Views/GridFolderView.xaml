@@ -1,8 +1,12 @@
 ﻿<c:ItemsControlView xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:Movere.Controls"
+                    xmlns:conv="clr-namespace:Movere.Converters"
                     xmlns:m="clr-namespace:Movere.Models"
                     x:Class="Movere.Views.GridFolderView">
+    <c:ItemsControlView.Resources>
+        <conv:FileIconConverter x:Key="FileIconConverter" />
+    </c:ItemsControlView.Resources>
     <c:ItemsControlView.PanelTemplate>
         <ItemsPanelTemplate>
             <UniformGrid Columns="5" />
@@ -13,8 +17,14 @@
             <StackPanel Spacing="4">
                 <Image HorizontalAlignment="Center"
                        Width="32"
-                       Height="32"
-                       Source="/Resources/Icons/File.png" />
+                       Height="32">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource FileIconConverter}">
+                            <Binding />
+                            <Binding Path="$parent[UserControl].DataContext.FileIconProvider" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
                 <TextBlock TextAlignment="Center"
                            TextWrapping="Wrap"
                            Text="{Binding Name}" />

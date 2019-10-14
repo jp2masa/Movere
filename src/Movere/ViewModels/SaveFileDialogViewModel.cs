@@ -20,6 +20,7 @@ namespace Movere.ViewModels
         private string _fileName;
 
         public SaveFileDialogViewModel(
+            IFileIconProvider fileIconProvider,
             IClipboardService clipboardService,
             MessageDialogService messageDialogService,
             Action<SaveFileDialogResult> closeAction)
@@ -29,7 +30,7 @@ namespace Movere.ViewModels
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(clipboardService, false);
+            FileExplorer = new FileExplorerViewModel(fileIconProvider, clipboardService, false);
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);
