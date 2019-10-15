@@ -1,11 +1,11 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.8.999-cibuild0004521-beta</AvaloniaVersion>
+        <AvaloniaVersion>0.9.0-preview1</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.9.0-build20191003-01</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>0.9.0-preview1</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.6</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
-        <ReactiveUIVersion>10.5.1</ReactiveUIVersion>
+        <ReactiveUIVersion>10.5.7</ReactiveUIVersion>
         <SystemDrawingCommonVersion>4.6.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
