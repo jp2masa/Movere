@@ -13,6 +13,7 @@ namespace Movere.ViewModels
     public sealed class FileExplorerTreeViewModel : ReactiveObject
     {
         private readonly DriveInfo[] _drives;
+
         private Folder? _selectedFolder;
 
         public FileExplorerTreeViewModel()

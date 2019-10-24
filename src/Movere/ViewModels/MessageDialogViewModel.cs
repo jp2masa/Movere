@@ -18,7 +18,7 @@ namespace Movere.ViewModels
         {
             _options = options;
 
-            CloseCommand = ReactiveCommand.Create<IDialogResult>(closeAction);
+            CloseCommand = ReactiveCommand.Create(closeAction);
         }
 
         public IBitmap? Icon => _options.Icon.LoadIcon();
