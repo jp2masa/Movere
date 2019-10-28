@@ -40,7 +40,7 @@
 
             <Image DockPanel.Dock="Left"
                    IsVisible="{Binding !!Icon}"
-                   Margin="12"
+                   Margin="4"
                    Width="48"
                    Height="48"
                    Source="{Binding Icon}" />
