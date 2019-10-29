@@ -17,7 +17,7 @@ namespace Movere
 
         private static IBitmapImpl GetPlaformImpl(DrawingBitmap bitmap)
         {
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
             bitmap.Save(stream, ImageFormat.Png);
 
             stream.Position = 0;
