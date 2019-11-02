@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -46,7 +47,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _address, value);
         }
 
-        [Obsolete("This should only be used by the view")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public string TextBoxAddress
         {
             get => _textBoxAddress;
