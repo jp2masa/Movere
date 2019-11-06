@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Movere.Models
+﻿namespace Movere.Models
 {
     public abstract class FileSystemEntry
     {

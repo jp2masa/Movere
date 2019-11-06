@@ -6,7 +6,7 @@ namespace Movere.Models
     {
         public static IReadOnlyList<IDialogResult> AbortRetryIgnore { get; } = new IDialogResult[] { DialogResult.Abort, DialogResult.Retry, DialogResult.Ignore };
 
-        public static IReadOnlyList<IDialogResult> OK{ get; } = new IDialogResult[] { DialogResult.OK };
+        public static IReadOnlyList<IDialogResult> OK { get; } = new IDialogResult[] { DialogResult.OK };
 
         public static IReadOnlyList<IDialogResult> OKCancel { get; } = new IDialogResult[] { DialogResult.OK, DialogResult.Cancel };
 

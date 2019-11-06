@@ -17,7 +17,7 @@ namespace Movere.Models
         public static IDialogIcon Error { get; } = new DialogIcon("avares://Movere/Resources/Icons/Error.png");
 
         private readonly Uri _uri;
-        
+
         public DialogIcon(string path)
         {
             _uri = new Uri(path);

@@ -35,7 +35,7 @@ namespace Movere.ViewModels
 
             FileExplorerFolder = new FileExplorerFolderViewModel(
                 fileIconProvider, clipboardService, allowMultipleSelection);
-            
+
             FileOpened = _fileOpened.AsObservable();
 
             CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
@@ -68,7 +68,7 @@ namespace Movere.ViewModels
 
         public FileExplorerTreeViewModel FileExplorerTree { get; }
 
-        public FileExplorerFolderViewModel FileExplorerFolder{ get; }
+        public FileExplorerFolderViewModel FileExplorerFolder { get; }
 
         public Folder CurrentFolder
         {
