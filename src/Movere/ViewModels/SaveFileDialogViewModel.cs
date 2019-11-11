@@ -73,9 +73,9 @@ namespace Movere.ViewModels
             {
                 var result = await _messageDialogService.ShowMessageDialogAsync(
                     new MessageDialogOptions(
-                        DialogIcon.Warning,
-                        Strings.Save,
                         Strings.FileAlreadyExistsMessage,
+                        Strings.Save,
+                        DialogIcon.Warning,
                         DialogResultSet.YesNoCancel));
 
                 if (result != DialogResult.Yes)

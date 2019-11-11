@@ -1,26 +1,28 @@
 ﻿using System.Collections.Generic;
 
-using Avalonia.Media.Imaging;
-
 namespace Movere.Models
 {
     public sealed class MessageDialogOptions
     {
-        public MessageDialogOptions(IDialogIcon icon, string title, string message, IReadOnlyList<IDialogResult> dialogResults)
+        public MessageDialogOptions(
+            string message,
+            string title = "Message",
+            IDialogIcon? icon = null,
+            IReadOnlyList<IDialogResult>? dialogResults = null)
         {
-            Icon = icon;
-
-            Title = title;
             Message = message;
+            Title = title;
 
-            DialogResults = dialogResults;
+            Icon = icon ?? DialogIcon.None;
+
+            DialogResults = dialogResults ?? DialogResultSet.OK;
         }
 
-        public IDialogIcon Icon { get; }
+        public string Message { get; }
 
         public string Title { get; }
 
-        public string Message { get; }
+        public IDialogIcon Icon { get; }
 
         public IReadOnlyList<IDialogResult> DialogResults { get; }
     }
