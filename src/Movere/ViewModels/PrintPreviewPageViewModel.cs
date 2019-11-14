@@ -11,7 +11,7 @@ namespace Movere.ViewModels
     {
         private readonly PreviewPageInfo _pageInfo;
 
-        private Lazy<Bitmap> _image;
+        private readonly Lazy<Bitmap> _image;
 
         public PrintPreviewPageViewModel(PreviewPageInfo pageInfo)
         {
