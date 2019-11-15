@@ -2,10 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:Movere.Controls"
                     xmlns:conv="clr-namespace:Movere.Converters"
+                    xmlns:img="clr-namespace:Avalonia.Media.Imaging;assembly=Avalonia.Visuals"
                     xmlns:m="clr-namespace:Movere.Models"
                     x:Class="Movere.Views.GridFolderView">
     <c:ItemsControlView.Resources>
         <conv:FileIconConverter x:Key="FileIconConverter" />
+        <img:IBitmap x:Key="FolderIcon">/Resources/Icons/Folder.png</img:IBitmap>
     </c:ItemsControlView.Resources>
     <c:ItemsControlView.PanelTemplate>
         <ItemsPanelTemplate>
@@ -35,7 +37,7 @@
                 <Image HorizontalAlignment="Center"
                        Width="32"
                        Height="32"
-                       Source="/Resources/Icons/Folder.png" />
+                       Source="{StaticResource FolderIcon}" />
                 <TextBlock TextAlignment="Center"
                            TextWrapping="Wrap"
                            Text="{Binding Name}" />

@@ -1,10 +1,12 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:Movere.Converters"
+             xmlns:img="clr-namespace:Avalonia.Media.Imaging;assembly=Avalonia.Visuals"
              xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
              x:Class="Movere.Views.FileExplorerTreeView">
     <UserControl.Resources>
         <conv:FileExplorerTreeIsExpandedConverter x:Key="FileExplorerTreeIsExpandedConverter" />
+        <img:IBitmap x:Key="FolderIcon">/Resources/Icons/Folder.png</img:IBitmap>
     </UserControl.Resources>
 
     <TreeView Grid.Column="0"
@@ -27,7 +29,7 @@
             <TreeDataTemplate ItemsSource="{Binding Folders}">
                 <StackPanel Orientation="Horizontal"
                                 Spacing="4">
-                    <Image Width="16" Height="16" Source="/Resources/Icons/Folder.png" />
+                    <Image Width="16" Height="16" Source="{StaticResource FolderIcon}" />
                     <TextBlock Text="{Binding Name}" />
                 </StackPanel>
             </TreeDataTemplate>
