@@ -73,9 +73,7 @@ namespace Movere.Sample.ViewModels
             await _printDialogService.ShowDialogAsync(document);
         }
 
-        private static void PrintDocument(object sender, PrintPageEventArgs e)
-        {
+        private static void PrintDocument(object sender, PrintPageEventArgs e) =>
             e.Graphics.DrawString("Hello World!", SystemFonts.DefaultFont, Brushes.Black, new PointF(4, 4));
-        }
     }
 }
