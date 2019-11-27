@@ -1,9 +1,9 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.8.999-cibuild0005109-beta</AvaloniaVersion>
+        <AvaloniaVersion>0.9.999-cibuild0005119-beta</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.9.0-build20191003-01</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>0.9.1-build20191019-04</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.8</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
         <ReactiveUIVersion>10.5.31</ReactiveUIVersion>
         <SkiaSharpVersion>1.68.1</SkiaSharpVersion>
