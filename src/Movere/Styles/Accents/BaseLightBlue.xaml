@@ -13,9 +13,13 @@
         <Color x:Key="ThemeBorderLowColor">#FF006090</Color>
         <Color x:Key="ThemeBorderMidColor">#FF006090</Color>
         <Color x:Key="ThemeBorderHighColor">#FF001030</Color>
+
         <Color x:Key="ThemeControlLowColor">#FFEEEEFF</Color>
-        <Color x:Key="ThemeControlMidColor">#FF3399FF</Color>
-        <Color x:Key="ThemeControlHighColor">#FF1177DD</Color>
+        <Color x:Key="ThemeControlMidColor">#FF44AAFF</Color>
+        <Color x:Key="ThemeControlMidHighColor">#FF3399FF</Color>
+        <Color x:Key="ThemeControlHighColor">#FF2288EE</Color>
+        <Color x:Key="ThemeControlVeryHighColor">#FF1177DD</Color>
+
         <Color x:Key="ThemeControlHighlightLowColor">#FF77BBFF</Color>
         <Color x:Key="ThemeControlHighlightMidColor">#FF55AAFF</Color>
         <Color x:Key="ThemeControlHighlightHighColor">#FF3399FF</Color>
@@ -23,8 +27,9 @@
         <Color x:Key="ThemeForegroundLowColor">#FF005588</Color>
 
         <Color x:Key="HighlightColor">#FF1166AA</Color>
+        <Color x:Key="HighlightForegroundColor">#FFFFFFFF</Color>
         <Color x:Key="ErrorColor">#FFFF0000</Color>
-        <Color x:Key="ErrorLowColor">#FFFF0000</Color>
+        <Color x:Key="ErrorLowColor">#10FF0000</Color>
 
         <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource ThemeBackgroundColor}" />
         <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource ThemeBorderLowColor}" />
@@ -32,7 +37,9 @@
         <SolidColorBrush x:Key="ThemeBorderHighBrush" Color="{DynamicResource ThemeBorderHighColor}" />
         <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource ThemeControlLowColor}" />
         <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource ThemeControlMidColor}" />
+        <SolidColorBrush x:Key="ThemeControlMidHighBrush" Color="{DynamicResource ThemeControlMidHighColor}" />
         <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource ThemeControlHighColor}" />
+        <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource ThemeControlVeryHighColor}" />
         <SolidColorBrush x:Key="ThemeControlHighlightLowBrush" Color="{DynamicResource ThemeControlHighlightLowColor}" />
         <SolidColorBrush x:Key="ThemeControlHighlightMidBrush" Color="{DynamicResource ThemeControlHighlightMidColor}" />
         <SolidColorBrush x:Key="ThemeControlHighlightHighBrush" Color="{DynamicResource ThemeControlHighlightHighColor}" />
@@ -40,6 +47,7 @@
         <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource ThemeForegroundLowColor}" />
 
         <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource HighlightColor}" />
+        <SolidColorBrush x:Key="HighlightForegroundBrush" Color="{DynamicResource HighlightForegroundColor}" />
         <SolidColorBrush x:Key="ThemeAccentBrush" Color="{DynamicResource ThemeAccentColor}" />
         <SolidColorBrush x:Key="ThemeAccentBrush2" Color="{DynamicResource ThemeAccentColor2}" />
         <SolidColorBrush x:Key="ThemeAccentBrush3" Color="{DynamicResource ThemeAccentColor3}" />
@@ -47,14 +55,21 @@
         <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
         <SolidColorBrush x:Key="ErrorLowBrush" Color="{DynamicResource ErrorLowColor}" />
 
-        <Thickness x:Key="ThemeBorderThickness">1,1,1,1</Thickness>
+        <SolidColorBrush x:Key="NotificationCardBackgroundBrush" Color="#444444" Opacity="0.75" />
+        <SolidColorBrush x:Key="NotificationCardInformationBackgroundBrush" Color="#007ACC" Opacity="0.75" />
+        <SolidColorBrush x:Key="NotificationCardSuccessBackgroundBrush" Color="#1F9E45" Opacity="0.75" />
+        <SolidColorBrush x:Key="NotificationCardWarningBackgroundBrush" Color="#FDB328" Opacity="0.75" />
+        <SolidColorBrush x:Key="NotificationCardErrorBackgroundBrush" Color="#BD202C" Opacity="0.75" />
+
+        <Thickness x:Key="ThemeBorderThickness">1</Thickness>
         <sys:Double x:Key="ThemeDisabledOpacity">0.5</sys:Double>
 
         <sys:Double x:Key="FontSizeSmall">10</sys:Double>
         <sys:Double x:Key="FontSizeNormal">12</sys:Double>
         <sys:Double x:Key="FontSizeLarge">16</sys:Double>
 
-        <sys:Double x:Key="ScrollBarThickness">10</sys:Double>
+        <sys:Double x:Key="ScrollBarThickness">18</sys:Double>
+        <sys:Double x:Key="ScrollBarThumbThickness">8</sys:Double>
 
     </Style.Resources>
 
