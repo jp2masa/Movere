@@ -1,5 +1,8 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:b="clr-namespace:Movere.Behaviors"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
              xmlns:vm="clr-namespace:Movere.ViewModels"
              xmlns:v="clr-namespace:Movere.Views"
@@ -16,6 +19,15 @@
             <v:FileExplorerFolderView DataContext="{Binding}" />
         </DataTemplate>
     </UserControl.DataTemplates>
+
+    <i:Interaction.Behaviors>
+        <b:PointerPressedTriggerBehavior PointerUpdateKind="XButton1Pressed">
+            <ia:InvokeCommandAction Command="{Binding NavigateBackCommand}" />
+        </b:PointerPressedTriggerBehavior>
+        <b:PointerPressedTriggerBehavior PointerUpdateKind="XButton2Pressed">
+            <ia:InvokeCommandAction Command="{Binding NavigateForwardCommand}" />
+        </b:PointerPressedTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <DockPanel>
 
