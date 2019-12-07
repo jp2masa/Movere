@@ -15,14 +15,15 @@
         <Color x:Key="ThemeBorderHighColor">#FF001030</Color>
 
         <Color x:Key="ThemeControlLowColor">#FFEEEEFF</Color>
-        <Color x:Key="ThemeControlMidColor">#FF44AAFF</Color>
-        <Color x:Key="ThemeControlMidHighColor">#FF3399FF</Color>
-        <Color x:Key="ThemeControlHighColor">#FF2288EE</Color>
-        <Color x:Key="ThemeControlVeryHighColor">#FF1177DD</Color>
+        <Color x:Key="ThemeControlMidColor">#FF3399FF</Color>
+        <Color x:Key="ThemeControlMidHighColor">#FF2277EE</Color>
+        <Color x:Key="ThemeControlHighColor">#FF1155DD</Color>
+        <Color x:Key="ThemeControlVeryHighColor">#FF0033CC</Color>
 
         <Color x:Key="ThemeControlHighlightLowColor">#FF77BBFF</Color>
         <Color x:Key="ThemeControlHighlightMidColor">#FF55AAFF</Color>
         <Color x:Key="ThemeControlHighlightHighColor">#FF3399FF</Color>
+
         <Color x:Key="ThemeForegroundColor">#FF000000</Color>
         <Color x:Key="ThemeForegroundLowColor">#FF005588</Color>
 
