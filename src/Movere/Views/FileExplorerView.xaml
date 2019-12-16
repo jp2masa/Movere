@@ -100,11 +100,13 @@
             </Grid.ColumnDefinitions>
 
             <ContentControl Grid.Column="0"
+                            Margin="4"
                             Content="{Binding FileExplorerTree}" />
 
             <GridSplitter Grid.Column="1" />
 
             <ContentControl Grid.Column="2"
+                            Margin="4"
                             Content="{Binding FileExplorerFolder}" />
 
         </Grid>
