@@ -9,12 +9,14 @@
         <Nullable>Enable</Nullable>
         <NullableContextOptions>Enable</NullableContextOptions>
         <!--
+            CA1062: validate arguments of public methods
+                    justification: using nullable reference types, assume not null
             CA1812: internal class that is apparently never instantiated
                     justification: internal view types, instantiated in the XAML files
             CA2007: consider calling ConfigureAwait on the awaited task
                     justification: shouldn't cause problems
         -->
-        <NoWarn>CA1812;CA2007;$(NoWarn)</NoWarn>
+        <NoWarn>CA1062;CA1812;CA2007;$(NoWarn)</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
