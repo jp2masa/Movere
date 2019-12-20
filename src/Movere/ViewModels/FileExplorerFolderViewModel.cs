@@ -33,12 +33,12 @@ namespace Movere.ViewModels
         private FileSystemEntry? _selectedItem;
 
         public FileExplorerFolderViewModel(
-            IFileIconProvider fileIconProvider,
-            IClipboardService clipboardService,
-            bool allowMultipleSelection)
+            bool allowMultipleSelection,
+            IFileIconProvider? fileIconProvider = null,
+            IClipboardService? clipboardService = null)
         {
-            _fileIconProvider = fileIconProvider;
-            _clipboardService = clipboardService;
+            _fileIconProvider = fileIconProvider ?? new DefaultFileIconProvider();
+            _clipboardService = clipboardService ?? new ClipboardService();
 
             AllowMultipleSelection = allowMultipleSelection;
 

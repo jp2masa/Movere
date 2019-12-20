@@ -24,9 +24,9 @@ namespace Movere.ViewModels
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized.
         public FileExplorerViewModel(
-            IFileIconProvider fileIconProvider,
-            IClipboardService clipboardService,
-            bool allowMultipleSelection)
+            bool allowMultipleSelection,
+            IFileIconProvider? fileIconProvider = null,
+            IClipboardService? clipboardService = null)
 #pragma warning restore CS8618 // Non-nullable field is uninitialized.
         {
             AddressBar = new FileExplorerAddressBarViewModel();
@@ -34,7 +34,7 @@ namespace Movere.ViewModels
             FileExplorerTree = new FileExplorerTreeViewModel();
 
             FileExplorerFolder = new FileExplorerFolderViewModel(
-                fileIconProvider, clipboardService, allowMultipleSelection);
+                allowMultipleSelection, fileIconProvider, clipboardService);
 
             FileOpened = _fileOpened.AsObservable();
 

@@ -26,7 +26,7 @@ namespace Movere.ViewModels
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(fileIconProvider, clipboardService, true);
+            FileExplorer = new FileExplorerViewModel(true, fileIconProvider, clipboardService);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
