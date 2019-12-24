@@ -54,4 +54,12 @@ Dialog results are extensible as well, and support localization.
 - Print dialog.
 - Eventually move file explorer logic to a separate project and create a file explorer application.
 
-_The project logo is from [linea.io](http://linea.io)._
+## Credits
+
+### Icons
+
+#### [flaticon.com](https://www.flaticon.com)
+- File - [Kiranshastry](https://www.flaticon.com/authors/kiranshastry)
+- Folder - [Smashicons](https://www.flaticon.com/authors/smashicons)
+
+### _The project logo is from [linea.io](http://linea.io)._
