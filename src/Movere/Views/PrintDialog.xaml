@@ -42,14 +42,37 @@
 
             <DockPanel>
 
-                <ItemsControl DockPanel.Dock="Right"
-                              Items="{Binding PrintPreviewPages}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Stretch="UniformToFill"  Source="{Binding Image^}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <StackPanel DockPanel.Dock="Right"
+                            Spacing="8">
+
+                    <TextBlock Text="Preview:" />
+
+                    <Border BorderBrush="Black"
+                            BorderThickness="1"
+                            Padding="8">
+
+                        <StackPanel Spacing="8">
+
+                            <ItemsControl Items="{Binding PrintPreviewPages}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Stretch="Uniform" Width="200" Height="200" Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <Button Content="&lt;" IsEnabled="False" />
+                                <Button Content="&gt;" IsEnabled="False" />
+                            </StackPanel>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
 
                 <StackPanel>
 

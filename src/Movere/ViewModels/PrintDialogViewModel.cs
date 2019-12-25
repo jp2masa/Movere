@@ -44,8 +44,6 @@ namespace Movere.ViewModels
             System.Drawing.Printing.PrinterSettings.InstalledPrinters.CopyTo(printers, 0);
 
             AvailablePrinters = printers;
-
-            PrintPreviewPages = Array.Empty<PrintPreviewPageViewModel>();
         }
 
         public ICommand PrintCommand { get; }

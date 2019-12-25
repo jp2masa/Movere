@@ -74,6 +74,6 @@ namespace Movere.Sample.ViewModels
         }
 
         private static void PrintDocument(object sender, PrintPageEventArgs e) =>
-            e.Graphics.DrawString("Hello World!", SystemFonts.DefaultFont, Brushes.Black, new PointF(4, 4));
+            e.Graphics.DrawString("Hello World!", new Font(FontFamily.GenericSansSerif, 100, FontStyle.Regular), Brushes.Green, new PointF(4, 4));
     }
 }
