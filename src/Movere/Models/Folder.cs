@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+#if NETSTANDARD2_0
 using System.Security;
+#endif
 
 namespace Movere.Models
 {
     public sealed class Folder : FileSystemEntry, IEquatable<Folder>
     {
+#if !NETSTANDARD2_0
+        private static readonly EnumerationOptions DefaultEnumerationOptions = new EnumerationOptions();
+#endif
+
         private readonly DirectoryInfo _info;
 
         public Folder(DirectoryInfo info)
@@ -37,6 +44,9 @@ namespace Movere.Models
 
         private IEnumerable<Folder> GetFolders()
         {
+#if !NETSTANDARD2_0
+            return _info.EnumerateDirectories("*", DefaultEnumerationOptions).Select(NewFolder);
+#else
             try
             {
                 return _info.EnumerateDirectories().Select(NewFolder);
@@ -45,10 +55,14 @@ namespace Movere.Models
             {
                 return Array.Empty<Folder>();
             }
+#endif
         }
 
         private IEnumerable<File> GetFiles()
         {
+#if !NETSTANDARD2_0
+            return _info.EnumerateFiles("*", DefaultEnumerationOptions).Select(NewFile);
+#else
             try
             {
                 return _info.EnumerateFiles().Select(NewFile);
@@ -57,6 +71,7 @@ namespace Movere.Models
             {
                 return Array.Empty<File>();
             }
+#endif
         }
 
         private static Folder NewFolder(DirectoryInfo folder) => new Folder(folder);
