@@ -73,7 +73,10 @@ namespace Movere.Sample.ViewModels
             await _printDialogService.ShowDialogAsync(document);
         }
 
-        private static void PrintDocument(object sender, PrintPageEventArgs e) =>
-            e.Graphics.DrawString("Hello World!", new Font(FontFamily.GenericSansSerif, 100, FontStyle.Regular), Brushes.Green, new PointF(4, 4));
+        private static void PrintDocument(object sender, PrintPageEventArgs e)
+        {
+            using var font = new Font(FontFamily.GenericSansSerif, 100, FontStyle.Regular);
+            e.Graphics.DrawString("Hello World!", font, Brushes.Green, new PointF(4, 4));
+        }
     }
 }
