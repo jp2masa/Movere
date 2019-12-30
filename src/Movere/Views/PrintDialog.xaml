@@ -29,7 +29,7 @@
 
         <StackPanel Spacing="8">
 
-            <Grid ColumnDefinitions="Auto,8,*">
+            <Grid ColumnDefinitions="Auto,8,*,8,Auto">
 
                 <TextBlock Grid.Column="0"
                            Text="Printer:" />
@@ -37,6 +37,10 @@
                 <ComboBox Grid.Column="2"
                           Items="{Binding AvailablePrinters}"
                           SelectedItem="{Binding PrinterSettings.PrinterName}" />
+
+                <Button Grid.Column="4"
+                        Content="Refresh"
+                        Command="{Binding RefreshAvailablePrintersCommand}" />
 
             </Grid>
 

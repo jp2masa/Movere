@@ -4,6 +4,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using static System.Drawing.Printing.PrinterSettings;
 
 using ReactiveUI;
 
@@ -12,11 +13,13 @@ namespace Movere.ViewModels
     internal sealed class PrintDialogViewModel : ReactiveObject
     {
         private readonly PrintDocument _document;
-        private readonly PreviewPrintController _controller;
+        private readonly PreviewPrintController _controller = new PreviewPrintController();
 
         private readonly Action<bool> _closeAction;
 
         private IReadOnlyList<PrintPreviewPageViewModel> _printPreviewPages;
+
+        private IReadOnlyList<string> _availablePrinters;
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public PrintDialogViewModel(PrintDocument document, Action<bool> closeAction)
@@ -25,7 +28,6 @@ namespace Movere.ViewModels
             _document = document;
             _closeAction = closeAction;
 
-            _controller = new PreviewPrintController();
             _document.PrintController = _controller;
 
             PrinterSettings = new PrinterSettingsViewModel((PrinterSettings)_document.PrinterSettings.Clone());
@@ -34,17 +36,18 @@ namespace Movere.ViewModels
                 .WhenAnyValue(vm => vm.PrinterSettings)
                 .Subscribe(UpdatePrintPreview);
 
+            RefreshAvailablePrintersCommand = ReactiveCommand.Create(RefreshAvailablePrinters);
+
             PrintCommand = ReactiveCommand.Create(
                 Print,
                 this.ObservableForProperty(vm => vm.PrinterSettings.PrinterName).Select(x => x != null));
 
             CancelCommand = ReactiveCommand.Create(Cancel);
 
-            var printers = new string[System.Drawing.Printing.PrinterSettings.InstalledPrinters.Count];
-            System.Drawing.Printing.PrinterSettings.InstalledPrinters.CopyTo(printers, 0);
-
-            AvailablePrinters = printers;
+            RefreshAvailablePrinters();
         }
+
+        public ICommand RefreshAvailablePrintersCommand { get; }
 
         public ICommand PrintCommand { get; }
 
@@ -52,12 +55,24 @@ namespace Movere.ViewModels
 
         public PrinterSettingsViewModel PrinterSettings { get; }
 
-        public IReadOnlyList<string> AvailablePrinters { get; }
+        public IReadOnlyList<string> AvailablePrinters
+        {
+            get => _availablePrinters;
+            set => this.RaiseAndSetIfChanged(ref _availablePrinters, value);
+        }
 
         public IReadOnlyList<PrintPreviewPageViewModel> PrintPreviewPages
         {
             get => _printPreviewPages;
             set => this.RaiseAndSetIfChanged(ref _printPreviewPages, value);
+        }
+
+        private void RefreshAvailablePrinters()
+        {
+            var printers = new string[InstalledPrinters.Count];
+            InstalledPrinters.CopyTo(printers, 0);
+
+            AvailablePrinters = printers;
         }
 
         private void Print()
