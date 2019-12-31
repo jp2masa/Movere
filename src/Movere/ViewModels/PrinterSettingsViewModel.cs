@@ -17,20 +17,26 @@ namespace Movere.ViewModels
         public string? PrinterName
         {
             get => PrinterSettings.PrinterName;
-            set => UpdatePrinterSettings(() => PrinterSettings.PrinterName = value);
+            set => UpdatePrinterSettings((ps, v) => ps.PrinterName = v, value);
         }
 
         public short Copies
         {
             get => PrinterSettings.Copies;
-            set => UpdatePrinterSettings(() => PrinterSettings.Copies = value);
+            set => UpdatePrinterSettings((ps, v) => ps.Copies = v, value);
         }
 
         public int MaximumCopies => PrinterSettings.MaximumCopies;
 
-        private void UpdatePrinterSettings(Action update)
+        public bool Collate
         {
-            update();
+            get => PrinterSettings.Collate;
+            set => UpdatePrinterSettings((ps, v) => ps.Collate = v, value);
+        }
+
+        private void UpdatePrinterSettings<T>(Action<PrinterSettings, T> update, T value)
+        {
+            update(PrinterSettings, value);
             this.RaisePropertyChanged(String.Empty);
         }
     }

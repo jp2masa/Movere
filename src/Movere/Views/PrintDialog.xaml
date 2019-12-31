@@ -89,6 +89,9 @@
                                        Maximum="{Binding PrinterSettings.MaximumCopies}"
                                        Value="{Binding PrinterSettings.Copies}" />
 
+                        <CheckBox Content="Collate"
+                                  IsChecked="{Binding PrinterSettings.Collate}" />
+
                     </StackPanel>
 
                 </StackPanel>
