@@ -19,7 +19,7 @@ namespace Movere.ViewModels
 
         private IReadOnlyList<PrintPreviewPageViewModel> _printPreviewPages;
 
-        private IReadOnlyList<string> _availablePrinters;
+        private IReadOnlyList<string> _availablePrinters = InstalledPrinters.ToReadOnlyList();
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public PrintDialogViewModel(PrintDocument document, Action<bool> closeAction)
@@ -67,13 +67,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _printPreviewPages, value);
         }
 
-        private void RefreshAvailablePrinters()
-        {
-            var printers = new string[InstalledPrinters.Count];
-            InstalledPrinters.CopyTo(printers, 0);
-
-            AvailablePrinters = printers;
-        }
+        private void RefreshAvailablePrinters() => AvailablePrinters = InstalledPrinters.ToReadOnlyList();
 
         private void Print()
         {
