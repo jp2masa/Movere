@@ -13,7 +13,9 @@ using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
     public sealed class FileExplorerViewModel : ReactiveObject
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private readonly Subject<File> _fileOpened = new Subject<File>();
 
@@ -22,13 +24,13 @@ namespace Movere.ViewModels
 
         private Folder _currentFolder;
 
-#pragma warning disable CS8618 // Non-nullable field is uninitialized.
         public FileExplorerViewModel(
             bool allowMultipleSelection,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
-#pragma warning restore CS8618 // Non-nullable field is uninitialized.
         {
+            _currentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
+
             AddressBar = new FileExplorerAddressBarViewModel();
 
             FileExplorerTree = new FileExplorerTreeViewModel();
@@ -37,8 +39,6 @@ namespace Movere.ViewModels
                 allowMultipleSelection, fileIconProvider, clipboardService);
 
             FileOpened = _fileOpened.AsObservable();
-
-            CurrentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
             NavigateBackCommand = ReactiveCommand.Create(
                 NavigateBack,
