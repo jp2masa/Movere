@@ -43,10 +43,10 @@ namespace Movere.Models
         public override string ToString() => $"Folder: '{FullPath}'";
 
         private IEnumerable<Folder> GetFolders()
-        {
 #if !NETSTANDARD2_0
-            return _info.EnumerateDirectories("*", DefaultEnumerationOptions).Select(NewFolder);
+            => _info.EnumerateDirectories("*", DefaultEnumerationOptions).Select(NewFolder);
 #else
+        {
             try
             {
                 return _info.EnumerateDirectories().Select(NewFolder);
@@ -55,14 +55,15 @@ namespace Movere.Models
             {
                 return Array.Empty<Folder>();
             }
-#endif
         }
+#endif
+
 
         private IEnumerable<File> GetFiles()
-        {
 #if !NETSTANDARD2_0
-            return _info.EnumerateFiles("*", DefaultEnumerationOptions).Select(NewFile);
+            => _info.EnumerateFiles("*", DefaultEnumerationOptions).Select(NewFile);
 #else
+        {
             try
             {
                 return _info.EnumerateFiles().Select(NewFile);
@@ -71,8 +72,9 @@ namespace Movere.Models
             {
                 return Array.Empty<File>();
             }
-#endif
         }
+#endif
+
 
         private static Folder NewFolder(DirectoryInfo folder) => new Folder(folder);
 
