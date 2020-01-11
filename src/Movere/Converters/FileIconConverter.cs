@@ -23,7 +23,7 @@ namespace Movere.Converters
                 return BindingOperations.DoNothing;
             }
 
-            if (values.Count == 2 && values[0] is File file && values[1] is IFileIconProvider fileIconProvider && targetType == typeof(IBitmap))
+            if (values.Count == 2 && values[0] is File file && values[1] is IFileIconProvider fileIconProvider && targetType.IsAssignableFrom(typeof(Bitmap)))
             {
                 var icon = fileIconProvider.GetFileIcon(file.FullPath);
 
