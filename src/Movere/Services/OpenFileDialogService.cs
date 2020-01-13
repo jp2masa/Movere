@@ -17,11 +17,12 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public Task<OpenFileDialogResult> ShowDialogAsync()
+        public Task<OpenFileDialogResult> ShowDialogAsync(bool allowMultipleSelection = false)
         {
             var dialog = new OpenFileDialog();
 
             var viewModel = new OpenFileDialogViewModel(
+                allowMultipleSelection,
                 new DefaultFileIconProvider(),
                 new ClipboardService(),
                 dialog.Close);

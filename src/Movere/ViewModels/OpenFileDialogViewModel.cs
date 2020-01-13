@@ -18,6 +18,7 @@ namespace Movere.ViewModels
         private string _fileName;
 
         public OpenFileDialogViewModel(
+            bool allowMultipleSelection,
             IFileIconProvider fileIconProvider,
             IClipboardService clipboardService,
             Action<OpenFileDialogResult> closeAction)
@@ -26,7 +27,7 @@ namespace Movere.ViewModels
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(true, fileIconProvider, clipboardService);
+            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, fileIconProvider, clipboardService);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
