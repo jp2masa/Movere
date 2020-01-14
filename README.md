@@ -25,7 +25,7 @@ window.DataContext = new ViewModel(messageDialogService);
 3. Show dialog from View Model when you need to:
 
 ```cs
-private Task ShowInfo() =>
+private Task ShowInfoAsync() =>
     _messageDialogService.ShowMessageDialogAsync(
         new MessageDialogOptions(
             DialogIcon.Info,
@@ -47,7 +47,6 @@ Dialog results are extensible as well, and support localization.
 
 ## Roadmap
 
-- Improve file dialogs (including performance).
 - Maybe separate file explorer view into separate project.
 - Improve styles for dialogs.
 - Add tests.
