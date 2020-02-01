@@ -44,6 +44,14 @@ namespace Movere.Controls
 
         private static void UpdateItemsView(ItemsControl sender, AvaloniaPropertyChangedEventArgs e)
         {
+            if (e.NewValue is null)
+            {
+                sender.ItemsPanel = ItemsControl.ItemsPanelProperty.GetDefaultValue(sender.GetType());
+                sender.DataTemplates.Clear();
+
+                return;
+            }
+
             var view = (ItemsControlView)e.NewValue;
 
             sender.ItemsPanel = view.PanelTemplate;
