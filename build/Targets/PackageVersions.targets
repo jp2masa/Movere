@@ -6,7 +6,7 @@
         <AvaloniaXamlBehaviorsVersion>0.9.2</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.8</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
         <ReactiveUIVersion>11.1.23</ReactiveUIVersion>
-        <SkiaSharpVersion>1.68.2-preview.21</SkiaSharpVersion>
+        <SkiaSharpVersion>1.68.2-preview.29</SkiaSharpVersion>
         <SystemDrawingCommonVersion>4.7.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
