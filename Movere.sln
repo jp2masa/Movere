@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{9C93
 	ProjectSection(SolutionItems) = preProject
 		build\Targets\Import.props = build\Targets\Import.props
 		build\Targets\Import.targets = build\Targets\Import.targets
+		build\Targets\InternalsVisibleTo.targets = build\Targets\InternalsVisibleTo.targets
+		build\Targets\NeutralResourcesLanguage.targets = build\Targets\NeutralResourcesLanguage.targets
 		build\Targets\PackageProperties.props = build\Targets\PackageProperties.props
 		build\Targets\PackageProperties.targets = build\Targets\PackageProperties.targets
 		build\Targets\PackageVersions.targets = build\Targets\PackageVersions.targets
@@ -25,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{9C93
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere", "src\Movere\Movere.csproj", "{4B0E3D01-F0C9-42EF-9556-32C96F59E353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movere.Sample", "samples\Movere.Sample\Movere.Sample.csproj", "{1C5611B0-C2EE-43C5-BA3F-8016E2704969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere.Sample", "samples\Movere.Sample\Movere.Sample.csproj", "{1C5611B0-C2EE-43C5-BA3F-8016E2704969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
