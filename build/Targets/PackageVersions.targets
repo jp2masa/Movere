@@ -1,7 +1,7 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.9.999-cibuild0006078-beta</AvaloniaVersion>
+        <AvaloniaVersion>0.9.999-cibuild0006096-beta</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>0.9.999-jp2masa-1</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.8</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
@@ -13,6 +13,7 @@
     <ItemGroup>
         <PackageReference Update="Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Update="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
