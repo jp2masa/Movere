@@ -6,7 +6,6 @@
         <AvaloniaXamlBehaviorsVersion>0.9.999-jp2masa-2</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>2.9.8</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
         <ReactiveUIVersion>11.2.3</ReactiveUIVersion>
-        <SkiaSharpVersion>1.68.2-preview.39</SkiaSharpVersion>
         <SystemDrawingCommonVersion>4.7.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
@@ -19,7 +18,6 @@
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(MicrosoftCodeAnalysisFxCopAnalyzersVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
-        <PackageReference Update="SkiaSharp" Version="$(SkiaSharpVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
     </ItemGroup>
 

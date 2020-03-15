@@ -16,7 +16,6 @@
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" />
         <!--<PackageReference Include="Avalonia.Skia.Linux.Natives" />-->
-        <PackageReference Include="SkiaSharp" />
     </ItemGroup>
 
     <ItemGroup>
