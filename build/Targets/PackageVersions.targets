@@ -1,7 +1,7 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.9.999-cibuild0006379-beta</AvaloniaVersion>
+        <AvaloniaVersion>0.9.999-cibuild0006395-beta</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>0.9.999-jp2masa-2</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>3.0.0-beta3.final</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
