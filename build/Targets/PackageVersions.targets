@@ -5,7 +5,7 @@
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>0.9.999-jp2masa-2</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>3.0.0-beta3.final</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
-        <ReactiveUIVersion>11.3.7</ReactiveUIVersion>
+        <ReactiveUIVersion>11.3.8</ReactiveUIVersion>
         <SystemDrawingCommonVersion>4.7.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
