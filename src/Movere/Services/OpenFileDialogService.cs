@@ -23,8 +23,6 @@ namespace Movere.Services
 
             var viewModel = new OpenFileDialogViewModel(
                 allowMultipleSelection,
-                new DefaultFileIconProvider(),
-                new ClipboardService(),
                 dialog.Close);
 
             dialog.DataContext = viewModel;

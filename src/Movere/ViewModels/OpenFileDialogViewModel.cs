@@ -19,9 +19,9 @@ namespace Movere.ViewModels
 
         public OpenFileDialogViewModel(
             bool allowMultipleSelection,
-            IFileIconProvider fileIconProvider,
-            IClipboardService clipboardService,
-            Action<OpenFileDialogResult> closeAction)
+            Action<OpenFileDialogResult> closeAction,
+            IFileIconProvider? fileIconProvider = null,
+            IClipboardService? clipboardService = null)
         {
             _closeAction = closeAction;
 

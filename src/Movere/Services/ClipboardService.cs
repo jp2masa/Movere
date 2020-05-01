@@ -9,6 +9,8 @@ namespace Movere.Services
 {
     internal sealed class ClipboardService : IClipboardService
     {
+        internal static IClipboardService Instance { get; } = new ClipboardService();
+
         private readonly IClipboard _clipboard;
 
         public ClipboardService()

@@ -7,6 +7,8 @@ namespace Movere.Services
 
     internal sealed class DefaultFileIconProvider : IFileIconProvider
     {
+        internal static IFileIconProvider Instance { get; } = new DefaultFileIconProvider();
+
         public IBitmap? GetFileIcon(string filePath)
         {
             var icon = Icon.ExtractAssociatedIcon(filePath);

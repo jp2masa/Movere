@@ -37,8 +37,8 @@ namespace Movere.ViewModels
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
-            _fileIconProvider = fileIconProvider ?? new DefaultFileIconProvider();
-            _clipboardService = clipboardService ?? new ClipboardService();
+            _fileIconProvider = fileIconProvider ?? DefaultFileIconProvider.Instance;
+            _clipboardService = clipboardService ?? ClipboardService.Instance;
 
             AllowMultipleSelection = allowMultipleSelection;
 

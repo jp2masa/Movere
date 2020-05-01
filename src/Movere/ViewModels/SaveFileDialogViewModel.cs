@@ -20,10 +20,10 @@ namespace Movere.ViewModels
         private string _fileName;
 
         public SaveFileDialogViewModel(
-            IFileIconProvider fileIconProvider,
-            IClipboardService clipboardService,
+            Action<SaveFileDialogResult> closeAction,
             MessageDialogService messageDialogService,
-            Action<SaveFileDialogResult> closeAction)
+            IFileIconProvider? fileIconProvider = null,
+            IClipboardService? clipboardService = null)
         {
             _messageDialogService = messageDialogService;
             _closeAction = closeAction;
