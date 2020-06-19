@@ -18,7 +18,7 @@ namespace Movere.Converters
     {
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Any(v => v is BindingNotification notification && notification.ErrorType == BindingErrorType.Error))
+            if (values.Any(v => v == AvaloniaProperty.UnsetValue))
             {
                 return BindingOperations.DoNothing;
             }
