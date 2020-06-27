@@ -51,7 +51,7 @@
                 <Setter Property="ContextMenu">
                     <Template>
                         <ContextMenu>
-                            <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
+                            <MenuItem Header="Copy" Command="{Binding $parent[UserControl].DataContext.CopyCommand}" />
                         </ContextMenu>
                     </Template>
                 </Setter>

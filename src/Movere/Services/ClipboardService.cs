@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 
 namespace Movere.Services
@@ -24,9 +25,24 @@ namespace Movere.Services
 
         public Task SetTextAsync(string text) => _clipboard.SetTextAsync(text);
 
-        public Task<IReadOnlyCollection<string>> GetFilesAsync() =>
-            Task.FromResult<IReadOnlyCollection<string>>(Array.Empty<string>());
+        public async Task<IReadOnlyCollection<string>> GetFilesAsync()
+        {
+            var result = await _clipboard.GetDataAsync(DataFormats.FileNames);
 
-        public Task SetFilesAsync(IReadOnlyCollection<string> files) => Task.CompletedTask;
+            if (result is IReadOnlyCollection<string> files)
+            {
+                return files;
+            }
+
+            return Array.Empty<string>();
+        }
+
+        public Task SetFilesAsync(IReadOnlyCollection<string> files)
+        {
+            var data = new DataObject();
+            data.Set(DataFormats.FileNames, files);
+
+            return _clipboard.SetDataObjectAsync(data);
+        }
     }
 }

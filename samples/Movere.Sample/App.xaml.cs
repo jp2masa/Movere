@@ -1,7 +1,8 @@
-﻿using Avalonia;
+﻿using System;
+
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
@@ -40,6 +41,7 @@ namespace Movere.Sample
             }
         }
 
+        [STAThread]
         private static int Main(string[] args) =>
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
 
