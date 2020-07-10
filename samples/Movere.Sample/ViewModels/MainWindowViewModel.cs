@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,6 +21,8 @@ namespace Movere.Sample.ViewModels
         private readonly PrintDialogService _printDialogService;
 
         public MainWindowViewModel(
+            Func<Task> avaloniaOpenFile,
+            Func<Task> avaloniaSaveFile,
             MessageDialogService messageDialogService,
             OpenFileDialogService openFileDialogService,
             SaveFileDialogService saveFileDialogService,
@@ -38,7 +41,12 @@ namespace Movere.Sample.ViewModels
             SaveFileCommand = ReactiveCommand.Create(SaveFileAsync);
 
             PrintCommand = ReactiveCommand.Create(PrintAsync);
+
+            AvaloniaOpenFileCommand = ReactiveCommand.Create(avaloniaOpenFile);
+            AvaloniaSaveFileCommand = ReactiveCommand.Create(avaloniaSaveFile);
         }
+
+        public ICommand ShowMessageCommand { get; }
 
         public ICommand OpenFileCommand { get; }
 
@@ -46,7 +54,9 @@ namespace Movere.Sample.ViewModels
 
         public ICommand PrintCommand { get; }
 
-        public ICommand ShowMessageCommand { get; }
+        public ICommand AvaloniaOpenFileCommand { get; }
+
+        public ICommand AvaloniaSaveFileCommand { get; }
 
         private Task ShowMessageAsync() =>
             _messageDialogService.ShowMessageDialogAsync(
@@ -61,7 +71,7 @@ namespace Movere.Sample.ViewModels
                     DialogIcon.Error,
                     DialogResultSet.AbortRetryIgnore));
 
-        private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync();
+        private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);
 
         private Task SaveFileAsync() => _saveFileDialogService.ShowDialogAsync();
 

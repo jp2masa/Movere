@@ -10,6 +10,7 @@
     <Grid ColumnDefinitions="*,*,*">
 
         <StackPanel Grid.Column="1"
+                    Margin="0,16"
                     Spacing="8">
 
             <Button Content="Show Message"
@@ -23,6 +24,12 @@
 
             <Button Content="Print"
                     Command="{Binding PrintCommand}" />
+
+            <Button Content="Avalonia Open File"
+                    Command="{Binding AvaloniaOpenFileCommand}" />
+
+            <Button Content="Avalonia Save File"
+                    Command="{Binding AvaloniaSaveFileCommand}" />
 
         </StackPanel>
 

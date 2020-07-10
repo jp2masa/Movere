@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -32,6 +34,8 @@ namespace Movere.Sample
                 var printDialogService = new PrintDialogService(mainWindow);
 
                 mainWindow.DataContext = new MainWindowViewModel(
+                    () => AvaloniaOpenFile(mainWindow),
+                    () => AvaloniaSaveFile(mainWindow),
                     messageDialogService,
                     openFileDialogService,
                     saveFileDialogService,
@@ -51,6 +55,37 @@ namespace Movere.Sample
 #if DEBUG
                 .LogToDebug()
 #endif
+                .UseMovere()
                 .UseReactiveUI();
+
+        private static Task AvaloniaOpenFile(Window parent)
+        {
+            var dialog = new OpenFileDialog()
+            {
+                AllowMultiple = true,
+                Directory = "%USERPROFILE%",
+                Filters = new List<FileDialogFilter>()
+                {
+                    new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } },
+                    new FileDialogFilter() { Name = "Music files", Extensions = new List<string>() { "mp3", "wav" } }
+                }
+            };
+
+            return dialog.ShowAsync(parent);
+        }
+
+        private static Task AvaloniaSaveFile(Window parent)
+        {
+            var dialog = new SaveFileDialog()
+            {
+                Directory = "%USERPROFILE%",
+                Filters = new List<FileDialogFilter>()
+                {
+                    new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } }
+                }
+            };
+
+            return dialog.ShowAsync(parent);
+        }
     }
 }

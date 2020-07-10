@@ -10,6 +10,35 @@ Movere is an implementation of managed dialogs for Avalonia. Currently there are
 
 ## Getting Started
 
+### Registering file dialogs with Avalonia
+
+To use Avalonia system dialog APIs, it's possible to simply register Movere dialogs with `AppBuilder`:
+
+1. Import `Movere` namespace:
+
+```cs
+using Movere;
+```
+
+2. Add `UseMovere` to `AppBuilder` configuration. Example:
+
+```cs
+AppBuilder.Configure<App>()
+    .UsePlatformDetect()
+    .UseMovere();
+```
+
+3. Then use Avalonia system dialog APIs. Example:
+
+```cs
+var dialog = new OpenFileDialog();
+var result = await dialog.ShowAsync(parent);
+```
+
+### Using dialog services
+
+To simply use the dialogs (this example is for message dialogs, but it's similar for others):
+
 1. Create a dialog service for `Window` (owner):
 
 ```cs
