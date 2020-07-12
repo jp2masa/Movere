@@ -27,6 +27,7 @@
              SelectedItems="{Binding SelectedItems}">
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="Padding" Value="3" />
                 <Setter Property="Template">
                     <ControlTemplate>

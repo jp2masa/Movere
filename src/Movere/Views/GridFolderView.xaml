@@ -26,7 +26,9 @@
                         </MultiBinding>
                     </Image.Source>
                 </Image>
-                <TextBlock TextAlignment="Center"
+                <TextBlock MaxLines="2"
+                           TextAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
                            TextWrapping="Wrap"
                            Text="{Binding Name}" />
             </StackPanel>
@@ -37,7 +39,9 @@
                        Width="32"
                        Height="32"
                        Source="{StaticResource FolderIcon}" />
-                <TextBlock TextAlignment="Center"
+                <TextBlock MaxLines="2"
+                           TextAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
                            TextWrapping="Wrap"
                            Text="{Binding Name}" />
             </StackPanel>

@@ -26,7 +26,8 @@
                         </MultiBinding>
                     </Image.Source>
                 </Image>
-                <TextBlock Text="{Binding Name}" />
+                <TextBlock TextTrimming="CharacterEllipsis"
+                           Text="{Binding Name}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="m:Folder">
@@ -35,7 +36,8 @@
                 <Image Width="16"
                        Height="16"
                        Source="{StaticResource FolderIcon}" />
-                <TextBlock Text="{Binding Name}" />
+                <TextBlock TextTrimming="CharacterEllipsis"
+                           Text="{Binding Name}" />
             </StackPanel>
         </DataTemplate>
     </c:ItemsControlView.DataTemplates>
