@@ -12,6 +12,12 @@
         <StackPanel Grid.Column="1"
                     Margin="0,16"
                     Spacing="8">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                </Style>
+            </StackPanel.Styles>
 
             <Button Content="Show Message"
                     Command="{Binding ShowMessageCommand}" />
