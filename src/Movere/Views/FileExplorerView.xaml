@@ -4,8 +4,8 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
-             xmlns:vm="clr-namespace:Movere.ViewModels"
              xmlns:v="clr-namespace:Movere.Views"
+             xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.FileExplorerView">
 
     <UserControl.DataTemplates>
@@ -86,9 +86,8 @@
 
             <TextBox Grid.Column="5"
                      Margin="4"
-                     IsEnabled="False"
+                     Text="{Binding SearchText}"
                      Watermark="{Binding CurrentFolder.Name, StringFormat=Search in {0}}" />
-            <!-- Text="{Binding SearchText}" -->
 
         </Grid>
 
