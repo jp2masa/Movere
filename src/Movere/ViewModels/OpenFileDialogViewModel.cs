@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows.Input;
 
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Models.Filters;
 using Movere.Services;
 using File = Movere.Models.File;
 
@@ -17,23 +21,30 @@ namespace Movere.ViewModels
 
         private string _fileName;
 
+        private FileDialogFilterViewModel? _selectedFilter;
+
         public OpenFileDialogViewModel(
             bool allowMultipleSelection,
+            IEnumerable<FileDialogFilter> filters,
             Action<OpenFileDialogResult> closeAction,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
+            Filters = filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
+            SelectedFilter = Filters.FirstOrDefault();
+
             _closeAction = closeAction;
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, fileIconProvider, clipboardService);
+            var filter = this.WhenAnyValue(vm => vm.SelectedFilter).Select(vm => vm?.Filter).Select(Filter.FileDialog.Matches);
+
+            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, filter, fileIconProvider, clipboardService);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
 
             FileExplorer.FileOpened.Subscribe(_ => Open());
-
             FileExplorer.FileExplorerFolder.WhenAnyValue(vm => vm.SelectedItem).Subscribe(SelectedItemChanged);
         }
 
@@ -43,6 +54,14 @@ namespace Movere.ViewModels
         {
             get => _fileName;
             set => this.RaiseAndSetIfChanged(ref _fileName, value);
+        }
+
+        public IEnumerable<FileDialogFilterViewModel> Filters { get; }
+
+        public FileDialogFilterViewModel? SelectedFilter
+        {
+            get => _selectedFilter;
+            set => this.RaiseAndSetIfChanged(ref _selectedFilter, value);
         }
 
         public ICommand OpenCommand { get; }

@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
-using Avalonia.Controls;
+using Window = Avalonia.Controls.Window;
 
 using Movere.Models;
 using Movere.ViewModels;
-using OpenFileDialog = Movere.Views.OpenFileDialog;
+using Movere.Views;
 
 namespace Movere.Services
 {
@@ -23,6 +24,7 @@ namespace Movere.Services
 
             var viewModel = new OpenFileDialogViewModel(
                 allowMultipleSelection,
+                Enumerable.Empty<FileDialogFilter>(),
                 dialog.Close);
 
             dialog.DataContext = viewModel;

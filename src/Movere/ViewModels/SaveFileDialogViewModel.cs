@@ -30,7 +30,7 @@ namespace Movere.ViewModels
 
             _fileName = String.Empty;
 
-            FileExplorer = new FileExplorerViewModel(false, fileIconProvider, clipboardService);
+            FileExplorer = new FileExplorerViewModel(false, null, fileIconProvider, clipboardService);
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);

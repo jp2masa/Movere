@@ -6,9 +6,12 @@ using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using DynamicData;
+
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Models.Filters;
 using Movere.Services;
 using File = Movere.Models.File;
 
@@ -19,7 +22,8 @@ namespace Movere.ViewModels
         private readonly IFileIconProvider _fileIconProvider;
         private readonly IClipboardService _clipboardService;
 
-        private readonly ObservableCollection<FileSystemEntry> _entries = new ObservableCollection<FileSystemEntry>();
+        private readonly SourceList<FileSystemEntry> _entries = new SourceList<FileSystemEntry>();
+        private readonly ReadOnlyObservableCollection<FileSystemEntry> _items;
 
         private readonly Subject<File> _fileOpened = new Subject<File>();
         private readonly Subject<Folder> _folderOpened = new Subject<Folder>();
@@ -34,6 +38,7 @@ namespace Movere.ViewModels
 
         public FileExplorerFolderViewModel(
             bool allowMultipleSelection,
+            IObservable<IFilter<FileSystemEntry>>? filter = null,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
@@ -45,7 +50,13 @@ namespace Movere.ViewModels
             FileOpened = _fileOpened.AsObservable();
             FolderOpened = _folderOpened.AsObservable();
 
-            Items = new ReadOnlyObservableCollection<FileSystemEntry>(_entries);
+            filter ??= Observable.Return(Filter.True<FileSystemEntry>());
+
+            _entries.Connect()
+                    .Filter(filter.Select(FilterExtensions.ToFunc), ListFilterPolicy.ClearAndReplace)
+                    .Bind(out _items)
+                    .Subscribe();
+
             SelectedItems = new ObservableCollection<FileSystemEntry>();
 
             OpenItemCommand = ReactiveCommand.Create<FileSystemEntry>(ItemOpened);
@@ -72,7 +83,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _folder, value);
         }
 
-        public ReadOnlyObservableCollection<FileSystemEntry> Items { get; }
+        public ReadOnlyObservableCollection<FileSystemEntry> Items => _items;
 
         public FileSystemEntry? SelectedItem
         {

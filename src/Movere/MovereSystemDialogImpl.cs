@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
+using AvaloniaFilter = Avalonia.Controls.FileDialogFilter;
 
 using Movere.Models;
 using Movere.Services;
 using Movere.ViewModels;
+using MovereFilter = Movere.Models.FileDialogFilter;
 using MovereOpenFileDialog = Movere.Views.OpenFileDialog;
 using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
@@ -24,6 +27,7 @@ namespace Movere
 
                 var viewModel = new OpenFileDialogViewModel(
                     openFileDialog.AllowMultiple,
+                    dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
                     view.Close);
 
                 viewModel.FileExplorer.CurrentFolder = new Folder(new DirectoryInfo(Expand(dialog.Directory)));
@@ -59,5 +63,8 @@ namespace Movere
             throw new NotImplementedException();
 
         private static string Expand(string str) => Environment.ExpandEnvironmentVariables(str ?? String.Empty);
+
+        private static MovereFilter ConvertFilter(AvaloniaFilter filter) =>
+            new MovereFilter(filter.Name, filter.Extensions.ToImmutableArray());
     }
 }

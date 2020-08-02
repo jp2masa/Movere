@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Models.Filters;
 using Movere.Services;
 using File = Movere.Models.File;
 
@@ -17,6 +18,9 @@ namespace Movere.ViewModels
     public sealed class FileExplorerViewModel : ReactiveObject
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
+        private static readonly IObservable<IFilter<FileSystemEntry>> DefaultFilterObservable =
+            Observable.Return(Filter.True<FileSystemEntry>());
+
         private readonly Subject<File> _fileOpened = new Subject<File>();
 
         private readonly Stack<Folder> _navigationHistoryBack = new Stack<Folder>();
@@ -28,6 +32,7 @@ namespace Movere.ViewModels
 
         public FileExplorerViewModel(
             bool allowMultipleSelection,
+            IObservable<IFilter<FileSystemEntry>>? filter = null,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
@@ -37,8 +42,17 @@ namespace Movere.ViewModels
 
             FileExplorerTree = new FileExplorerTreeViewModel();
 
+            filter ??= DefaultFilterObservable;
+
+            var searchTextFilter =
+                from searchText in this.WhenAnyValue(vm => vm.SearchText)
+                select Filter.String.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                    .Cast<string, FileSystemEntry>(e => e.Name);
+
+            filter = Observable.CombineLatest(filter, searchTextFilter, (f, s) => f.And(s));
+
             FileExplorerFolder = new FileExplorerFolderViewModel(
-                allowMultipleSelection, fileIconProvider, clipboardService);
+                allowMultipleSelection, filter, fileIconProvider, clipboardService);
 
             FileOpened = _fileOpened.AsObservable();
 
