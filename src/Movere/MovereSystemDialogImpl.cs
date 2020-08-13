@@ -30,8 +30,20 @@ namespace Movere
                     dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
                     view.Close);
 
-                viewModel.FileExplorer.CurrentFolder = new Folder(new DirectoryInfo(Expand(dialog.Directory)));
-                viewModel.FileName = Expand(dialog.InitialFileName);
+                if (!String.IsNullOrWhiteSpace(dialog.Directory))
+                {
+                    var directory = new DirectoryInfo(dialog.Directory);
+
+                    if (directory.Exists)
+                    {
+                        viewModel.FileExplorer.CurrentFolder = new Folder(directory);
+                    }
+                }
+
+                if (!(dialog.InitialFileName is null))
+                {
+                    viewModel.FileName = dialog.InitialFileName;
+                }
 
                 view.DataContext = viewModel;
 
@@ -47,8 +59,20 @@ namespace Movere
                     view.Close,
                     new MessageDialogService(view));
 
-                viewModel.FileExplorer.CurrentFolder = new Folder(new DirectoryInfo(Expand(dialog.Directory)));
-                viewModel.FileName = Expand(dialog.InitialFileName);
+                if (!String.IsNullOrWhiteSpace(dialog.Directory))
+                {
+                    var directory = new DirectoryInfo(dialog.Directory);
+
+                    if (directory.Exists)
+                    {
+                        viewModel.FileExplorer.CurrentFolder = new Folder(directory);
+                    }
+                }
+
+                if (!(dialog.InitialFileName is null))
+                {
+                    viewModel.FileName = dialog.InitialFileName;
+                }
 
                 view.DataContext = viewModel;
 
@@ -61,8 +85,6 @@ namespace Movere
 
         public Task<string> ShowFolderDialogAsync(OpenFolderDialog dialog, Window parent) =>
             throw new NotImplementedException();
-
-        private static string Expand(string str) => Environment.ExpandEnvironmentVariables(str ?? String.Empty);
 
         private static MovereFilter ConvertFilter(AvaloniaFilter filter) =>
             new MovereFilter(filter.Name, filter.Extensions.ToImmutableArray());

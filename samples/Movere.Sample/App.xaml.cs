@@ -63,7 +63,7 @@ namespace Movere.Sample
             var dialog = new OpenFileDialog()
             {
                 AllowMultiple = true,
-                Directory = "%USERPROFILE%",
+                Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 Filters = new List<FileDialogFilter>()
                 {
                     new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } },
@@ -78,7 +78,7 @@ namespace Movere.Sample
         {
             var dialog = new SaveFileDialog()
             {
-                Directory = "%USERPROFILE%",
+                Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 Filters = new List<FileDialogFilter>()
                 {
                     new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } }
