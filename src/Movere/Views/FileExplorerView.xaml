@@ -1,5 +1,6 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Movere"
              xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -87,7 +88,7 @@
             <TextBox Grid.Column="5"
                      Margin="4"
                      Text="{Binding SearchText}"
-                     Watermark="{Binding CurrentFolder.Name, StringFormat=Search in {0}}" />
+                     Watermark="{Binding CurrentFolder.Name, StringFormat={local:LocalizedString SearchIn}}" />
 
         </Grid>
 

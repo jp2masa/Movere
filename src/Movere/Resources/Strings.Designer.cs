@@ -124,6 +124,15 @@ namespace Movere.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open File.
+        /// </summary>
+        internal static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print.
         /// </summary>
         internal static string Print {
@@ -147,6 +156,24 @@ namespace Movere.Resources {
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save File.
+        /// </summary>
+        internal static string SaveFile {
+            get {
+                return ResourceManager.GetString("SaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search in {0}.
+        /// </summary>
+        internal static string SearchIn {
+            get {
+                return ResourceManager.GetString("SearchIn", resourceCulture);
             }
         }
         
