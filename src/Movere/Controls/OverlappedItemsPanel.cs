@@ -3,7 +3,7 @@ using Avalonia.Controls;
 
 namespace Movere.Controls
 {
-    internal class OverlappedItemsPanel : Panel
+    internal sealed class OverlappedItemsPanel : Panel
     {
         protected override Size MeasureOverride(Size availableSize)
         {

@@ -17,7 +17,7 @@ using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere
 {
-    internal class MovereSystemDialogImpl : ISystemDialogImpl
+    internal sealed class MovereSystemDialogImpl : ISystemDialogImpl
     {
         public async Task<string[]> ShowFileDialogAsync(FileDialog dialog, Window parent)
         {

@@ -6,7 +6,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal class PrintDialog : ReactiveWindow<PrintDialogViewModel>
+    internal sealed class PrintDialog : ReactiveWindow<PrintDialogViewModel>
     {
         public PrintDialog()
         {

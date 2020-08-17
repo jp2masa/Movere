@@ -6,7 +6,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal class MessageDialog : ReactiveWindow<MessageDialogViewModel>
+    internal sealed class MessageDialog : ReactiveWindow<MessageDialogViewModel>
     {
         public MessageDialog()
         {

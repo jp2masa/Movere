@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace Movere.Controls
 {
-    internal class BreadcrumbPanel : Panel
+    internal sealed class BreadcrumbPanel : Panel
     {
         private readonly Stack<IControl> _children = new Stack<IControl>();
 

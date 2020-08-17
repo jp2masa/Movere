@@ -6,7 +6,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal class OpenFileDialog : ReactiveWindow<OpenFileDialogViewModel>
+    internal sealed class OpenFileDialog : ReactiveWindow<OpenFileDialogViewModel>
     {
         public OpenFileDialog()
         {
