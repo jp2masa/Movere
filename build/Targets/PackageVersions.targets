@@ -3,9 +3,9 @@
     <PropertyGroup>
         <AvaloniaVersion>0.10.0-preview3</AvaloniaVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.0-preview2</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>0.10.0-preview3</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>3.3.0</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
-        <ReactiveUIVersion>11.5.17</ReactiveUIVersion>
+        <ReactiveUIVersion>11.5.26</ReactiveUIVersion>
         <SystemDrawingCommonVersion>4.7.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
