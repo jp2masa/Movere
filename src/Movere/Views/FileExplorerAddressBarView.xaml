@@ -3,15 +3,27 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:r="clr-namespace:System.Reactive;assembly=System.Reactive"
+             xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:c="clr-namespace:Movere.Controls"
              x:Class="Movere.Views.FileExplorerAddressBarView"
-             BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+             x:Name="root"
+             BorderBrush="{DynamicResource ThemeBorderMidBrush}" 
              BorderThickness="{DynamicResource ThemeBorderThickness}">
 
-    <c:OverlappedItemsPanel>
+    <c:OverlappedItemsPanel Background="Transparent">
+        <i:Interaction.Behaviors>
+            <b:PointerPressedTriggerBehavior PointerUpdateKind="LeftButtonPressed">
+                <ia:ChangePropertyAction TargetObject="{Binding}"
+                                         PropertyName="IsEditing"
+                                         Value="True" />
+                <b:FocusAction Control="{Binding #AddressTextBox}" />
+                <b:TextBoxSelectAllAction TextBox="{Binding #AddressTextBox}" />
+            </b:PointerPressedTriggerBehavior>
+        </i:Interaction.Behaviors>
 
-        <TextBox IsVisible="{Binding IsEditing}"
+        <TextBox x:Name="AddressTextBox"
                  BorderThickness="0"
+                 IsVisible="{Binding IsEditing}"
                  Text="{Binding TextBoxAddress}">
             <i:Interaction.Behaviors>
                 <ia:EventTriggerBehavior EventName="LostFocus">
@@ -27,32 +39,44 @@
         </TextBox>
 
         <ItemsControl IsVisible="{Binding !IsEditing}"
-                      Items="{Binding AddressPieces}">
-            <i:Interaction.Behaviors>
-                <ia:EventTriggerBehavior EventName="Tapped">
-                    <ia:ChangePropertyAction TargetObject="{Binding}"
-                                             PropertyName="IsEditing"
-                                             Value="True" />
-                </ia:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
+                      Items="{Binding AddressSegments}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <c:BreadcrumbPanel Background="Transparent" />
+                    <c:BreadcrumbPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Button Classes="transparent"
-                                BorderThickness="0"
-                                Padding="2,4"
+                        <StackPanel.Styles>
+                            <Style Selector="Button.btn-address-bar">
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Padding" Value="2,4" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <Button Classes="btn-address-bar transparent"
                                 Content="{Binding Name}"
-                                Command="{Binding $parent[UserControl].DataContext.OpenAddressPieceCommand}"
-                                CommandParameter="{Binding}" />
-                        <Button Classes="transparent"
-                                BorderThickness="0"
-                                Padding="2,4"
-                                Content="»" />
+                                Command="{Binding #root.DataContext.NavigateToAddressCommand}"
+                                CommandParameter="{Binding Address}" />
+                        <Button x:Name="PopupButton"
+                                Classes="btn-address-bar transparent"
+                                Content="»"
+                                Command="{Binding OpenPopupCommand}" />
+                        <Popup PlacementTarget="{Binding #PopupButton}"
+                               IsLightDismissEnabled="True"
+                               IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
+                            <ContextMenu Items="{Binding Children}">
+                                <ContextMenu.Styles>
+                                    <Style Selector="MenuItem">
+                                        <Setter Property="Command" Value="{Binding #root.DataContext.NavigateToAddressCommand}" />
+                                        <Setter Property="CommandParameter" Value="{Binding Address}" />
+                                        <Setter Property="Header" Value="{Binding Name}" />
+                                    </Style>
+                                </ContextMenu.Styles>
+                            </ContextMenu>
+                        </Popup>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

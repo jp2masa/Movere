@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿using System;
+
+using Avalonia;
 using Avalonia.Controls;
 
 namespace Movere.Controls
@@ -7,24 +9,18 @@ namespace Movere.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
-            var size = Size.Empty;
+            var width = 0.0;
+            var height = 0.0;
 
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
 
-                if (child.DesiredSize.Width > size.Width)
-                {
-                    size = size.WithWidth(child.DesiredSize.Width);
-                }
-
-                if (child.DesiredSize.Height > size.Height)
-                {
-                    size = size.WithHeight(child.DesiredSize.Height);
-                }
+                width = Math.Max(width, child.DesiredSize.Width);
+                height = Math.Max(height, child.DesiredSize.Height);
             }
 
-            return size;
+            return new Size(width, height);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

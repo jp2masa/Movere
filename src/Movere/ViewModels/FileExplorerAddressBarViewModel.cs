@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Windows.Input;
 
 using ReactiveUI;
@@ -12,11 +11,9 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    public sealed class FileExplorerAddressBarViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerAddressBarViewModel : ReactiveObject
     {
-        private readonly Subject<Folder> _addressPieceOpened = new Subject<Folder>();
-
-        private readonly ObservableCollection<Folder> _addressPieces = new ObservableCollection<Folder>();
+        private readonly ObservableCollection<AddressSegmentViewModel> _addressSegments = new ObservableCollection<AddressSegmentViewModel>();
 
         private bool _isEditing;
 
@@ -25,11 +22,9 @@ namespace Movere.ViewModels
 
         public FileExplorerAddressBarViewModel()
         {
-            AddressPieces = new ReadOnlyObservableCollection<Folder>(_addressPieces);
+            AddressSegments = new ReadOnlyObservableCollection<AddressSegmentViewModel>(_addressSegments);
 
-            AddressPieceOpened = _addressPieceOpened.AsObservable();
-
-            OpenAddressPieceCommand = ReactiveCommand.Create<Folder>(_addressPieceOpened.OnNext);
+            NavigateToAddressCommand = ReactiveCommand.Create<string>(NavigateToAddress);
 
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
             AddressChanged.Subscribe(UpdateAddress);
@@ -56,11 +51,9 @@ namespace Movere.ViewModels
 
         public IObservable<string> AddressChanged { get; }
 
-        public ReadOnlyObservableCollection<Folder> AddressPieces { get; }
+        public ReadOnlyObservableCollection<AddressSegmentViewModel> AddressSegments { get; }
 
-        public ICommand OpenAddressPieceCommand { get; }
-
-        public IObservable<Folder> AddressPieceOpened { get; }
+        public ICommand NavigateToAddressCommand { get; }
 
         public void CancelNavigation()
         {
@@ -74,36 +67,36 @@ namespace Movere.ViewModels
             IsEditing = false;
         }
 
+        private void NavigateToAddress(string address) => Address = address;
+
         private void UpdateAddress(string address)
         {
             TextBoxAddress = address;
-            UpdateAddressPieces(address);
+            UpdateAddressSegments(address);
         }
 
-        private void UpdateAddressPieces(string address)
+        private void UpdateAddressSegments(string address)
         {
             if (Directory.Exists(address))
             {
                 var path = Path.GetFullPath(address);
                 var directory = new DirectoryInfo(path);
 
-                _addressPieces.Clear();
-                AddAddressPieces(_addressPieces, new Folder(directory));
+                _addressSegments.Clear();
+                AddAddressSegments(_addressSegments, new Folder(directory));
             }
         }
 
-        private void AddAddressPieces(ObservableCollection<Folder> pieces, Folder folder)
+        private void AddAddressSegments(ObservableCollection<AddressSegmentViewModel> segments, Folder folder)
         {
             var parent = folder.Parent;
 
             if (parent != null)
             {
-                AddAddressPieces(pieces, parent);
+                AddAddressSegments(segments, parent);
             }
 
-            pieces.Add(folder);
+            segments.Add(new AddressSegmentViewModel(folder));
         }
-
-        public void Dispose() => _addressPieceOpened.Dispose();
     }
 }

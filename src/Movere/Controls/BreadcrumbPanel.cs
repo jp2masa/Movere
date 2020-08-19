@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -7,30 +7,25 @@ namespace Movere.Controls
 {
     internal sealed class BreadcrumbPanel : Panel
     {
-        private readonly Stack<IControl> _children = new Stack<IControl>();
+        private int _n;
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (_children.Count != 0)
-            {
-                _children.Clear();
-            }
-
-            var size = Size.Empty;
             var width = 0.0;
+            var height = 0.0;
 
-            int i;
+            var childMeasureSize = new Size(Double.PositiveInfinity, availableSize.Height);
 
-            for (i = Children.Count - 1; i >= 0; i--)
+            for (_n = 0; _n < Children.Count; _n++)
             {
-                var child = Children[i];
+                var child = Children[Children.Count - _n - 1];
 
                 if (!child.IsVisible)
                 {
                     break;
                 }
 
-                child.Measure(availableSize);
+                child.Measure(childMeasureSize);
 
                 if (width + child.DesiredSize.Width > availableSize.Width)
                 {
@@ -38,31 +33,26 @@ namespace Movere.Controls
                 }
 
                 width += child.DesiredSize.Width;
-
-                if (child.DesiredSize.Height > size.Height)
-                {
-                    size = size.WithHeight(child.DesiredSize.Height);
-                }
-
-                _children.Push(child);
+                height = Math.Max(height, child.DesiredSize.Height);
             }
 
-            for (; i >= 0; i--)
+            for (int i = 0; i < Children.Count - _n; i++)
             {
-                var child = Children[i];
-                child.Measure(availableSize);
+                Children[i].Measure(default);
             }
 
-            return size.WithWidth(width);
+            return new Size(width, height);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
             var position = default(Point);
 
-            while (_children.TryPop(out var child))
+            for (int i = _n; i >= 1; i--)
             {
-                child.Arrange(new Rect(position, child.DesiredSize));
+                var child = Children[Children.Count - i];
+
+                child.Arrange(new Rect(position, new Size(child.DesiredSize.Width, finalSize.Height)));
                 position = position.WithX(position.X + child.DesiredSize.Width);
             }
 
