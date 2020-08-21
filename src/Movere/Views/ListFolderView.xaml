@@ -3,7 +3,8 @@
                     xmlns:c="clr-namespace:Movere.Controls"
                     xmlns:conv="clr-namespace:Movere.Converters"
                     xmlns:m="clr-namespace:Movere.Models"
-                    x:Class="Movere.Views.ListFolderView">
+                    x:Class="Movere.Views.ListFolderView"
+                    x:CompileBindings="True">
     <c:ItemsControlView.Resources>
         <conv:FileIconConverter x:Key="FileIconConverter" />
         <IImage x:Key="FolderIcon">/Resources/Icons/Folder.png</IImage>
@@ -22,7 +23,7 @@
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource FileIconConverter}">
                             <Binding />
-                            <Binding Path="$parent[UserControl].DataContext.FileIconProvider" />
+                            <ReflectionBinding Path="$parent[UserControl].DataContext.FileIconProvider" />
                         </MultiBinding>
                     </Image.Source>
                 </Image>

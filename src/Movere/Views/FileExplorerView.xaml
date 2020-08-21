@@ -7,7 +7,9 @@
              xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
              xmlns:v="clr-namespace:Movere.Views"
              xmlns:vm="clr-namespace:Movere.ViewModels"
-             x:Class="Movere.Views.FileExplorerView">
+             x:Class="Movere.Views.FileExplorerView"
+             x:CompileBindings="True"
+             x:DataType="vm:FileExplorerViewModel">
 
     <UserControl.DataTemplates>
         <DataTemplate DataType="vm:FileExplorerAddressBarViewModel">

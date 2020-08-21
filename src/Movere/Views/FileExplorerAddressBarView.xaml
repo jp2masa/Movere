@@ -5,7 +5,10 @@
              xmlns:r="clr-namespace:System.Reactive;assembly=System.Reactive"
              xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:c="clr-namespace:Movere.Controls"
+             xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.FileExplorerAddressBarView"
+             x:CompileBindings="True"
+             x:DataType="vm:FileExplorerAddressBarViewModel"
              x:Name="root"
              BorderBrush="{DynamicResource ThemeBorderMidBrush}" 
              BorderThickness="{DynamicResource ThemeBorderThickness}">
@@ -16,8 +19,8 @@
                 <ia:ChangePropertyAction TargetObject="{Binding}"
                                          PropertyName="IsEditing"
                                          Value="True" />
-                <b:FocusAction Control="{Binding #AddressTextBox}" />
-                <b:TextBoxSelectAllAction TextBox="{Binding #AddressTextBox}" />
+                <b:FocusAction Control="{ReflectionBinding #AddressTextBox}" />
+                <b:TextBoxSelectAllAction TextBox="{ReflectionBinding #AddressTextBox}" />
             </b:PointerPressedTriggerBehavior>
         </i:Interaction.Behaviors>
 
@@ -27,14 +30,14 @@
                  Text="{Binding TextBoxAddress}">
             <i:Interaction.Behaviors>
                 <ia:EventTriggerBehavior EventName="LostFocus">
-                    <ia:InvokeCommandAction Command="{Binding CancelNavigation}" />
+                    <ia:InvokeCommandAction Command="{ReflectionBinding CancelNavigation}" />
                 </ia:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             <TextBox.KeyBindings>
                 <KeyBinding Gesture="Escape"
-                            Command="{Binding CancelNavigation}" />
+                            Command="{ReflectionBinding CancelNavigation}" />
                 <KeyBinding Gesture="Enter"
-                            Command="{Binding CommitNavigation}" />
+                            Command="{ReflectionBinding CommitNavigation}" />
             </TextBox.KeyBindings>
         </TextBox>
 
@@ -58,19 +61,19 @@
                         </StackPanel.Styles>
                         <Button Classes="btn-address-bar transparent"
                                 Content="{Binding Name}"
-                                Command="{Binding #root.DataContext.NavigateToAddressCommand}"
+                                Command="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}"
                                 CommandParameter="{Binding Address}" />
                         <Button x:Name="PopupButton"
                                 Classes="btn-address-bar transparent"
                                 Content="»"
                                 Command="{Binding OpenPopupCommand}" />
-                        <Popup PlacementTarget="{Binding #PopupButton}"
+                        <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
                                IsLightDismissEnabled="True"
                                IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
                             <ContextMenu Items="{Binding Children}">
                                 <ContextMenu.Styles>
                                     <Style Selector="MenuItem">
-                                        <Setter Property="Command" Value="{Binding #root.DataContext.NavigateToAddressCommand}" />
+                                        <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />
                                         <Setter Property="CommandParameter" Value="{Binding Address}" />
                                         <Setter Property="Header" Value="{Binding Name}" />
                                     </Style>

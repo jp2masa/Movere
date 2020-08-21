@@ -6,7 +6,11 @@
              xmlns:conv="clr-namespace:Movere.Converters"
              xmlns:m="clr-namespace:Movere.Models"
              xmlns:v="clr-namespace:Movere.Views"
-             x:Class="Movere.Views.FileExplorerFolderView">
+             xmlns:vm="clr-namespace:Movere.ViewModels"
+             x:Class="Movere.Views.FileExplorerFolderView"
+             x:CompileBindings="True"
+             x:DataType="vm:FileExplorerFolderViewModel"
+             x:Name="root">
     <UserControl.Resources>
         <m:ItemsView x:Key="List">List</m:ItemsView>
         <m:ItemsView x:Key="Grid">Grid</m:ItemsView>
@@ -21,7 +25,7 @@
     <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              BorderThickness="0"
              SelectionMode="{Binding AllowMultipleSelection, Converter={StaticResource AllowMultipleSelectionConverter}}"
-             c:ItemsControlView.ItemsView="{Binding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
+             c:ItemsControlView.ItemsView="{ReflectionBinding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
              Items="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
@@ -42,7 +46,7 @@
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
                             <i:Interaction.Behaviors>
                                 <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                    <ia:InvokeCommandAction Command="{Binding $parent[UserControl].DataContext.OpenItemCommand}"
+                                    <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
                                                             CommandParameter="{Binding}" />
                                 </ia:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
@@ -52,7 +56,7 @@
                 <Setter Property="ContextMenu">
                     <Template>
                         <ContextMenu>
-                            <MenuItem Header="Copy" Command="{Binding $parent[UserControl].DataContext.CopyCommand}" />
+                            <MenuItem Header="Copy" Command="{ReflectionBinding $parent[UserControl].DataContext.CopyCommand}" />
                         </ContextMenu>
                     </Template>
                 </Setter>

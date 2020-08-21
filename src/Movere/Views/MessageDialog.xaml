@@ -1,7 +1,10 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:Movere.Converters"
+        xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.MessageDialog"
+        x:CompileBindings="True"
+        x:DataType="vm:MessageDialogViewModel"
         CanResize="False"
         MinWidth="256"
         MinHeight="96"
@@ -29,7 +32,7 @@
                 <DataTemplate>
                     <Button Margin="4"
                             Content="{Binding Name}"
-                            Command="{Binding $parent[Window].DataContext.CloseCommand}"
+                            Command="{ReflectionBinding $parent[Window].DataContext.CloseCommand}"
                             CommandParameter="{Binding}"
                             IsCancel="{Binding, Converter={StaticResource DialogResultIsCancelConverter}}" />
                 </DataTemplate>
