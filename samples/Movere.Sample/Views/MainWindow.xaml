@@ -22,7 +22,7 @@
                 </Style>
             </StackPanel.Styles>
 
-            <Button Content="Show Message"
+            <Button Content="{Binding MessageDialogResult, StringFormat=Show Message (Last result: {0})}"
                     Command="{Binding ShowMessageCommand}" />
 
             <Button Content="Open File"

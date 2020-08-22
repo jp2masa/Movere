@@ -20,6 +20,8 @@ namespace Movere.Sample.ViewModels
 
         private readonly PrintDialogService _printDialogService;
 
+        private string _messageDialogResult = "Not opened yet";
+
         public MainWindowViewModel(
             Func<Task> avaloniaOpenFile,
             Func<Task> avaloniaSaveFile,
@@ -46,6 +48,12 @@ namespace Movere.Sample.ViewModels
             AvaloniaSaveFileCommand = ReactiveCommand.Create(avaloniaSaveFile);
         }
 
+        public string MessageDialogResult
+        {
+            get => _messageDialogResult;
+            set => this.RaiseAndSetIfChanged(ref _messageDialogResult, value);
+        }
+
         public ICommand ShowMessageCommand { get; }
 
         public ICommand OpenFileCommand { get; }
@@ -58,8 +66,8 @@ namespace Movere.Sample.ViewModels
 
         public ICommand AvaloniaSaveFileCommand { get; }
 
-        private Task ShowMessageAsync() =>
-            _messageDialogService.ShowMessageDialogAsync(
+        private async Task ShowMessageAsync() =>
+            MessageDialogResult = (await _messageDialogService.ShowMessageDialogAsync(
                 new MessageDialogOptions(
 #pragma warning disable CA1303 // Do not pass literals as localized parameters
                     "Some really really really really really really really really really really really " +
@@ -69,7 +77,7 @@ namespace Movere.Sample.ViewModels
 #pragma warning restore CA1303 // Do not pass literals as localized parameters
                     "Message Dialog",
                     DialogIcon.Error,
-                    DialogResultSet.AbortRetryIgnore));
+                    DialogResultSet.AbortRetryIgnore)))?.Name ?? "null";
 
         private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);
 
