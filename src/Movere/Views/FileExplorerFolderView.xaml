@@ -29,6 +29,12 @@
              Items="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
+        <ListBox.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
+                <MenuItem Header="Delete" Command="{Binding DeleteCommand}" />
+            </ContextMenu>
+        </ListBox.ContextMenu>
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -52,13 +58,6 @@
                             </i:Interaction.Behaviors>
                         </ContentPresenter>
                     </ControlTemplate>
-                </Setter>
-                <Setter Property="ContextMenu">
-                    <Template>
-                        <ContextMenu>
-                            <MenuItem Header="Copy" Command="{ReflectionBinding $parent[UserControl].DataContext.CopyCommand}" />
-                        </ContextMenu>
-                    </Template>
                 </Setter>
             </Style>
             <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">

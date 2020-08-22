@@ -26,6 +26,7 @@ namespace Movere.ViewModels
         public OpenFileDialogViewModel(
             bool allowMultipleSelection,
             IEnumerable<FileDialogFilter> filters,
+            MessageDialogService messageDialogService,
             Action<OpenFileDialogResult> closeAction,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
@@ -39,7 +40,7 @@ namespace Movere.ViewModels
 
             var filter = this.WhenAnyValue(vm => vm.SelectedFilter).Select(vm => vm?.Filter).Select(Filter.FileDialog.Matches);
 
-            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, filter, fileIconProvider, clipboardService);
+            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, messageDialogService, filter, fileIconProvider, clipboardService);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);

@@ -28,6 +28,7 @@ namespace Movere
                 var viewModel = new OpenFileDialogViewModel(
                     openFileDialog.AllowMultiple,
                     dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                    new MessageDialogService(view),
                     view.Close);
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))

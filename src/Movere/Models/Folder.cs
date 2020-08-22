@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 #if NETSTANDARD2_0
 using System.Security;
@@ -33,6 +34,12 @@ namespace Movere.Models
         public IEnumerable<File> Files => GetFiles();
 
         public IEnumerable<FileSystemEntry> Entries => Folders.Concat<FileSystemEntry>(Files);
+
+        public override Task DeleteAsync()
+        {
+            _info.Delete(true);
+            return Task.CompletedTask;
+        }
 
         public bool Equals(Folder other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 

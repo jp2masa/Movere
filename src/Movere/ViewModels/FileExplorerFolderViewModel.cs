@@ -19,6 +19,8 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
+        private readonly MessageDialogService _messageDialogService;
+
         private readonly IFileIconProvider _fileIconProvider;
         private readonly IClipboardService _clipboardService;
 
@@ -38,6 +40,7 @@ namespace Movere.ViewModels
 
         public FileExplorerFolderViewModel(
             bool allowMultipleSelection,
+            MessageDialogService messageDialogService,
             IObservable<IFilter<FileSystemEntry>>? filter = null,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
@@ -46,7 +49,7 @@ namespace Movere.ViewModels
             _clipboardService = clipboardService ?? ClipboardService.Instance;
 
             AllowMultipleSelection = allowMultipleSelection;
-
+            _messageDialogService = messageDialogService;
             FileOpened = _fileOpened.AsObservable();
             FolderOpened = _folderOpened.AsObservable();
 
@@ -61,7 +64,8 @@ namespace Movere.ViewModels
 
             OpenItemCommand = ReactiveCommand.Create<FileSystemEntry>(ItemOpened);
 
-            CopyCommand = ReactiveCommand.Create(Copy);
+            CopyCommand = ReactiveCommand.Create(CopyAsync);
+            DeleteCommand = ReactiveCommand.Create(DeleteAsync);
 
             this.WhenAnyValue(vm => vm.Folder)
                 .Subscribe(CurrentFolderChanged);
@@ -97,6 +101,8 @@ namespace Movere.ViewModels
 
         public ICommand CopyCommand { get; }
 
+        public ICommand DeleteCommand { get; }
+
         public IObservable<File> FileOpened { get; }
 
         public IObservable<Folder> FolderOpened { get; }
@@ -122,7 +128,7 @@ namespace Movere.ViewModels
             }
         }
 
-        private Task Copy()
+        private Task CopyAsync()
         {
             var files = new string[SelectedItems.Count];
 
@@ -132,6 +138,26 @@ namespace Movere.ViewModels
             }
 
             return _clipboardService.SetFilesAsync(files);
+        }
+
+        private async Task DeleteAsync()
+        {
+            var result = await _messageDialogService.ShowMessageDialogAsync(
+                new MessageDialogOptions(
+                    $"{SelectedItems.Count} item(s) will be removed permanently. Continue?",
+                    "Delete items",
+                    DialogIcon.Warning,
+                    DialogResultSet.YesNo
+                )
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                foreach (var file in SelectedItems)
+                {
+                    await file.DeleteAsync();
+                }
+            }
         }
 
         private void CurrentFolderChanged(Folder? folder)

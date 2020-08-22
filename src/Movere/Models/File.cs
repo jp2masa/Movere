@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Movere.Models
 {
@@ -15,6 +16,12 @@ namespace Movere.Models
         public override string Name => _info.Name;
 
         public override string FullPath => _info.FullName;
+
+        public override Task DeleteAsync()
+        {
+            _info.Delete();
+            return Task.CompletedTask;
+        }
 
         public bool Equals(File other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
