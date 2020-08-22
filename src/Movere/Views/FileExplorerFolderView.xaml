@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:conv="clr-namespace:Movere.Converters"
              xmlns:m="clr-namespace:Movere.Models"
@@ -37,33 +38,21 @@
         </ListBox.ContextMenu>
         <ListBox.Styles>
             <Style Selector="ListBoxItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="Padding" Value="3" />
-                <Setter Property="Template">
-                    <ControlTemplate>
-                        <ContentPresenter Name="PART_ContentPresenter"
-                                          Background="{TemplateBinding Background}"
-                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          Padding="{TemplateBinding Padding}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
-                            <i:Interaction.Behaviors>
-                                <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                    <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
-                                                            CommandParameter="{Binding}" />
-                                </ia:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                        </ContentPresenter>
-                    </ControlTemplate>
+                <Setter Property="i:Interaction.Behaviors">
+                    <b:BehaviorFactoryBinding>
+                        <b:BehaviorCollectionTemplate>
+                            <b:BehaviorFactoryControl>
+                                <i:BehaviorCollection>
+                                    <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                        <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
+                                                                CommandParameter="{Binding}" />
+                                    </ia:EventTriggerBehavior>
+                                </i:BehaviorCollection>
+                            </b:BehaviorFactoryControl>
+                        </b:BehaviorCollectionTemplate>
+                    </b:BehaviorFactoryBinding>
                 </Setter>
-            </Style>
-            <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush}"/>
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="Padding" Value="2"/>
+                <Setter Property="Padding" Value="4" />
             </Style>
         </ListBox.Styles>
     </ListBox>
