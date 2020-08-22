@@ -11,6 +11,7 @@
         MinHeight="160"
         Width="800"
         Height="480"
+        Icon="{ReflectionBinding $self.Owner.Icon}"
         Title="{local:LocalizedString SaveFile}"
         WindowStartupLocation="CenterOwner">
 
