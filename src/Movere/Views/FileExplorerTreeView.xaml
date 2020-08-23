@@ -27,6 +27,8 @@
                         </MultiBinding>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Padding" Value="4" />
             </Style>
         </TreeView.Styles>
         <TreeView.ItemTemplate>
