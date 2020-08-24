@@ -7,7 +7,6 @@
     <PropertyGroup>
         <LangVersion>8.0</LangVersion>
         <Nullable>Enable</Nullable>
-        <NullableContextOptions>Enable</NullableContextOptions>
         <!--
             CA1062: validate arguments of public methods
                     justification: using nullable reference types, assume not null
