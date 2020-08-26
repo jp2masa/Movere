@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -20,6 +21,12 @@ namespace Movere.ViewModels
     {
         private static readonly IObservable<IFilter<FileSystemEntry>> DefaultFilterObservable =
             Observable.Return(Filter.True<FileSystemEntry>());
+
+        private static readonly IReadOnlyList<ItemsView> s_ItemsViews = new ItemsView[]
+        {
+            ItemsView.List,
+            ItemsView.Grid
+        };
 
         private readonly Subject<File> _fileOpened = new Subject<File>();
 
@@ -85,6 +92,9 @@ namespace Movere.ViewModels
         public FileExplorerTreeViewModel FileExplorerTree { get; }
 
         public FileExplorerFolderViewModel FileExplorerFolder { get; }
+
+        [SuppressMessage("Performance", "CA1822:Mark members as static")]
+        public IReadOnlyList<ItemsView> ItemsViews => s_ItemsViews;
 
         public string SearchText
         {
