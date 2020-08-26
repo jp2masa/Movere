@@ -52,6 +52,7 @@
                         </b:BehaviorCollectionTemplate>
                     </b:BehaviorFactoryBinding>
                 </Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="Padding" Value="4" />
             </Style>
         </ListBox.Styles>
