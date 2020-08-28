@@ -9,7 +9,7 @@ using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class OpenFileDialogService
+    public sealed class OpenFileDialogService : IOpenFileDialogService
     {
         private readonly Window _owner;
 

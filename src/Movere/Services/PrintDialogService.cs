@@ -9,7 +9,7 @@ using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class PrintDialogService
+    public sealed class PrintDialogService : IPrintDialogService
     {
         private readonly Window _owner;
 

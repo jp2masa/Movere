@@ -8,7 +8,7 @@ using SaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere.Services
 {
-    public sealed class SaveFileDialogService
+    public sealed class SaveFileDialogService : ISaveFileDialogService
     {
         private readonly Window _owner;
 

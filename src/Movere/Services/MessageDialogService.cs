@@ -8,7 +8,7 @@ using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class MessageDialogService
+    public sealed class MessageDialogService : IMessageDialogService
     {
         private readonly Window _owner;
 
@@ -17,7 +17,7 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public Task<IDialogResult> ShowMessageDialogAsync(MessageDialogOptions options)
+        public Task<IDialogResult?> ShowMessageDialogAsync(MessageDialogOptions options)
         {
             var dialog = new MessageDialog();
             var viewModel = new MessageDialogViewModel(options, dialog.Close);
