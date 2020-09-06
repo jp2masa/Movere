@@ -1,4 +1,5 @@
-﻿using Icon = System.Drawing.Icon;
+﻿using System.Runtime.InteropServices;
+using Icon = System.Drawing.Icon;
 
 using Avalonia.Media.Imaging;
 
@@ -11,6 +12,11 @@ namespace Movere.Services
 
         public IBitmap? GetFileIcon(string filePath)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return null;
+            }
+
             var icon = Icon.ExtractAssociatedIcon(filePath);
 
             if (icon == null)
