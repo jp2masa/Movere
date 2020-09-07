@@ -22,7 +22,7 @@ namespace Movere.Services
             var dialog = new SaveFileDialog();
 
             var viewModel = new SaveFileDialogViewModel(
-                dialog.Close,
+                new DialogView<SaveFileDialogResult>(dialog),
                 new MessageDialogService(dialog));
 
             dialog.DataContext = viewModel;

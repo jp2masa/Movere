@@ -14,19 +14,19 @@ namespace Movere.ViewModels
 {
     internal sealed class SaveFileDialogViewModel : ReactiveObject
     {
-        private readonly MessageDialogService _messageDialogService;
-        private readonly Action<SaveFileDialogResult> _closeAction;
+        private readonly IDialogView<SaveFileDialogResult> _view;
+        private readonly IMessageDialogService _messageDialogService;
 
         private string _fileName;
 
         public SaveFileDialogViewModel(
-            Action<SaveFileDialogResult> closeAction,
-            MessageDialogService messageDialogService,
+            IDialogView<SaveFileDialogResult> view,
+            IMessageDialogService messageDialogService,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
+            _view = view;
             _messageDialogService = messageDialogService;
-            _closeAction = closeAction;
 
             _fileName = String.Empty;
 
@@ -94,7 +94,7 @@ namespace Movere.ViewModels
 
         private void Cancel() => Close(new SaveFileDialogResult(null));
 
-        private void Close(SaveFileDialogResult result) => _closeAction(result);
+        private void Close(SaveFileDialogResult result) => _view.Close(result);
 
         private void SelectedItemChanged(FileSystemEntry? entry)
         {

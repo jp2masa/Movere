@@ -17,24 +17,24 @@ namespace Movere.ViewModels
 {
     internal sealed class OpenFileDialogViewModel : ReactiveObject
     {
-        private readonly Action<OpenFileDialogResult> _closeAction;
+        private readonly IDialogView<OpenFileDialogResult> _view;
 
         private string _fileName;
 
         private FileDialogFilterViewModel? _selectedFilter;
 
         public OpenFileDialogViewModel(
+            IDialogView<OpenFileDialogResult> view,
             bool allowMultipleSelection,
             IEnumerable<FileDialogFilter> filters,
             MessageDialogService messageDialogService,
-            Action<OpenFileDialogResult> closeAction,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)
         {
+            _view = view;
+
             Filters = filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
             SelectedFilter = Filters.FirstOrDefault();
-
-            _closeAction = closeAction;
 
             _fileName = String.Empty;
 
@@ -82,7 +82,7 @@ namespace Movere.ViewModels
 
         private void Cancel() => Close(new OpenFileDialogResult(Enumerable.Empty<string>()));
 
-        private void Close(OpenFileDialogResult result) => _closeAction(result);
+        private void Close(OpenFileDialogResult result) => _view.Close(result);
 
         private void SelectedItemChanged(FileSystemEntry? entry)
         {

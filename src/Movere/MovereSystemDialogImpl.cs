@@ -26,10 +26,10 @@ namespace Movere
                 var view = new MovereOpenFileDialog();
 
                 var viewModel = new OpenFileDialogViewModel(
+                    new DialogView<OpenFileDialogResult>(view),
                     openFileDialog.AllowMultiple,
                     dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
-                    new MessageDialogService(view),
-                    view.Close);
+                    new MessageDialogService(view));
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))
                 {
@@ -57,7 +57,7 @@ namespace Movere
                 var view = new MovereSaveFileDialog();
 
                 var viewModel = new SaveFileDialogViewModel(
-                    view.Close,
+                    new DialogView<SaveFileDialogResult>(view),
                     new MessageDialogService(view));
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))

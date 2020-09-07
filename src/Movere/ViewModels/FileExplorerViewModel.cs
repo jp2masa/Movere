@@ -39,7 +39,7 @@ namespace Movere.ViewModels
 
         public FileExplorerViewModel(
             bool allowMultipleSelection,
-            MessageDialogService messageDialogService,
+            IMessageDialogService messageDialogService,
             IObservable<IFilter<FileSystemEntry>>? filter = null,
             IFileIconProvider? fileIconProvider = null,
             IClipboardService? clipboardService = null)

@@ -23,10 +23,10 @@ namespace Movere.Services
             var dialog = new OpenFileDialog();
 
             var viewModel = new OpenFileDialogViewModel(
+                new DialogView<OpenFileDialogResult>(dialog),
                 allowMultipleSelection,
                 Enumerable.Empty<FileDialogFilter>(),
-                new MessageDialogService(dialog),
-                dialog.Close);
+                new MessageDialogService(dialog));
 
             dialog.DataContext = viewModel;
 

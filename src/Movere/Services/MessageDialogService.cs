@@ -20,7 +20,7 @@ namespace Movere.Services
         public Task<IDialogResult?> ShowMessageDialogAsync(MessageDialogOptions options)
         {
             var dialog = new MessageDialog();
-            var viewModel = new MessageDialogViewModel(options, dialog.Close);
+            var viewModel = new MessageDialogViewModel(new DialogView<IDialogResult>(dialog), options);
 
             dialog.DataContext = viewModel;
 
