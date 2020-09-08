@@ -6,6 +6,7 @@
         <AvaloniaXamlBehaviorsVersion>0.10.0-preview5</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisFxCopAnalyzersVersion>3.3.0</MicrosoftCodeAnalysisFxCopAnalyzersVersion>
         <ReactiveUIVersion>11.5.35</ReactiveUIVersion>
+        <SystemCollectionsImmutableVersion>1.7.1</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>4.7.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
@@ -18,6 +19,7 @@
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(MicrosoftCodeAnalysisFxCopAnalyzersVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
+        <PackageReference Update="System.Collections.Immutable" Version="$(SystemCollectionsImmutableVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
     </ItemGroup>
 

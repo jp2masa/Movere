@@ -4,4 +4,6 @@
     
     <Import Project="PackageProperties.props" />
 
+    <Import Project="AvaloniaDiagnostics.props" Condition="'$(EnableAvaloniaDiagnostics)' == 'True'" />
+
 </Project>

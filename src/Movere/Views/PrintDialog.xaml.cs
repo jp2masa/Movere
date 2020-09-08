@@ -11,7 +11,7 @@ namespace Movere.Views
         public PrintDialog()
         {
             InitializeComponent();
-#if DEBUG
+#if AVALONIA_DIAGNOSTICS
             this.AttachDevTools();
 #endif
         }
