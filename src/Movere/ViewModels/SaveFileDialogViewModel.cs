@@ -17,7 +17,7 @@ namespace Movere.ViewModels
         private readonly IDialogView<SaveFileDialogResult> _view;
         private readonly IMessageDialogService _messageDialogService;
 
-        private string _fileName;
+        private string _fileName = String.Empty;
 
         public SaveFileDialogViewModel(
             IDialogView<SaveFileDialogResult> view,
@@ -27,8 +27,6 @@ namespace Movere.ViewModels
         {
             _view = view;
             _messageDialogService = messageDialogService;
-
-            _fileName = String.Empty;
 
             FileExplorer = new FileExplorerViewModel(false, messageDialogService, null, fileIconProvider, clipboardService);
 
