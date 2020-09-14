@@ -11,7 +11,7 @@
     </c:ItemsControlView.Resources>
     <c:ItemsControlView.PanelTemplate>
         <ItemsPanelTemplate>
-            <UniformGrid Columns="5" />
+            <WrapPanel ItemWidth="96" />
         </ItemsPanelTemplate>
     </c:ItemsControlView.PanelTemplate>
     <c:ItemsControlView.DataTemplates>
