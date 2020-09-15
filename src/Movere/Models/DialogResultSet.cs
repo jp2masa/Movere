@@ -4,16 +4,16 @@ namespace Movere.Models
 {
     public static class DialogResultSet
     {
-        public static IReadOnlyList<IDialogResult> AbortRetryIgnore { get; } = new IDialogResult[] { DialogResult.Abort, DialogResult.Retry, DialogResult.Ignore };
+        public static IReadOnlyList<DialogResult> AbortRetryIgnore { get; } = new DialogResult[] { DialogResult.Abort, DialogResult.Retry, DialogResult.Ignore };
 
-        public static IReadOnlyList<IDialogResult> OK { get; } = new IDialogResult[] { DialogResult.OK };
+        public static IReadOnlyList<DialogResult> OK { get; } = new DialogResult[] { DialogResult.OK };
 
-        public static IReadOnlyList<IDialogResult> OKCancel { get; } = new IDialogResult[] { DialogResult.OK, DialogResult.Cancel };
+        public static IReadOnlyList<DialogResult> OKCancel { get; } = new DialogResult[] { DialogResult.OK, DialogResult.Cancel };
 
-        public static IReadOnlyList<IDialogResult> RetryCancel { get; } = new IDialogResult[] { DialogResult.Retry, DialogResult.Cancel };
+        public static IReadOnlyList<DialogResult> RetryCancel { get; } = new DialogResult[] { DialogResult.Retry, DialogResult.Cancel };
 
-        public static IReadOnlyList<IDialogResult> YesNo { get; } = new IDialogResult[] { DialogResult.Yes, DialogResult.No };
+        public static IReadOnlyList<DialogResult> YesNo { get; } = new DialogResult[] { DialogResult.Yes, DialogResult.No };
 
-        public static IReadOnlyList<IDialogResult> YesNoCancel { get; } = new IDialogResult[] { DialogResult.Yes, DialogResult.No, DialogResult.Cancel };
+        public static IReadOnlyList<DialogResult> YesNoCancel { get; } = new DialogResult[] { DialogResult.Yes, DialogResult.No, DialogResult.Cancel };
     }
 }

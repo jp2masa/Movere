@@ -12,17 +12,17 @@ namespace Movere.ViewModels
 {
     internal sealed class MessageDialogViewModel
     {
-        private readonly IDialogView<IDialogResult> _view;
+        private readonly IDialogView<DialogResult> _view;
 
         private readonly MessageDialogOptions _options;
 
-        public MessageDialogViewModel(IDialogView<IDialogResult> view, MessageDialogOptions options)
+        public MessageDialogViewModel(IDialogView<DialogResult> view, MessageDialogOptions options)
         {
             _view = view;
 
             _options = options;
 
-            CloseCommand = ReactiveCommand.Create<IDialogResult>(Close);
+            CloseCommand = ReactiveCommand.Create<DialogResult>(Close);
         }
 
         public IBitmap? Icon => _options.Icon.LoadIcon();
@@ -31,10 +31,10 @@ namespace Movere.ViewModels
 
         public string Message => _options.Message;
 
-        public IReadOnlyList<IDialogResult> DialogResults => _options.DialogResults;
+        public IReadOnlyList<DialogResult> DialogResults => _options.DialogResults;
 
         public ICommand CloseCommand { get; }
 
-        private void Close(IDialogResult result) => _view.Close(result);
+        private void Close(DialogResult result) => _view.Close(result);
     }
 }

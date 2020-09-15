@@ -8,7 +8,7 @@ namespace Movere.Models
             string message,
             string title = "Message",
             IDialogIcon? icon = null,
-            IReadOnlyList<IDialogResult>? dialogResults = null)
+            IReadOnlyList<DialogResult>? dialogResults = null)
         {
             Message = message;
             Title = title;
@@ -24,6 +24,6 @@ namespace Movere.Models
 
         public IDialogIcon Icon { get; }
 
-        public IReadOnlyList<IDialogResult> DialogResults { get; }
+        public IReadOnlyList<DialogResult> DialogResults { get; }
     }
 }

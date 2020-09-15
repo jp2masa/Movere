@@ -6,6 +6,6 @@ namespace Movere.Services
 {
     public interface IMessageDialogService
     {
-        Task<IDialogResult?> ShowMessageDialogAsync(MessageDialogOptions options);
+        Task<DialogResult?> ShowMessageDialogAsync(MessageDialogOptions options);
     }
 }

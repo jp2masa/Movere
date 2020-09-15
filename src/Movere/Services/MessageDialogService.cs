@@ -17,14 +17,14 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public Task<IDialogResult?> ShowMessageDialogAsync(MessageDialogOptions options)
+        public Task<DialogResult?> ShowMessageDialogAsync(MessageDialogOptions options)
         {
             var dialog = new MessageDialog();
-            var viewModel = new MessageDialogViewModel(new DialogView<IDialogResult>(dialog), options);
+            var viewModel = new MessageDialogViewModel(new DialogView<DialogResult>(dialog), options);
 
             dialog.DataContext = viewModel;
 
-            return dialog.ShowDialog<IDialogResult>(_owner);
+            return dialog.ShowDialog<DialogResult?>(_owner);
         }
     }
 }

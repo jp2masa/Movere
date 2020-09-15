@@ -4,17 +4,17 @@ using Movere.Resources;
 
 namespace Movere.Models
 {
-    public sealed class DialogResult : IDialogResult
+    public sealed class DialogResult
     {
-        public static IDialogResult OK { get; } = new DialogResult(LocalizedName(nameof(Strings.OK)));
-        public static IDialogResult Cancel { get; } = new DialogResult(LocalizedName(nameof(Strings.Cancel)));
+        public static DialogResult OK { get; } = FromResource(nameof(Strings.OK));
+        public static DialogResult Cancel { get; } = FromResource(nameof(Strings.Cancel));
 
-        public static IDialogResult Yes { get; } = new DialogResult(LocalizedName(nameof(Strings.Yes)));
-        public static IDialogResult No { get; } = new DialogResult(LocalizedName(nameof(Strings.No)));
+        public static DialogResult Yes { get; } = FromResource(nameof(Strings.Yes));
+        public static DialogResult No { get; } = FromResource(nameof(Strings.No));
 
-        public static IDialogResult Abort { get; } = new DialogResult(LocalizedName(nameof(Strings.Abort)));
-        public static IDialogResult Retry { get; } = new DialogResult(LocalizedName(nameof(Strings.Retry)));
-        public static IDialogResult Ignore { get; } = new DialogResult(LocalizedName(nameof(Strings.Ignore)));
+        public static DialogResult Abort { get; } = FromResource(nameof(Strings.Abort));
+        public static DialogResult Retry { get; } = FromResource(nameof(Strings.Retry));
+        public static DialogResult Ignore { get; } = FromResource(nameof(Strings.Ignore));
 
         private readonly LocalizedString _name;
 
@@ -25,6 +25,9 @@ namespace Movere.Models
 
         [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
         public string Name => _name.GetString();
+
+        private static DialogResult FromResource(string name) =>
+            new DialogResult(LocalizedName(name));
 
         private static LocalizedString LocalizedName(string resourceName) =>
             new LocalizedString(Strings.ResourceManager, resourceName);
