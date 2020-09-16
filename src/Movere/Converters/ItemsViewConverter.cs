@@ -11,7 +11,7 @@ namespace Movere.Converters
 {
     internal sealed class ItemsViewConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is ItemsView view && targetType == typeof(ItemsControlView) && parameter is ResourceDictionary resources)
             {
