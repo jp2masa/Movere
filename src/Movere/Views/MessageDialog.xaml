@@ -1,5 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:flex="clr-namespace:Avalonia.Flexbox;assembly=Avalonia.Flexbox"
         xmlns:conv="clr-namespace:Movere.Converters"
         xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.MessageDialog"
@@ -25,13 +26,14 @@
                       Items="{Binding DialogResults}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <flex:FlexPanel ColumnSpacing="8"
+                                    RowSpacing="8"
+                                    JustifyContent="FlexEnd" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Margin="4"
-                            Content="{Binding Name}"
+                    <Button Content="{Binding Name}"
                             Command="{ReflectionBinding $parent[Window].DataContext.CloseCommand}"
                             CommandParameter="{Binding}"
                             IsCancel="{Binding, Converter={StaticResource DialogResultIsCancelConverter}}" />

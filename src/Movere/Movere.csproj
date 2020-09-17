@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" />
+        <PackageReference Include="Avalonia.Flexbox" />
         <PackageReference Include="Avalonia.ReactiveUI" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" />
         <PackageReference Include="ReactiveUI" />
