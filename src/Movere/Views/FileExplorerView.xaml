@@ -11,18 +11,6 @@
              x:CompileBindings="True"
              x:DataType="vm:FileExplorerViewModel">
 
-    <UserControl.DataTemplates>
-        <DataTemplate DataType="vm:FileExplorerAddressBarViewModel">
-            <v:FileExplorerAddressBarView DataContext="{Binding}" />
-        </DataTemplate>
-        <DataTemplate DataType="vm:FileExplorerTreeViewModel">
-            <v:FileExplorerTreeView DataContext="{Binding}" />
-        </DataTemplate>
-        <DataTemplate DataType="vm:FileExplorerFolderViewModel">
-            <v:FileExplorerFolderView DataContext="{Binding}" />
-        </DataTemplate>
-    </UserControl.DataTemplates>
-
     <i:Interaction.Behaviors>
         <b:PointerPressedTriggerBehavior PointerUpdateKind="XButton1Pressed">
             <ia:InvokeCommandAction Command="{Binding NavigateBackCommand}" />

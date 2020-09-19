@@ -19,7 +19,7 @@ namespace Movere.Services
 
         public Task<SaveFileDialogResult> ShowDialogAsync()
         {
-            var dialog = new SaveFileDialog();
+            var dialog = new SaveFileDialog() { DataTemplates = { ViewResolver.Default } };
 
             var viewModel = new SaveFileDialogViewModel(
                 new DialogView<SaveFileDialogResult>(dialog),

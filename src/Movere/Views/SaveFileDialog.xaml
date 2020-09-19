@@ -15,12 +15,6 @@
         Title="{local:LocalizedString SaveFile}"
         WindowStartupLocation="CenterOwner">
 
-    <Window.DataTemplates>
-        <DataTemplate DataType="vm:FileExplorerViewModel">
-            <v:FileExplorerView DataContext="{Binding}" />
-        </DataTemplate>
-    </Window.DataTemplates>
-
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom"

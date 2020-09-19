@@ -23,7 +23,7 @@ namespace Movere
         {
             if (dialog is OpenFileDialog openFileDialog)
             {
-                var view = new MovereOpenFileDialog();
+                var view = new MovereOpenFileDialog() { DataTemplates = { ViewResolver.Default } };
 
                 var viewModel = new OpenFileDialogViewModel(
                     new DialogView<OpenFileDialogResult>(view),
@@ -54,7 +54,7 @@ namespace Movere
 
             if (dialog is SaveFileDialog saveFileDialog)
             {
-                var view = new MovereSaveFileDialog();
+                var view = new MovereSaveFileDialog() { DataTemplates = { ViewResolver.Default } };
 
                 var viewModel = new SaveFileDialogViewModel(
                     new DialogView<SaveFileDialogResult>(view),

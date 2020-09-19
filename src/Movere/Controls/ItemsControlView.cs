@@ -3,7 +3,9 @@
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
 
 namespace Movere.Controls
 {
@@ -59,12 +61,20 @@ namespace Movere.Controls
             sender.DataTemplates.Clear();
             sender.DataTemplates.AddRange(view.DataTemplates);
 
-            var template = sender.Template;
+            var template = sender.GetBaseValue(TemplatedControl.TemplateProperty, BindingPriority.LocalValue);
 
-            sender.Template = null;
+            sender.SetValue(TemplatedControl.TemplateProperty, null);
             sender.ApplyTemplate();
 
-            sender.Template = template;
+            if (template.HasValue)
+            {
+                sender.SetValue(TemplatedControl.TemplateProperty, template.Value);
+            }
+            else
+            {
+                sender.ClearValue(TemplatedControl.TemplateProperty);
+            }
+
             sender.ApplyTemplate();
         }
     }

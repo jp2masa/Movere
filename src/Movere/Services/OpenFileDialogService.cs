@@ -20,7 +20,7 @@ namespace Movere.Services
 
         public Task<OpenFileDialogResult> ShowDialogAsync(bool allowMultipleSelection = false)
         {
-            var dialog = new OpenFileDialog();
+            var dialog = new OpenFileDialog() { DataTemplates = { ViewResolver.Default } };
 
             var viewModel = new OpenFileDialogViewModel(
                 new DialogView<OpenFileDialogResult>(dialog),

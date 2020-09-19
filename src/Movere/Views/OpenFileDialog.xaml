@@ -15,12 +15,6 @@
         Title="{local:LocalizedString OpenFile}"
         WindowStartupLocation="CenterOwner">
 
-    <Window.DataTemplates>
-        <DataTemplate DataType="vm:FileExplorerViewModel">
-            <v:FileExplorerView DataContext="{Binding}" />
-        </DataTemplate>
-    </Window.DataTemplates>
-
     <DockPanel>
 
         <StackPanel DockPanel.Dock="Bottom"
