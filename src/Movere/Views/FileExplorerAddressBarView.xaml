@@ -13,7 +13,7 @@
              BorderBrush="{DynamicResource ThemeBorderMidBrush}" 
              BorderThickness="{DynamicResource ThemeBorderThickness}">
 
-    <c:OverlappedItemsPanel Background="Transparent">
+    <Panel Background="Transparent">
         <i:Interaction.Behaviors>
             <b:PointerPressedTriggerBehavior PointerUpdateKind="LeftButtonPressed">
                 <ia:ChangePropertyAction TargetObject="{Binding}"
@@ -85,6 +85,6 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-    </c:OverlappedItemsPanel>
+    </Panel>
 
 </UserControl>
