@@ -14,15 +14,6 @@
              BorderThickness="{DynamicResource ThemeBorderThickness}">
 
     <Panel Background="Transparent">
-        <i:Interaction.Behaviors>
-            <b:PointerPressedTriggerBehavior PointerUpdateKind="LeftButtonPressed">
-                <ia:ChangePropertyAction TargetObject="{Binding}"
-                                         PropertyName="IsEditing"
-                                         Value="True" />
-                <b:FocusAction Control="{ReflectionBinding #AddressTextBox}" />
-                <b:TextBoxSelectAllAction TextBox="{ReflectionBinding #AddressTextBox}" />
-            </b:PointerPressedTriggerBehavior>
-        </i:Interaction.Behaviors>
 
         <TextBox x:Name="AddressTextBox"
                  BorderThickness="0"
@@ -41,49 +32,68 @@
             </TextBox.KeyBindings>
         </TextBox>
 
-        <ItemsControl IsVisible="{Binding !IsEditing}"
-                      Items="{Binding AddressSegments}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <c:BreadcrumbPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Styles>
-                            <Style Selector="Button.btn-address-bar">
-                                <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Padding" Value="2,4" />
-                                <Setter Property="VerticalAlignment" Value="Stretch" />
-                                <Setter Property="VerticalContentAlignment" Value="Center" />
-                            </Style>
-                        </StackPanel.Styles>
-                        <Button Classes="btn-address-bar transparent"
-                                Content="{Binding Name}"
-                                Command="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}"
-                                CommandParameter="{Binding Address}" />
-                        <Button x:Name="PopupButton"
-                                Classes="btn-address-bar transparent"
-                                Content="»"
-                                Command="{Binding OpenPopupCommand}" />
-                        <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
-                               IsLightDismissEnabled="True"
-                               IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
-                            <ContextMenu Items="{Binding Children}">
-                                <ContextMenu.Styles>
-                                    <Style Selector="MenuItem">
-                                        <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />
-                                        <Setter Property="CommandParameter" Value="{Binding Address}" />
-                                        <Setter Property="Header" Value="{Binding Name}" />
-                                    </Style>
-                                </ContextMenu.Styles>
-                            </ContextMenu>
-                        </Popup>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <DockPanel>
+
+            <ItemsControl DockPanel.Dock="Left"
+                          HorizontalAlignment="Left"
+                          IsVisible="{Binding !IsEditing}"
+                          Items="{Binding AddressSegments}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <c:BreadcrumbPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Styles>
+                                <Style Selector="Button.btn-address-bar">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Padding" Value="2,4" />
+                                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                </Style>
+                            </StackPanel.Styles>
+                            <Button Classes="btn-address-bar transparent"
+                                    Content="{Binding Name}"
+                                    Command="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}"
+                                    CommandParameter="{Binding Address}" />
+                            <Button x:Name="PopupButton"
+                                    Classes="btn-address-bar transparent"
+                                    Content="»"
+                                    Command="{Binding OpenPopupCommand}" />
+                            <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
+                                   IsLightDismissEnabled="True"
+                                   IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
+                                <ContextMenu Items="{Binding Children}">
+                                    <ContextMenu.Styles>
+                                        <Style Selector="MenuItem">
+                                            <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />
+                                            <Setter Property="CommandParameter" Value="{Binding Address}" />
+                                            <Setter Property="Header" Value="{Binding Name}" />
+                                        </Style>
+                                    </ContextMenu.Styles>
+                                </ContextMenu>
+                            </Popup>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Border Background="Transparent"
+                    HorizontalAlignment="Stretch">
+                <i:Interaction.Behaviors>
+                    <b:PointerPressedTriggerBehavior PointerUpdateKind="LeftButtonPressed">
+                        <ia:ChangePropertyAction TargetObject="{Binding}"
+                                                 PropertyName="IsEditing"
+                                                 Value="True" />
+                        <b:FocusAction Control="{ReflectionBinding #AddressTextBox}" />
+                        <b:TextBoxSelectAllAction TextBox="{ReflectionBinding #AddressTextBox}" />
+                    </b:PointerPressedTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Border>
+
+        </DockPanel>
 
     </Panel>
 
