@@ -153,10 +153,7 @@ namespace Movere.ViewModels
 
             if (result == DialogResult.Yes)
             {
-                foreach (var file in SelectedItems)
-                {
-                    await file.DeleteAsync();
-                }
+                await Task.WhenAll(SelectedItems.Select(x => x.DeleteAsync()));
             }
         }
 
