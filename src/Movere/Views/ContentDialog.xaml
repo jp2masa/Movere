@@ -1,0 +1,46 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:flex="clr-namespace:Avalonia.Flexbox;assembly=Avalonia.Flexbox"
+        xmlns:local="clr-namespace:Movere"
+        xmlns:conv="clr-namespace:Movere.Converters"
+        xmlns:vm="clr-namespace:Movere.ViewModels"
+        x:Class="Movere.Views.ContentDialog"
+        x:CompileBindings="True"
+        x:DataType="vm:ContentDialogViewModel"
+        local:WindowExtensions.EnableWin32DialogModalFrame="True"
+        CanResize="False"
+        MinWidth="256"
+        MinHeight="96"
+        MaxWidth="512"
+        MaxHeight="256"
+        SizeToContent="WidthAndHeight"
+        Title="{Binding Title}"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner">
+
+    <DockPanel Margin="4">
+
+        <ItemsControl DockPanel.Dock="Bottom"
+                      Margin="4"
+                      Items="{Binding DialogResults}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <flex:FlexPanel ColumnSpacing="8"
+                                    RowSpacing="8"
+                                    JustifyContent="FlexEnd" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Name}"
+                            Command="{ReflectionBinding $parent[Window].DataContext.CloseCommand}"
+                            CommandParameter="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ContentControl Content="{Binding Content}" />
+
+    </DockPanel>
+
+</Window>
