@@ -20,4 +20,10 @@ namespace Movere.Models
 
         public IReadOnlyList<DialogResult> DialogResults { get; }
     }
+
+    public static class ContentDialogOptions
+    {
+        public static ContentDialogOptions<TContent> Create<TContent>(string title, TContent content, IReadOnlyList<DialogResult>? dialogResults = null) =>
+            new ContentDialogOptions<TContent>(title, content, dialogResults);
+    }
 }
