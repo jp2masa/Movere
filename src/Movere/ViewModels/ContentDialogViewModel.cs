@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
 
 using ReactiveUI;
 
@@ -23,6 +24,8 @@ namespace Movere.ViewModels
             Content = content;
 
             DialogResults = dialogResults;
+
+            CloseCommand = ReactiveCommand.Create<DialogResult>(_view.Close);
         }
 
         public string Title { get; }
@@ -30,5 +33,7 @@ namespace Movere.ViewModels
         public object Content { get; }
 
         public IReadOnlyList<DialogResult> DialogResults { get; }
+
+        public ICommand CloseCommand { get; }
     }
 }

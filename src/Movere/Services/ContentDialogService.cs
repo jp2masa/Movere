@@ -26,7 +26,7 @@ namespace Movere.Services
             var dialog = new ContentDialog() { DataTemplates = { _viewResolver } };
 
             var viewModel = new ContentDialogViewModel(
-                new DialogView<DialogResult>(_owner),
+                new DialogView<DialogResult>(dialog),
                 options.Title,
                 options.Content,
                 options.DialogResults);
