@@ -14,11 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" />
-        <!--<PackageReference Include="Avalonia.Skia.Linux.Natives" />-->
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\src\Movere\Movere.csproj" />
     </ItemGroup>
 
