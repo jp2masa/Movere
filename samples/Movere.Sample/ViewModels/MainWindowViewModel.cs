@@ -14,6 +14,7 @@ namespace Movere.Sample.ViewModels
     internal class MainWindowViewModel : ReactiveObject
     {
         private readonly MessageDialogService _messageDialogService;
+        private readonly ContentDialogService<CustomContentViewModel> _contentDialogService;
 
         private readonly OpenFileDialogService _openFileDialogService;
         private readonly SaveFileDialogService _saveFileDialogService;
@@ -21,16 +22,19 @@ namespace Movere.Sample.ViewModels
         private readonly PrintDialogService _printDialogService;
 
         private string _messageDialogResult = "Not opened yet";
+        private string _contentDialogResult = "Not opened yet";
 
         public MainWindowViewModel(
             Func<Task> avaloniaOpenFile,
             Func<Task> avaloniaSaveFile,
             MessageDialogService messageDialogService,
+            ContentDialogService<CustomContentViewModel> contentDialogService,
             OpenFileDialogService openFileDialogService,
             SaveFileDialogService saveFileDialogService,
             PrintDialogService printDialogService)
         {
             _messageDialogService = messageDialogService;
+            _contentDialogService = contentDialogService;
 
             _openFileDialogService = openFileDialogService;
             _saveFileDialogService = saveFileDialogService;
@@ -38,6 +42,7 @@ namespace Movere.Sample.ViewModels
             _printDialogService = printDialogService;
 
             ShowMessageCommand = ReactiveCommand.Create(ShowMessageAsync);
+            ShowCustomContentCommand = ReactiveCommand.Create(ShowCustomContentAsync);
 
             OpenFileCommand = ReactiveCommand.Create(OpenFileAsync);
             SaveFileCommand = ReactiveCommand.Create(SaveFileAsync);
@@ -54,7 +59,15 @@ namespace Movere.Sample.ViewModels
             set => this.RaiseAndSetIfChanged(ref _messageDialogResult, value);
         }
 
+        public string ContentDialogResult
+        {
+            get => _contentDialogResult;
+            set => this.RaiseAndSetIfChanged(ref _contentDialogResult, value);
+        }
+
         public ICommand ShowMessageCommand { get; }
+
+        public ICommand ShowCustomContentCommand { get; }
 
         public ICommand OpenFileCommand { get; }
 
@@ -78,6 +91,22 @@ namespace Movere.Sample.ViewModels
                     "Message Dialog",
                     DialogIcon.Error,
                     DialogResultSet.AbortRetryIgnore)))?.Name ?? "null";
+
+        private async Task ShowCustomContentAsync()
+        {
+            var id = new FieldViewModel("ID");
+            var firstName = new FieldViewModel("First Name");
+            var lastName = new FieldViewModel("Last Name");
+
+            await _contentDialogService.ShowDialogAsync(
+                ContentDialogOptions.Create(
+                    "Custom content",
+                    new CustomContentViewModel(new FieldViewModel[] { id, firstName, lastName })
+                )
+            );
+
+            ContentDialogResult = $"ID: {id.Value}, First Name: {firstName.Value}, Last Name: {lastName.Value}";
+        }
 
         private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);
 

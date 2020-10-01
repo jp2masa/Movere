@@ -25,6 +25,9 @@
             <Button Content="{Binding MessageDialogResult, StringFormat=Show Message (Last result: {0})}"
                     Command="{Binding ShowMessageCommand}" />
 
+            <Button Content="{Binding ContentDialogResult, StringFormat=Show Custom Content (Last result: {0})}"
+                    Command="{Binding ShowCustomContentCommand}" />
+
             <Button Content="Open File"
                     Command="{Binding OpenFileCommand}" />
 

@@ -28,6 +28,10 @@ namespace Movere.Sample
 
                 var messageDialogService = new MessageDialogService(mainWindow);
 
+                var contentDialogService = new ContentDialogService<CustomContentViewModel>(
+                    mainWindow,
+                    new CustomContentViewResolver());
+
                 var openFileDialogService = new OpenFileDialogService(mainWindow);
                 var saveFileDialogService = new SaveFileDialogService(mainWindow);
 
@@ -37,6 +41,7 @@ namespace Movere.Sample
                     () => AvaloniaOpenFile(mainWindow),
                     () => AvaloniaSaveFile(mainWindow),
                     messageDialogService,
+                    contentDialogService,
                     openFileDialogService,
                     saveFileDialogService,
                     printDialogService);
