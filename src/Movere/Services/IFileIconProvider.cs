@@ -4,6 +4,6 @@ namespace Movere.Services
 {
     public interface IFileIconProvider
     {
-        IBitmap? GetFileIcon(string extension);
+        IBitmap? GetFileIcon(string filePath);
     }
 }
