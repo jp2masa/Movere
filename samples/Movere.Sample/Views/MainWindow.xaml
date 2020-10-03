@@ -25,7 +25,7 @@
             <Button Content="{Binding MessageDialogResult, StringFormat=Show Message (Last result: {0})}"
                     Command="{Binding ShowMessageCommand}" />
 
-            <Button Content="{Binding ContentDialogResult, StringFormat=Show Custom Content (Last result: {0})}"
+            <Button Content="Show Custom Content"
                     Command="{Binding ShowCustomContentCommand}" />
 
             <Button Content="Open File"
@@ -42,6 +42,10 @@
 
             <Button Content="Avalonia Save File"
                     Command="{Binding AvaloniaSaveFileCommand}" />
+
+            <TextBlock Text="Custom content dialog result:" />
+
+            <TextBlock Text="{Binding ContentDialogResult}" />
 
         </StackPanel>
 

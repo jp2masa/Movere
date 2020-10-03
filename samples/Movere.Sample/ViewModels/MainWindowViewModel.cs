@@ -98,14 +98,15 @@ namespace Movere.Sample.ViewModels
             var firstName = new FieldViewModel("First Name");
             var lastName = new FieldViewModel("Last Name");
 
-            await _contentDialogService.ShowDialogAsync(
+            var result = await _contentDialogService.ShowDialogAsync(
                 ContentDialogOptions.Create(
                     "Custom content",
-                    new CustomContentViewModel(new FieldViewModel[] { id, firstName, lastName })
+                    new CustomContentViewModel(new FieldViewModel[] { id, firstName, lastName }),
+                    DialogResultSet.OKCancel
                 )
             );
 
-            ContentDialogResult = $"ID: {id.Value}, First Name: {firstName.Value}, Last Name: {lastName.Value}";
+            ContentDialogResult = $"Result: {result.Name}    ID: {id.Value}    First Name: {firstName.Value}    Last Name: {lastName.Value}";
         }
 
         private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);
