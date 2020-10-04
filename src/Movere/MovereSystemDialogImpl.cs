@@ -27,9 +27,11 @@ namespace Movere
 
                 var viewModel = new OpenFileDialogViewModel(
                     new DialogView<OpenFileDialogResult>(view),
+                    ClipboardService.Instance,
+                    DefaultFileIconProvider.Instance,
+                    new MessageDialogService(view),
                     openFileDialog.AllowMultiple,
-                    dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
-                    new MessageDialogService(view));
+                    dialog.Filters.Select(ConvertFilter).ToImmutableArray());
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))
                 {
@@ -58,6 +60,8 @@ namespace Movere
 
                 var viewModel = new SaveFileDialogViewModel(
                     new DialogView<SaveFileDialogResult>(view),
+                    ClipboardService.Instance,
+                    DefaultFileIconProvider.Instance,
                     new MessageDialogService(view));
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))

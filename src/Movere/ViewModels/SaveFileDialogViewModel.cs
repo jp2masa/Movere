@@ -21,14 +21,14 @@ namespace Movere.ViewModels
 
         public SaveFileDialogViewModel(
             IDialogView<SaveFileDialogResult> view,
-            IMessageDialogService messageDialogService,
-            IFileIconProvider? fileIconProvider = null,
-            IClipboardService? clipboardService = null)
+            IClipboardService clipboard,
+            IFileIconProvider fileIconProvider,
+            IMessageDialogService messageDialogService)
         {
             _view = view;
             _messageDialogService = messageDialogService;
 
-            FileExplorer = new FileExplorerViewModel(false, messageDialogService, null, fileIconProvider, clipboardService);
+            FileExplorer = new FileExplorerViewModel(false, messageDialogService, null, fileIconProvider, clipboard);
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);

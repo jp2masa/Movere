@@ -23,6 +23,8 @@ namespace Movere.Services
 
             var viewModel = new SaveFileDialogViewModel(
                 new DialogView<SaveFileDialogResult>(dialog),
+                ClipboardService.Instance,
+                DefaultFileIconProvider.Instance,
                 new MessageDialogService(dialog));
 
             dialog.DataContext = viewModel;
