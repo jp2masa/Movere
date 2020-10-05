@@ -38,11 +38,11 @@ namespace Movere.ViewModels
         private Folder _currentFolder;
 
         public FileExplorerViewModel(
-            bool allowMultipleSelection,
+            IClipboardService clipboard,
+            IFileIconProvider fileIconProvider,
             IMessageDialogService messageDialogService,
-            IObservable<IFilter<FileSystemEntry>>? filter = null,
-            IFileIconProvider? fileIconProvider = null,
-            IClipboardService? clipboardService = null)
+            bool allowMultipleSelection,
+            IObservable<IFilter<FileSystemEntry>>? filter = null)
         {
             _currentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
@@ -60,7 +60,7 @@ namespace Movere.ViewModels
             filter = Observable.CombineLatest(filter, searchTextFilter, (f, s) => f.And(s));
 
             FileExplorerFolder = new FileExplorerFolderViewModel(
-                allowMultipleSelection, messageDialogService, filter, fileIconProvider, clipboardService);
+                allowMultipleSelection, messageDialogService, filter, fileIconProvider, clipboard);
 
             FileOpened = _fileOpened.AsObservable();
 

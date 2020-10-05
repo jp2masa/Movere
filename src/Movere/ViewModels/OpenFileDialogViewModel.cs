@@ -40,7 +40,7 @@ namespace Movere.ViewModels
 
             var filter = this.WhenAnyValue(vm => vm.SelectedFilter).Select(vm => vm?.Filter).Select(Filter.FileDialog.Matches);
 
-            FileExplorer = new FileExplorerViewModel(allowMultipleSelection, messageDialogService, filter, fileIconProvider, clipboard);
+            FileExplorer = new FileExplorerViewModel(clipboard, fileIconProvider, messageDialogService, allowMultipleSelection, filter);
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);

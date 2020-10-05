@@ -28,7 +28,7 @@ namespace Movere.ViewModels
             _view = view;
             _messageDialogService = messageDialogService;
 
-            FileExplorer = new FileExplorerViewModel(false, messageDialogService, null, fileIconProvider, clipboard);
+            FileExplorer = new FileExplorerViewModel(clipboard, fileIconProvider, messageDialogService, allowMultipleSelection: false);
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);
