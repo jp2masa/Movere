@@ -20,10 +20,8 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
     {
+        private readonly IClipboardService _clipboard;
         private readonly IMessageDialogService _messageDialogService;
-
-        private readonly IFileIconProvider _fileIconProvider;
-        private readonly IClipboardService _clipboardService;
 
         private readonly SourceList<FileSystemEntry> _entries = new SourceList<FileSystemEntry>();
         private readonly ReadOnlyObservableCollection<FileSystemEntry> _items;
@@ -40,17 +38,19 @@ namespace Movere.ViewModels
         private FileSystemEntry? _selectedItem;
 
         public FileExplorerFolderViewModel(
-            bool allowMultipleSelection,
+            IClipboardService clipboard,
+            IFileIconProvider fileIconProvider,
             IMessageDialogService messageDialogService,
-            IObservable<IFilter<FileSystemEntry>>? filter = null,
-            IFileIconProvider? fileIconProvider = null,
-            IClipboardService? clipboardService = null)
+            bool allowMultipleSelection,
+            IObservable<IFilter<FileSystemEntry>>? filter = null)
         {
-            _fileIconProvider = fileIconProvider ?? DefaultFileIconProvider.Instance;
-            _clipboardService = clipboardService ?? ClipboardService.Instance;
+            _clipboard = clipboard;
+            _messageDialogService = messageDialogService;
+
+            FileIconProvider = fileIconProvider;
 
             AllowMultipleSelection = allowMultipleSelection;
-            _messageDialogService = messageDialogService;
+
             FileOpened = _fileOpened.AsObservable();
             FolderOpened = _folderOpened.AsObservable();
 
@@ -72,7 +72,7 @@ namespace Movere.ViewModels
                 .Subscribe(CurrentFolderChanged);
         }
 
-        public IFileIconProvider FileIconProvider => _fileIconProvider;
+        public IFileIconProvider FileIconProvider { get; }
 
         public ItemsView ItemsView
         {
@@ -138,7 +138,7 @@ namespace Movere.ViewModels
                 files[i] = SelectedItems[i].FullPath;
             }
 
-            return _clipboardService.SetFilesAsync(files);
+            return _clipboard.SetFilesAsync(files);
         }
 
         private async Task DeleteAsync()

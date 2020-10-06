@@ -60,7 +60,7 @@ namespace Movere.ViewModels
             filter = Observable.CombineLatest(filter, searchTextFilter, (f, s) => f.And(s));
 
             FileExplorerFolder = new FileExplorerFolderViewModel(
-                allowMultipleSelection, messageDialogService, filter, fileIconProvider, clipboard);
+                clipboard, fileIconProvider, messageDialogService, allowMultipleSelection, filter);
 
             FileOpened = _fileOpened.AsObservable();
 
