@@ -38,13 +38,10 @@
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                 </Style>
-                <Style Selector="Button.transparent:pointerover">
-                    <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush2}" />
-                </Style>
-                <Style Selector="Button.transparent:pressed">
-                    <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush}" />
+                <Style Selector="Button.transparent:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Opacity" Value="0.6" />
                 </Style>
             </Grid.Styles>
 
