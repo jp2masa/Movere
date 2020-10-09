@@ -1,40 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-
-using Avalonia.Media.Imaging;
-
-using ReactiveUI;
+﻿using Avalonia.Media.Imaging;
 
 using Movere.Models;
-using Movere.Services;
 
 namespace Movere.ViewModels
 {
     internal sealed class MessageDialogViewModel
     {
-        private readonly IDialogView<DialogResult> _view;
+        private readonly IDialogIcon _icon;
 
-        private readonly MessageDialogOptions _options;
-
-        public MessageDialogViewModel(IDialogView<DialogResult> view, MessageDialogOptions options)
+        public MessageDialogViewModel(IDialogIcon icon, string message)
         {
-            _view = view;
+            _icon = icon;
 
-            _options = options;
-
-            CloseCommand = ReactiveCommand.Create<DialogResult>(Close);
+            Message = message;
         }
 
-        public IBitmap? Icon => _options.Icon.LoadIcon();
+        public IBitmap? Icon => _icon.LoadIcon();
 
-        public string Title => _options.Title;
-
-        public string Message => _options.Message;
-
-        public IReadOnlyList<DialogResult> DialogResults => _options.DialogResults;
-
-        public ICommand CloseCommand { get; }
-
-        private void Close(DialogResult result) => _view.Close(result);
+        public string Message { get; }
     }
 }

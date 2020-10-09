@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 
 using Movere.Models;
 using Movere.ViewModels;
@@ -10,21 +11,22 @@ namespace Movere.Services
 {
     public sealed class MessageDialogService : IMessageDialogService
     {
-        private readonly Window _owner;
+        private static readonly IDataTemplate s_ViewResolver = new FuncDataTemplate<MessageDialogViewModel>((vm, ns) => new MessageDialogView());
+
+        private readonly ContentDialogService<MessageDialogViewModel> _contentDialogService;
 
         public MessageDialogService(Window owner)
         {
-            _owner = owner;
+            _contentDialogService = new ContentDialogService<MessageDialogViewModel>(owner, s_ViewResolver);
         }
 
-        public Task<DialogResult?> ShowMessageDialogAsync(MessageDialogOptions options)
-        {
-            var dialog = new MessageDialog();
-            var viewModel = new MessageDialogViewModel(new DialogView<DialogResult>(dialog), options);
-
-            dialog.DataContext = viewModel;
-
-            return dialog.ShowDialog<DialogResult?>(_owner);
-        }
+        public Task<DialogResult?> ShowMessageDialogAsync(MessageDialogOptions options) =>
+            _contentDialogService.ShowDialogAsync(
+                new ContentDialogOptions<MessageDialogViewModel>(
+                    options.Title,
+                    new MessageDialogViewModel(options.Icon, options.Message),
+                    options.DialogResults
+                )
+            );
     }
 }
