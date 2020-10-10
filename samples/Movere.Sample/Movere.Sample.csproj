@@ -14,6 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Avalonia.Desktop" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\..\src\Movere\Movere.csproj" />
     </ItemGroup>
 
