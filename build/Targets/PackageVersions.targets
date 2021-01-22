@@ -1,12 +1,12 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.10.0-rc1</AvaloniaVersion>
+        <AvaloniaVersion>0.10.0-rc2</AvaloniaVersion>
         <AvaloniaFlexboxVersion>0.1.0</AvaloniaFlexboxVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.0-rc1</AvaloniaXamlBehaviorsVersion>
-        <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.1</MicrosoftCodeAnalysisNetAnalyzersVersion>
-        <ReactiveUIVersion>13.0.27</ReactiveUIVersion>
+        <AvaloniaXamlBehaviorsVersion>0.10.0-rc2</AvaloniaXamlBehaviorsVersion>
+        <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.3</MicrosoftCodeAnalysisNetAnalyzersVersion>
+        <ReactiveUIVersion>13.1.1</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>5.0.0</SystemDrawingCommonVersion>
     </PropertyGroup>
