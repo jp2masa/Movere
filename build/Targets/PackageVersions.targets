@@ -1,10 +1,10 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.10.0-rc2</AvaloniaVersion>
-        <AvaloniaFlexboxVersion>0.1.0</AvaloniaFlexboxVersion>
+        <AvaloniaVersion>0.10.0</AvaloniaVersion>
+        <AvaloniaFlexboxVersion>0.2.0</AvaloniaFlexboxVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.0-rc2</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>0.10.0</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.3</MicrosoftCodeAnalysisNetAnalyzersVersion>
         <ReactiveUIVersion>13.1.1</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
@@ -15,7 +15,7 @@
         <PackageReference Update="Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-        <PackageReference Update="Avalonia.Flexbox" Version="$(AvaloniaFlexboxVersion)" />
+        <PackageReference Update="jp2masa.Avalonia.Flexbox" Version="$(AvaloniaFlexboxVersion)" />
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
