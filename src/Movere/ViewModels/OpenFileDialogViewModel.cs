@@ -77,7 +77,7 @@ namespace Movere.ViewModels
                 return;
             }
 
-            Close(new OpenFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItems.OfType<FileInfo>().Select(info => info.FullName)));
+            Close(new OpenFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItems.OfType<File>().Select(info => info.FullPath)));
         }
 
         private void Cancel() => Close(new OpenFileDialogResult(Enumerable.Empty<string>()));
