@@ -6,6 +6,7 @@
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>0.10.0</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.3</MicrosoftCodeAnalysisNetAnalyzersVersion>
+        <MicrosoftSourceLinkGitHubVersion>1.0.0</MicrosoftSourceLinkGitHubVersion>
         <ReactiveUIVersion>13.1.1</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>5.0.0</SystemDrawingCommonVersion>
@@ -20,6 +21,7 @@
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="$(MicrosoftCodeAnalysisNetAnalyzersVersion)" />
+        <PackageReference Update="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="System.Collections.Immutable" Version="$(SystemCollectionsImmutableVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />

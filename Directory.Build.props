@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <PropertyGroup>
+        <DebugType Condition="'$(Configuration)' == 'Debug'">Embedded</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <LangVersion>8.0</LangVersion>
         <Nullable>Enable</Nullable>
         <!--

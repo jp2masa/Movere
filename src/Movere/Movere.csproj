@@ -17,6 +17,7 @@
         <PackageReference Include="jp2masa.Avalonia.Flexbox" />
         <PackageReference Include="Avalonia.ReactiveUI" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
         <PackageReference Include="ReactiveUI" />
         <PackageReference Include="System.Collections.Immutable" />
         <PackageReference Include="System.Drawing.Common" />
