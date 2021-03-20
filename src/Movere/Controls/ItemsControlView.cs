@@ -9,7 +9,7 @@ using Avalonia.Data;
 
 namespace Movere.Controls
 {
-    public class ItemsControlView : StyledElement
+    public partial class ItemsControlView : StyledElement
     {
         private static readonly ITemplate<IPanel> DefaultPanelTemplate =
             new FuncTemplate<IPanel>(() => new VirtualizingStackPanel());
@@ -30,19 +30,7 @@ namespace Movere.Controls
             DataTemplates = new AvaloniaList<IDataTemplate>();
         }
 
-        public ITemplate<IPanel> PanelTemplate
-        {
-            get => GetValue(PanelTemplateProperty);
-            set => SetValue(PanelTemplateProperty, value);
-        }
-
         public IList<IDataTemplate> DataTemplates { get; }
-
-        public static ItemsControlView GetItemsView(ItemsControl control) =>
-            control.GetValue(ItemsViewProperty);
-
-        public static void SetItemsView(ItemsControl control, ItemsControlView view) =>
-            control.SetValue(ItemsViewProperty, view);
 
         private static void UpdateItemsView(ItemsControl sender, AvaloniaPropertyChangedEventArgs e)
         {

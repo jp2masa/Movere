@@ -4,16 +4,10 @@ using Avalonia.Xaml.Interactivity;
 
 namespace Movere.Behaviors
 {
-    internal sealed class FocusAction : AvaloniaObject, IAction
+    internal sealed partial class FocusAction : AvaloniaObject, IAction
     {
         public static readonly StyledProperty<InputElement?> ControlProperty =
             AvaloniaProperty.Register<FocusAction, InputElement?>(nameof(Control));
-
-        public InputElement? Control
-        {
-            get => GetValue(ControlProperty);
-            set => SetValue(ControlProperty, value);
-        }
 
         public object? Execute(object? sender, object? parameter)
         {

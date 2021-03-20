@@ -4,21 +4,13 @@ using Avalonia.Xaml.Interactivity;
 
 namespace Movere.Behaviors
 {
-    internal sealed class PointerPressedTriggerBehavior : Trigger
+    internal sealed partial class PointerPressedTriggerBehavior : Trigger
     {
         public static readonly DirectProperty<PointerPressedTriggerBehavior, PointerUpdateKind> PointerUpdateKindProperty =
             AvaloniaProperty.RegisterDirect<PointerPressedTriggerBehavior, PointerUpdateKind>(
                 nameof(PointerUpdateKind),
                 o => o.PointerUpdateKind,
                 (o, v) => o.PointerUpdateKind = v);
-
-        private PointerUpdateKind _pointerUpdateKind;
-
-        public PointerUpdateKind PointerUpdateKind
-        {
-            get => _pointerUpdateKind;
-            set => SetAndRaise(PointerUpdateKindProperty, ref _pointerUpdateKind, value);
-        }
 
         protected override void OnAttached()
         {
