@@ -8,9 +8,9 @@
         <AvaloniaXamlBehaviorsVersion>0.10.0</AvaloniaXamlBehaviorsVersion>
         <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.3</MicrosoftCodeAnalysisNetAnalyzersVersion>
         <MicrosoftSourceLinkGitHubVersion>1.0.0</MicrosoftSourceLinkGitHubVersion>
-        <ReactiveUIVersion>13.1.1</ReactiveUIVersion>
+        <ReactiveUIVersion>13.2.18</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
-        <SystemDrawingCommonVersion>5.0.0</SystemDrawingCommonVersion>
+        <SystemDrawingCommonVersion>5.0.2</SystemDrawingCommonVersion>
     </PropertyGroup>
 
     <ItemGroup>
