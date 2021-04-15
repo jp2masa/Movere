@@ -15,6 +15,7 @@
         <PackageReference Include="Avalonia" />
         <PackageReference Include="Avalonia.Desktop" />
         <PackageReference Include="jp2masa.Avalonia.Flexbox" />
+        <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
         <PackageReference Include="Avalonia.ReactiveUI" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
