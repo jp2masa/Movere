@@ -1,9 +1,5 @@
 <Project>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" />
-    </ItemGroup>
-
     <Import Project="build\Targets\Import.targets" />
 
 </Project>

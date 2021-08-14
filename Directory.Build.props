@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>Latest</LangVersion>
         <Nullable>Enable</Nullable>
         <!--
             CA1062: validate arguments of public methods
@@ -20,6 +20,7 @@
                     justification: shouldn't cause problems
         -->
         <NoWarn>CA1062;CA1812;CA2007;$(NoWarn)</NoWarn>
+        <EnableNETAnalyzers>True</EnableNETAnalyzers>
     </PropertyGroup>
 
     <PropertyGroup>

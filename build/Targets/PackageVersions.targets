@@ -1,14 +1,13 @@
 <Project>
 
     <PropertyGroup>
-        <AvaloniaVersion>0.10.0</AvaloniaVersion>
+        <AvaloniaVersion>0.10.6</AvaloniaVersion>
         <AvaloniaFlexboxVersion>0.2.0</AvaloniaFlexboxVersion>
-        <AvaloniaPropertyGeneratorVersion>0.10.0-beta2</AvaloniaPropertyGeneratorVersion>
+        <AvaloniaPropertyGeneratorVersion>0.10.0-beta3</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.0</AvaloniaXamlBehaviorsVersion>
-        <MicrosoftCodeAnalysisNetAnalyzersVersion>5.0.3</MicrosoftCodeAnalysisNetAnalyzersVersion>
+        <AvaloniaXamlBehaviorsVersion>0.10.6.10</AvaloniaXamlBehaviorsVersion>
         <MicrosoftSourceLinkGitHubVersion>1.0.0</MicrosoftSourceLinkGitHubVersion>
-        <ReactiveUIVersion>13.2.18</ReactiveUIVersion>
+        <ReactiveUIVersion>14.3.1</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>5.0.0</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>5.0.2</SystemDrawingCommonVersion>
     </PropertyGroup>
@@ -22,7 +21,6 @@
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
-        <PackageReference Update="Microsoft.CodeAnalysis.NetAnalyzers" Version="$(MicrosoftCodeAnalysisNetAnalyzersVersion)" />
         <PackageReference Update="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="System.Collections.Immutable" Version="$(SystemCollectionsImmutableVersion)" />
