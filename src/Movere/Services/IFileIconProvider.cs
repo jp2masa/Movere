@@ -1,6 +1,6 @@
 ﻿namespace Movere.Services
 {
-    internal interface IFileIconProvider
+    public interface IFileIconProvider
     {
         IFileIcon? GetFileIcon(string filePath);
     }
