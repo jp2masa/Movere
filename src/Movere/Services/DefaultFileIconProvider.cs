@@ -1,16 +1,13 @@
 ﻿using System.Runtime.InteropServices;
 using Icon = System.Drawing.Icon;
 
-using Avalonia.Media.Imaging;
-
 namespace Movere.Services
 {
-
     internal sealed class DefaultFileIconProvider : IFileIconProvider
     {
-        internal static IFileIconProvider Instance { get; } = new DefaultFileIconProvider();
+        public static IFileIconProvider Instance { get; } = new DefaultFileIconProvider();
 
-        public IBitmap? GetFileIcon(string filePath)
+        public IFileIcon? GetFileIcon(string filePath)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -20,9 +17,9 @@ namespace Movere.Services
             return GetWindowsFileIcon(filePath);
         }
 
-        private IBitmap? GetWindowsFileIcon(string filePath) =>
+        private IFileIcon? GetWindowsFileIcon(string filePath) =>
             Icon.ExtractAssociatedIcon(filePath) is Icon icon
-                ? new BitmapAdapter(icon.ToBitmap())
+                ? new SystemDrawingIconFileIcon(icon)
                 : null;
     }
 }

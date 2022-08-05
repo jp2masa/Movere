@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using MemoryStream = System.IO.MemoryStream;
 
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
@@ -26,10 +28,17 @@ namespace Movere.Converters
                 return BindingOperations.DoNothing;
             }
 
-            if (values.Count == 2 && values[0] is File file && values[1] is IFileIconProvider fileIconProvider && targetType.IsAssignableFrom(typeof(Bitmap)))
+            if (values.Count == 2
+                && values[0] is File file
+                && values[1] is IFileIconProvider fileIconProvider
+                && targetType.IsAssignableFrom(typeof(IImage)))
             {
-                return fileIconProvider.GetFileIcon(file.FullPath)
-                    ?? _defaultFileIcon.Value;
+                return fileIconProvider.GetFileIcon(file.FullPath) switch
+                {
+                    AvaloniaBitmapFileIcon avalonia => avalonia.Bitmap,
+                    IFileIcon icon => ConvertIconToBitmap(icon),
+                    null => _defaultFileIcon.Value
+                };
             }
 
             throw new NotSupportedException();
@@ -37,9 +46,18 @@ namespace Movere.Converters
 
         private static Bitmap LoadDefaultFileIcon()
         {
-
             var assetLoader = AvaloniaLocator.Current.GetRequiredService<IAssetLoader>();
             var stream = assetLoader.Open(new Uri("avares://Movere/Resources/Icons/File.png"));
+
+            return new Bitmap(stream);
+        }
+
+        private static Bitmap ConvertIconToBitmap(IFileIcon icon)
+        {
+            using var stream = new MemoryStream();
+            icon.Save(stream);
+
+            stream.Position = 0;
 
             return new Bitmap(stream);
         }

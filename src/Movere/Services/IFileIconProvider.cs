@@ -1,9 +1,7 @@
-﻿using Avalonia.Media.Imaging;
-
-namespace Movere.Services
+﻿namespace Movere.Services
 {
-    public interface IFileIconProvider
+    internal interface IFileIconProvider
     {
-        IBitmap? GetFileIcon(string filePath);
+        IFileIcon? GetFileIcon(string filePath);
     }
 }
