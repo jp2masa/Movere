@@ -40,7 +40,7 @@ namespace Movere.ViewModels
 
             PrintCommand = ReactiveCommand.Create(
                 Print,
-                this.ObservableForProperty(vm => vm.PrinterSettings.PrinterName).Select(x => x != null));
+                this.ObservableForProperty(vm => vm.PrinterSettings.PrinterName).Select(x => x is not null));
 
             CancelCommand = ReactiveCommand.Create(Cancel);
 

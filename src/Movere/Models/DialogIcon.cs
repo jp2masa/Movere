@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using Avalonia;
 using Avalonia.Media.Imaging;
@@ -23,18 +24,10 @@ namespace Movere.Models
             _uri = new Uri(path);
         }
 
-        public IBitmap? LoadIcon()
-        {
-            var assetLoader = AvaloniaLocator.Current.GetService<IAssetLoader>();
-            var iconStream = assetLoader.Open(_uri);
-
-            if (iconStream == null)
-            {
-                return null;
-            }
-
-            return new Bitmap(iconStream);
-        }
+        public IBitmap? LoadIcon() =>
+            AvaloniaLocator.Current.GetRequiredService<IAssetLoader>().Open(_uri) is Stream stream
+                ? new Bitmap(stream)
+                : null;
 
         private class EmptyDialogIcon : IDialogIcon
         {

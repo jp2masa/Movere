@@ -20,7 +20,7 @@ namespace Movere.Services
             _contentDialogService = new ContentDialogService<MessageDialogViewModel>(owner, s_ViewResolver);
         }
 
-        public Task<DialogResult?> ShowMessageDialogAsync(MessageDialogOptions options) =>
+        public Task<DialogResult> ShowMessageDialogAsync(MessageDialogOptions options) =>
             _contentDialogService.ShowDialogAsync(
                 new ContentDialogOptions<MessageDialogViewModel>(
                     options.Title,

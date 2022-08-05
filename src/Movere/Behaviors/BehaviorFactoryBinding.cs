@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Subjects;
 
 using Avalonia;
@@ -16,9 +15,17 @@ namespace Movere.Behaviors
         [Content]
         public BehaviorCollectionTemplate? Content { get; set; }
 
-        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope")]
-        public InstancedBinding Initiate(IAvaloniaObject target, AvaloniaProperty targetProperty, object? anchor = null, bool enableDataValidation = false) =>
-            new InstancedBinding(new BehaviorSubject<object>(Content!.Build(target)!), BindingMode.OneWay, BindingPriority.Style);
+        public InstancedBinding? Initiate(
+            IAvaloniaObject target,
+            AvaloniaProperty? targetProperty,
+            object? anchor = null,
+            bool enableDataValidation = false) =>
+            new InstancedBinding(
+                new BehaviorSubject<object?>(
+                    Content?.Build(target)
+                    ?? throw new InvalidOperationException("Invalid BehaviorFactoryBinding usage!")),
+                BindingMode.OneWay,
+                BindingPriority.Style);
     }
 
     internal sealed class BehaviorCollectionTemplate : ITemplate<object?, BehaviorCollection?>

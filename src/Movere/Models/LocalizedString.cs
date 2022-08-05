@@ -16,8 +16,10 @@ namespace Movere.Models
         }
 
         [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
-        public string GetString() => _resourceManager.GetString(_resourceName);
+        public string GetString() =>
+            _resourceManager.GetString(_resourceName) ?? _resourceName;
 
-        public string GetString(CultureInfo culture) => _resourceManager.GetString(_resourceName, culture);
+        public string GetString(CultureInfo culture) =>
+            _resourceManager.GetString(_resourceName, culture) ?? _resourceName;
     }
 }

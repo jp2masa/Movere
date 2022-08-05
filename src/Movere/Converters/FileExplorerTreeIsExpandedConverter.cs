@@ -12,7 +12,7 @@ namespace Movere.Converters
 {
     internal sealed class FileExplorerTreeIsExpandedConverter : IMultiValueConverter
     {
-        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values.Any(v => v is BindingNotification notification && notification.ErrorType == BindingErrorType.Error))
             {
@@ -21,13 +21,11 @@ namespace Movere.Converters
 
             if (values.Count == 2 && values[0] is Folder itemFolder && targetType == typeof(bool))
             {
-                if (values[1] is Folder selectedFolder)
+                if (values[1] is Folder selectedFolder
+                    && selectedFolder.Parent is Folder parent
+                    && parent.FullPath.StartsWith(itemFolder.FullPath, StringComparison.Ordinal))
                 {
-                    if (selectedFolder.Parent != null
-                        && selectedFolder.Parent.FullPath.StartsWith(itemFolder.FullPath, StringComparison.Ordinal))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
 
                 return BindingOperations.DoNothing;

@@ -10,7 +10,8 @@ namespace Movere.Services
 {
     internal sealed class ClipboardService : IClipboardService
     {
-        internal static IClipboardService Instance { get; } = new ClipboardService(AvaloniaLocator.Current.GetService<IClipboard>());
+        internal static IClipboardService Instance { get; } =
+            new ClipboardService(AvaloniaLocator.Current.GetRequiredService<IClipboard>());
 
         private readonly IClipboard _clipboard;
 

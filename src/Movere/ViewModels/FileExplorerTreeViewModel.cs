@@ -23,7 +23,7 @@ namespace Movere.ViewModels
             FolderHierarchy = _drives.Select(d => new Folder(d.RootDirectory));
 
             SelectedFolderChanged = from folder in this.WhenAnyValue(vm => vm.SelectedFolder)
-                                    where folder != null
+                                    where folder is not null
                                     select folder;
         }
 

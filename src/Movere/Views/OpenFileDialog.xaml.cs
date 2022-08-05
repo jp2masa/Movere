@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using Movere.ViewModels;

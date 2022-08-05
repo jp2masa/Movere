@@ -89,9 +89,7 @@ namespace Movere.ViewModels
 
         private void AddAddressSegments(ObservableCollection<AddressSegmentViewModel> segments, Folder folder)
         {
-            var parent = folder.Parent;
-
-            if (parent != null)
+            if (folder.Parent is Folder parent)
             {
                 AddAddressSegments(segments, parent);
             }

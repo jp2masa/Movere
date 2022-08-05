@@ -82,12 +82,10 @@ namespace Movere.Sample.ViewModels
         private async Task ShowMessageAsync() =>
             MessageDialogResult = (await _messageDialogService.ShowMessageDialogAsync(
                 new MessageDialogOptions(
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
                     "Some really really really really really really really really really really really " +
                     "really really really really really really really really really really really really " +
                     "really really really really really really really really really really really really " +
                     "really really really really really really really really really long message",
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
                     "Message Dialog",
                     DialogIcon.Error,
                     DialogResultSet.AbortRetryIgnore)))?.Name ?? "null";
@@ -115,6 +113,11 @@ namespace Movere.Sample.ViewModels
 
         private async Task PrintAsync()
         {
+            if (!OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
             using var document = new PrintDocument();
 
             document.PrintPage += PrintDocument;
@@ -123,8 +126,13 @@ namespace Movere.Sample.ViewModels
 
         private static void PrintDocument(object sender, PrintPageEventArgs e)
         {
+            if (!OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
             using var font = new Font(FontFamily.GenericSansSerif, 100, FontStyle.Regular);
-            e.Graphics.DrawString("Hello World!", font, Brushes.Green, new PointF(4, 4));
+            e.Graphics?.DrawString("Hello World!", font, Brushes.Green, new PointF(4, 4));
         }
     }
 }

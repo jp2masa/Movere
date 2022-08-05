@@ -27,7 +27,8 @@ namespace Movere.Models
 
         public override string FullPath => _info.FullName;
 
-        public Folder? Parent => _info.Parent == null ? null : new Folder(_info.Parent);
+        public Folder? Parent =>
+            _info.Parent is DirectoryInfo parent ? new Folder(parent) : null;
 
         public IEnumerable<Folder> Folders => GetFolders();
 
@@ -41,9 +42,9 @@ namespace Movere.Models
             return Task.CompletedTask;
         }
 
-        public bool Equals(Folder other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(Folder? other) => other is not null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
-        public override bool Equals(object obj) => obj is Folder folder && Equals(folder);
+        public override bool Equals(object? obj) => obj is Folder folder && Equals(folder);
 
         public override int GetHashCode() => HashCode.Combine(FullPath);
 

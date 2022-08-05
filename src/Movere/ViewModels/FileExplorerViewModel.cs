@@ -74,7 +74,7 @@ namespace Movere.ViewModels
 
             NavigateUpCommand = ReactiveCommand.Create(
                 NavigateUp,
-                this.WhenAnyValue(vm => vm.CurrentFolder).Select(x => x.Parent != null));
+                this.WhenAnyValue(vm => vm.CurrentFolder).Select(x => x.Parent is not null));
 
             AddressBar.AddressChanged.Subscribe(address => NavigateToAddress(address));
 
@@ -148,9 +148,7 @@ namespace Movere.ViewModels
 
         public void NavigateUp()
         {
-            var parent = CurrentFolder.Parent;
-
-            if (parent != null)
+            if (CurrentFolder.Parent is Folder parent)
             {
                 NavigateTo(parent);
             }

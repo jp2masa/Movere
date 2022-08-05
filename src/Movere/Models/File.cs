@@ -23,9 +23,9 @@ namespace Movere.Models
             return Task.CompletedTask;
         }
 
-        public bool Equals(File other) => other != null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(File? other) => other is not null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
-        public override bool Equals(object obj) => obj is File file && Equals(file);
+        public override bool Equals(object? obj) => obj is File file && Equals(file);
 
         public override int GetHashCode() => HashCode.Combine(FullPath);
 

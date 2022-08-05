@@ -16,7 +16,10 @@ namespace Movere.Converters
 {
     internal sealed class FileIconConverter : IMultiValueConverter
     {
-        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+        private readonly Lazy<Bitmap> _defaultFileIcon =
+            new Lazy<Bitmap>(LoadDefaultFileIcon);
+
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values.Any(v => v == AvaloniaProperty.UnsetValue))
             {
@@ -25,20 +28,20 @@ namespace Movere.Converters
 
             if (values.Count == 2 && values[0] is File file && values[1] is IFileIconProvider fileIconProvider && targetType.IsAssignableFrom(typeof(Bitmap)))
             {
-                var icon = fileIconProvider.GetFileIcon(file.FullPath);
-
-                if (icon == null)
-                {
-                    var assetLoader = AvaloniaLocator.Current.GetService<IAssetLoader>();
-                    var stream = assetLoader.Open(new Uri("avares://Movere/Resources/Icons/File.png"));
-
-                    icon = new Bitmap(stream);
-                }
-
-                return icon;
+                return fileIconProvider.GetFileIcon(file.FullPath)
+                    ?? _defaultFileIcon.Value;
             }
 
             throw new NotSupportedException();
+        }
+
+        private static Bitmap LoadDefaultFileIcon()
+        {
+
+            var assetLoader = AvaloniaLocator.Current.GetRequiredService<IAssetLoader>();
+            var stream = assetLoader.Open(new Uri("avares://Movere/Resources/Icons/File.png"));
+
+            return new Bitmap(stream);
         }
     }
 }

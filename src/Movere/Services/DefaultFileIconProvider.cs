@@ -17,15 +17,12 @@ namespace Movere.Services
                 return null;
             }
 
-            var icon = Icon.ExtractAssociatedIcon(filePath);
-
-            if (icon == null)
-            {
-                return null;
-            }
-
-            var bitmap = icon.ToBitmap();
-            return new BitmapAdapter(bitmap);
+            return GetWindowsFileIcon(filePath);
         }
+
+        private IBitmap? GetWindowsFileIcon(string filePath) =>
+            Icon.ExtractAssociatedIcon(filePath) is Icon icon
+                ? new BitmapAdapter(icon.ToBitmap())
+                : null;
     }
 }

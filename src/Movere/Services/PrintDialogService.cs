@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Drawing.Printing;
+﻿using System.Drawing.Printing;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
@@ -18,7 +17,6 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
         public Task<bool> ShowDialogAsync(PrintDocument document)
         {
             var dialog = new PrintDialog();

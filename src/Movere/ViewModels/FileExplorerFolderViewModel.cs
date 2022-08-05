@@ -69,7 +69,7 @@ namespace Movere.ViewModels
             DeleteCommand = ReactiveCommand.Create(DeleteAsync);
 
             this.WhenAnyValue(vm => vm.Folder)
-                .Subscribe(CurrentFolderChanged);
+                .Subscribe(FolderChanged);
         }
 
         public IFileIconProvider FileIconProvider { get; }
@@ -158,22 +158,17 @@ namespace Movere.ViewModels
             }
         }
 
-        private void CurrentFolderChanged(Folder? folder)
+        private void FolderChanged(Folder? folder)
         {
             _folderEnumerationDisposable.Dispose();
-
             _entries.Clear();
 
-            if (Folder == null)
-            {
-                _folderEnumerationDisposable = Disposable.Empty;
-                return;
-            }
-
-            _folderEnumerationDisposable = Folder.Entries
-                .ToObservable()
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(entry => _entries.Add(entry));
+            _folderEnumerationDisposable = folder is not null
+                ? folder.Entries
+                    .ToObservable()
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(entry => _entries.Add(entry))
+                : Disposable.Empty;
         }
     }
 }

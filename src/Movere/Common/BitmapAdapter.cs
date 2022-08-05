@@ -22,7 +22,7 @@ namespace Movere
 
             stream.Position = 0;
 
-            var factory = AvaloniaLocator.Current.GetService<IPlatformRenderInterface>();
+            var factory = AvaloniaLocator.Current.GetRequiredService<IPlatformRenderInterface>();
 
             return factory.LoadBitmap(stream);
         }

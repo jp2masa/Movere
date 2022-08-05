@@ -35,20 +35,17 @@ namespace Movere.Models.Filters
             private static readonly Func<FileSystemEntry, FileDialogFilter, bool> MatchesFilter =
                 (entry, filter) => !(entry is File file) || FileMatchesFilter(file, filter);
 
-            public static IFilter<FileSystemEntry> Matches(FileDialogFilter? filter)
-            {
-                if (filter == null || filter.Extensions.Contains("*"))
-                {
-                    return True<FileSystemEntry>();
-                }
-
-                return StorageFuncFilter.New(filter, MatchesFilter);
-            }
+            public static IFilter<FileSystemEntry> Matches(FileDialogFilter? filter) =>
+                filter is null || filter.Extensions.Contains("*")
+                    ? True<FileSystemEntry>()
+                    : StorageFuncFilter.New(filter, MatchesFilter);
 
             private static bool FileMatchesFilter(File file, FileDialogFilter filter)
             {
                 var extension = Path.GetExtension(file.Name);
-                return extension != null && filter.Extensions.Contains(extension.Substring(1), StringComparer.InvariantCultureIgnoreCase);
+
+                return !System.String.IsNullOrEmpty(extension)
+                    && filter.Extensions.Contains(extension.Substring(1), StringComparer.InvariantCultureIgnoreCase);
             }
         }
 

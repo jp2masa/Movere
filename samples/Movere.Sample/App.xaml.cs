@@ -58,7 +58,7 @@ namespace Movere.Sample
             AppBuilder.Configure<App>()
                 .UsePlatformDetect()
 #if DEBUG
-                .LogToDebug()
+                .LogToTrace()
 #endif
                 .UseMovere()
                 .UseReactiveUI();

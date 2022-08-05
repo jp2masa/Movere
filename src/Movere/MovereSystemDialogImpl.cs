@@ -19,7 +19,7 @@ namespace Movere
 {
     internal sealed class MovereSystemDialogImpl : ISystemDialogImpl
     {
-        public async Task<string[]> ShowFileDialogAsync(FileDialog dialog, Window parent)
+        public async Task<string[]?> ShowFileDialogAsync(FileDialog dialog, Window parent)
         {
             if (dialog is OpenFileDialog openFileDialog)
             {
@@ -51,7 +51,7 @@ namespace Movere
                 view.DataContext = viewModel;
 
                 var result = await view.ShowDialog<OpenFileDialogResult>(parent);
-                return result == null ? Array.Empty<string>() : result.SelectedPaths.ToArray();
+                return result is null ? Array.Empty<string>() : result.SelectedPaths.ToArray();
             }
 
             if (dialog is SaveFileDialog saveFileDialog)
@@ -82,16 +82,16 @@ namespace Movere
                 view.DataContext = viewModel;
 
                 var result = await view.ShowDialog<SaveFileDialogResult>(parent);
-                return (result == null || result.SelectedPath == null) ? Array.Empty<string>() : new string[] { result.SelectedPath };
+                return (result is null || result.SelectedPath is null) ? Array.Empty<string>() : new string[] { result.SelectedPath };
             }
 
             throw new NotImplementedException();
         }
 
-        public Task<string> ShowFolderDialogAsync(OpenFolderDialog dialog, Window parent) =>
+        public Task<string?> ShowFolderDialogAsync(OpenFolderDialog dialog, Window parent) =>
             throw new NotImplementedException();
 
         private static MovereFilter ConvertFilter(AvaloniaFilter filter) =>
-            new MovereFilter(filter.Name, filter.Extensions.ToImmutableArray());
+            new MovereFilter(filter.Name ?? String.Join(", ", filter.Extensions), filter.Extensions.ToImmutableArray());
     }
 }

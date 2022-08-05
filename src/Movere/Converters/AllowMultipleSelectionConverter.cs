@@ -8,7 +8,7 @@ namespace Movere.Converters
 {
     internal sealed class AllowMultipleSelectionConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is bool b && targetType == typeof(SelectionMode))
             {
@@ -18,7 +18,7 @@ namespace Movere.Converters
             throw new NotSupportedException();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
             throw new NotSupportedException();
     }
 }
