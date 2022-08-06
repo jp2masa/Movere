@@ -1,4 +1,7 @@
-﻿using Avalonia.Markup.Xaml;
+﻿#if AVALONIA_DIAGNOSTICS
+using Avalonia;
+#endif
+using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using Movere.ViewModels;
