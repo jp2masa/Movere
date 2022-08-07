@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Movere.Services
@@ -12,6 +13,7 @@ namespace Movere.Services
 
         public Icon Icon { get; }
 
-        public void Save(Stream stream) => Icon.Save(stream);
+        public void Save(Stream stream) =>
+            Icon.ToBitmap().Save(stream, ImageFormat.Png);
     }
 }

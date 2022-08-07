@@ -17,6 +17,7 @@
 
         <TextBox x:Name="AddressTextBox"
                  BorderThickness="0"
+                 VerticalContentAlignment="Center"
                  IsVisible="{Binding IsEditing}"
                  Text="{Binding TextBoxAddress}">
             <i:Interaction.Behaviors>
@@ -32,11 +33,10 @@
             </TextBox.KeyBindings>
         </TextBox>
 
-        <DockPanel>
+        <DockPanel IsVisible="{Binding !IsEditing}">
 
             <ItemsControl DockPanel.Dock="Left"
                           HorizontalAlignment="Left"
-                          IsVisible="{Binding !IsEditing}"
                           Items="{Binding AddressSegments}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
