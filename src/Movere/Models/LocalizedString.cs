@@ -6,7 +6,7 @@ namespace Movere.Models
 {
     public sealed class LocalizedString
     {
-        private readonly ResourceManager _resourceManager;
+        private readonly ResourceManager? _resourceManager;
         private readonly string _resourceName;
 
         public LocalizedString(ResourceManager resourceManager, string resourceName)
@@ -15,11 +15,19 @@ namespace Movere.Models
             _resourceName = resourceName;
         }
 
+        public LocalizedString(string value)
+        {
+            _resourceName = value;
+        }
+
         [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
         public string GetString() =>
-            _resourceManager.GetString(_resourceName) ?? _resourceName;
+            _resourceManager?.GetString(_resourceName) ?? _resourceName;
 
         public string GetString(CultureInfo culture) =>
-            _resourceManager.GetString(_resourceName, culture) ?? _resourceName;
+            _resourceManager?.GetString(_resourceName, culture) ?? _resourceName;
+
+        public static implicit operator LocalizedString(string value) =>
+            new LocalizedString(value);
     }
 }

@@ -28,7 +28,7 @@ namespace Movere.Sample
 
                 var messageDialogService = new MessageDialogService(mainWindow);
 
-                var contentDialogService = new ContentDialogService<CustomContentViewModel>(
+                var contentDialogService = new ContentDialogService<CustomContentViewModel, FormResult>(
                     mainWindow,
                     new CustomContentViewResolver());
 

@@ -3,13 +3,12 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
-using Movere.Models;
 using Movere.ViewModels;
 using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class ContentDialogService<TContent> : IContentDialogService<TContent>
+    public sealed class ContentDialogService<TContent, TResult> : IContentDialogService<TContent, TResult>
         where TContent : notnull
     {
         private readonly Window _owner;
@@ -21,19 +20,19 @@ namespace Movere.Services
             _viewResolver = viewResolver;
         }
 
-        public Task<DialogResult> ShowDialogAsync(ContentDialogOptions<TContent> options)
+        public Task<TResult> ShowDialogAsync(ContentDialogOptions<TContent, TResult> options)
         {
             var dialog = new ContentDialog() { DataTemplates = { _viewResolver } };
 
-            var viewModel = new ContentDialogViewModel(
-                new DialogView<DialogResult>(dialog),
+            var viewModel = new ContentDialogViewModel<TContent, TResult>(
+                new DialogView<TResult>(dialog),
                 options.Title,
                 options.Content,
-                options.DialogResults);
+                options.Actions);
 
             dialog.DataContext = viewModel;
 
-            return dialog.ShowDialog<DialogResult>(_owner);
+            return dialog.ShowDialog<TResult>(_owner);
         }
     }
 }

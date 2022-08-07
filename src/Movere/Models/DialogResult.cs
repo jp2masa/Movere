@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Movere.Resources;
+﻿using Movere.Resources;
 
 namespace Movere.Models
 {
@@ -16,15 +14,12 @@ namespace Movere.Models
         public static DialogResult Retry { get; } = FromResource(nameof(Strings.Retry));
         public static DialogResult Ignore { get; } = FromResource(nameof(Strings.Ignore));
 
-        private readonly LocalizedString _name;
-
         public DialogResult(LocalizedString name)
         {
-            _name = name;
+            Name = name;
         }
 
-        [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
-        public string Name => _name.GetString();
+        public LocalizedString Name { get; }
 
         private static DialogResult FromResource(string name) =>
             new DialogResult(LocalizedName(name));

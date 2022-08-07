@@ -76,7 +76,7 @@
             <TextBox Grid.Column="5"
                      Margin="4"
                      Text="{Binding SearchText}"
-                     Watermark="{Binding CurrentFolder.Name, StringFormat={local:LocalizedString SearchIn}}" />
+                     Watermark="{local:LocalizedString SearchIn {Binding CurrentFolder.Name}}" />
 
             <ListBox Grid.Column="6"
                      Background="Transparent"

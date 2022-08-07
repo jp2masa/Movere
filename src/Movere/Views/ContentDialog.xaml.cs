@@ -1,4 +1,6 @@
-﻿#if AVALONIA_DIAGNOSTICS
+﻿using System.ComponentModel;
+
+#if AVALONIA_DIAGNOSTICS
 using Avalonia;
 #endif
 using Avalonia.Markup.Xaml;
@@ -8,7 +10,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal sealed class ContentDialog : ReactiveWindow<ContentDialogViewModel>
+    internal sealed class ContentDialog : ReactiveWindow<IContentDialogViewModel>
     {
         public ContentDialog()
         {
@@ -19,5 +21,13 @@ namespace Movere.Views
         }
 
         private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (ViewModel is IContentDialogViewModel vm)
+            {
+                e.Cancel = !vm.OnClosing();
+            }
+        }
     }
 }

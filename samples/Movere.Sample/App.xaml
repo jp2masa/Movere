@@ -3,9 +3,7 @@
              x:Class="Movere.Sample.App">
 
     <Application.Styles>
-
-        <FluentTheme Mode="Light"/>
-
+        <FluentTheme Mode="Light" />
     </Application.Styles>
 
 </Application>

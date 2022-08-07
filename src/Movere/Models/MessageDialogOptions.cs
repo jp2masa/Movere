@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Movere.Models
+﻿namespace Movere.Models
 {
     public sealed class MessageDialogOptions
     {
@@ -8,7 +6,7 @@ namespace Movere.Models
             string message,
             string title = "Message",
             IDialogIcon? icon = null,
-            IReadOnlyList<DialogResult>? dialogResults = null)
+            DialogResultSet? dialogResults = null)
         {
             Message = message;
             Title = title;
@@ -24,6 +22,6 @@ namespace Movere.Models
 
         public IDialogIcon Icon { get; }
 
-        public IReadOnlyList<DialogResult> DialogResults { get; }
+        public DialogResultSet DialogResults { get; }
     }
 }

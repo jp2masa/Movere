@@ -2,15 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:flex="clr-namespace:Avalonia.Flexbox;assembly=Avalonia.Flexbox"
         xmlns:local="clr-namespace:Movere"
-        xmlns:conv="clr-namespace:Movere.Converters"
         xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.ContentDialog"
         x:CompileBindings="True"
-        x:DataType="vm:ContentDialogViewModel"
+        x:DataType="vm:IContentDialogViewModel"
+        x:Name="dialog"
         local:WindowExtensions.EnableWin32DialogModalFrame="True"
         CanResize="False"
         SizeToContent="WidthAndHeight"
-        Title="{Binding Title}"
+        Title="{local:LocalizedString {Binding Title}}"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner">
 
@@ -18,7 +18,7 @@
 
         <ItemsControl DockPanel.Dock="Bottom"
                       Margin="4"
-                      Items="{Binding DialogResults}">
+                      Items="{Binding Actions}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <flex:FlexPanel ColumnSpacing="8"
@@ -27,10 +27,13 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Name}"
-                            Command="{ReflectionBinding $parent[Window].DataContext.CloseCommand}"
-                            CommandParameter="{Binding}" />
+                <DataTemplate DataType="vm:IDialogActionViewModel">
+                    <Button Content="{local:LocalizedString {Binding Title}}"
+                            Command="{ReflectionBinding #dialog.ViewModel.CloseCommand}"
+                            CommandParameter="{Binding Command}"
+                            IsCancel="{Binding IsCancel}"
+                            IsDefault="{Binding IsDefault}"
+                            IsEnabled="{Binding Command.CanExecute^}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

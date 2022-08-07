@@ -6,8 +6,10 @@
         <AvaloniaPropertyGeneratorVersion>0.10.0-beta4</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>0.10.17</AvaloniaXamlBehaviorsVersion>
+        <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>1.1.1</MicrosoftBclHashCodeVersion>
         <MicrosoftSourceLinkGitHubVersion>1.1.1</MicrosoftSourceLinkGitHubVersion>
+        <NullableVersion>1.3.1</NullableVersion>
         <ReactiveUIVersion>18.3.1</ReactiveUIVersion>
         <SystemCollectionsImmutableVersion>6.0.0</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>6.0.0</SystemDrawingCommonVersion>
@@ -22,8 +24,10 @@
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
+        <PackageReference Update="IsExternalInit" Version="$(IsExternalInitVersion)" />
         <PackageReference Update="Microsoft.Bcl.HashCode" Version="$(MicrosoftBclHashCodeVersion)" />
         <PackageReference Update="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubVersion)" />
+        <PackageReference Update="Nullable" Version="$(NullableVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="System.Collections.Immutable" Version="$(SystemCollectionsImmutableVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />

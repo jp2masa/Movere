@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-using Movere.Models;
-
 namespace Movere.Services
 {
-    public interface IContentDialogService<TContent>
+    public interface IContentDialogService<TContent, TResult>
     {
-        Task<DialogResult> ShowDialogAsync(ContentDialogOptions<TContent> options);
+        Task<TResult> ShowDialogAsync(ContentDialogOptions<TContent, TResult> options);
     }
 }

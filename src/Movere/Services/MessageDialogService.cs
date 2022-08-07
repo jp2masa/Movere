@@ -13,19 +13,19 @@ namespace Movere.Services
     {
         private static readonly IDataTemplate s_ViewResolver = new FuncDataTemplate<MessageDialogViewModel>((vm, ns) => new MessageDialogView());
 
-        private readonly ContentDialogService<MessageDialogViewModel> _contentDialogService;
+        private readonly ContentDialogService<MessageDialogViewModel, DialogResult> _contentDialogService;
 
         public MessageDialogService(Window owner)
         {
-            _contentDialogService = new ContentDialogService<MessageDialogViewModel>(owner, s_ViewResolver);
+            _contentDialogService = new ContentDialogService<MessageDialogViewModel, DialogResult>(owner, s_ViewResolver);
         }
 
         public Task<DialogResult> ShowMessageDialogAsync(MessageDialogOptions options) =>
             _contentDialogService.ShowDialogAsync(
-                new ContentDialogOptions<MessageDialogViewModel>(
+                new ContentDialogOptions<MessageDialogViewModel, DialogResult>(
                     options.Title,
                     new MessageDialogViewModel(options.Icon, options.Message),
-                    options.DialogResults
+                    DialogActionSet.FromDialogResultSet<MessageDialogViewModel>(options.DialogResults)
                 )
             );
     }

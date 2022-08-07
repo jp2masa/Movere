@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -8,13 +12,21 @@ using ReactiveUI;
 
 using Movere.Models;
 using Movere.Services;
+using Movere.ViewModels;
 
 namespace Movere.Sample.ViewModels
 {
+    internal enum FormResult
+    {
+        OK,
+        Wait,
+        Cancel
+    }
+
     internal class MainWindowViewModel : ReactiveObject
     {
         private readonly MessageDialogService _messageDialogService;
-        private readonly ContentDialogService<CustomContentViewModel> _contentDialogService;
+        private readonly ContentDialogService<CustomContentViewModel, FormResult> _contentDialogService;
 
         private readonly OpenFileDialogService _openFileDialogService;
         private readonly SaveFileDialogService _saveFileDialogService;
@@ -28,7 +40,7 @@ namespace Movere.Sample.ViewModels
             Func<Task> avaloniaOpenFile,
             Func<Task> avaloniaSaveFile,
             MessageDialogService messageDialogService,
-            ContentDialogService<CustomContentViewModel> contentDialogService,
+            ContentDialogService<CustomContentViewModel, FormResult> contentDialogService,
             OpenFileDialogService openFileDialogService,
             SaveFileDialogService saveFileDialogService,
             PrintDialogService printDialogService)
@@ -80,15 +92,20 @@ namespace Movere.Sample.ViewModels
         public ICommand AvaloniaSaveFileCommand { get; }
 
         private async Task ShowMessageAsync() =>
-            MessageDialogResult = (await _messageDialogService.ShowMessageDialogAsync(
-                new MessageDialogOptions(
-                    "Some really really really really really really really really really really really " +
-                    "really really really really really really really really really really really really " +
-                    "really really really really really really really really really really really really " +
-                    "really really really really really really really really really long message",
-                    "Message Dialog",
-                    DialogIcon.Error,
-                    DialogResultSet.AbortRetryIgnore)))?.Name ?? "null";
+            MessageDialogResult = (
+                await _messageDialogService.ShowMessageDialogAsync(
+                    new MessageDialogOptions(
+                        "Some really really really really really really really really really really really " +
+                        "really really really really really really really really really really really really " +
+                        "really really really really really really really really really really really really " +
+                        "really really really really really really really really really long message",
+                        "Message Dialog",
+                        DialogIcon.Error,
+                        DialogResultSet.AbortRetryIgnore
+                    )
+                )
+            )
+                .Name.GetString() ?? "null";
 
         private async Task ShowCustomContentAsync()
         {
@@ -96,15 +113,44 @@ namespace Movere.Sample.ViewModels
             var firstName = new FieldViewModel("First Name");
             var lastName = new FieldViewModel("Last Name");
 
-            var result = await _contentDialogService.ShowDialogAsync(
-                ContentDialogOptions.Create(
-                    "Custom content",
-                    new CustomContentViewModel(new FieldViewModel[] { id, firstName, lastName }),
-                    DialogResultSet.OKCancel
+            var fields = new FieldViewModel[] { id, firstName, lastName };
+
+            var vm = new CustomContentViewModel(fields);
+
+            var actions = ImmutableArray.Create(
+                DialogAction.Create(
+                    DialogResult.OK.Name,
+                    ReactiveCommand.Create(
+                        (CustomContentViewModel x) => FormResult.OK,
+                        Observable.CombineLatest(
+                            from field in fields
+                            select from value in field.WhenAnyValue(x => x.Value)
+                                    select !String.IsNullOrWhiteSpace(value),
+                            x => x.All(y => y)
+                        )
+                    )
+                ),
+                DialogAction.Create(
+                    "Wait",
+                    ReactiveCommand.CreateFromTask(
+                        async (CustomContentViewModel x) =>
+                        {
+                            await Task.Delay(5000);
+                            return FormResult.Wait;
+                        }
+                    )
+                ),
+                DialogAction.Create(
+                    DialogResult.Cancel.Name,
+                    ReactiveCommand.Create((CustomContentViewModel x) => FormResult.Cancel)
                 )
             );
 
-            ContentDialogResult = $"Result: {result.Name}    ID: {id.Value}    First Name: {firstName.Value}    Last Name: {lastName.Value}";
+            var result = await _contentDialogService.ShowDialogAsync(
+                ContentDialogOptions.Create("Custom content", vm, DialogActionSet.Create(actions, actions[2], actions[0]))
+            );
+
+            ContentDialogResult = $"Result: {result}    ID: {id.Value}    First Name: {firstName.Value}    Last Name: {lastName.Value}";
         }
 
         private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);

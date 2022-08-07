@@ -1,39 +1,96 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using ReactiveUI;
 
-using Movere.Models;
 using Movere.Services;
+using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    public sealed class ContentDialogViewModel : ReactiveObject
+    internal interface IContentDialogViewModel
     {
-        private readonly IDialogView<DialogResult> _view;
+        LocalizedString Title { get; }
+
+        object? Content { get; }
+
+        IEnumerable Actions { get; }
+
+        ICommand CloseCommand { get; }
+
+        bool OnClosing();
+    }
+
+    internal sealed class ContentDialogViewModel<TContent, TResult> : ReactiveObject, IContentDialogViewModel
+    {
+        private readonly IDialogView<TResult> _view;
+
+        private readonly ObservableAsPropertyHelper<bool> _isBusy;
+        private readonly TaskCompletionSource<TResult> _resultTcs = new TaskCompletionSource<TResult>();
 
         internal ContentDialogViewModel(
-            IDialogView<DialogResult> view,
-            string title,
-            object content,
-            IReadOnlyList<DialogResult> dialogResults)
+            IDialogView<TResult> view,
+            LocalizedString title,
+            TContent content,
+            DialogActionSet<TContent, TResult> actions)
         {
             _view = view;
 
             Title = title;
             Content = content;
 
-            DialogResults = dialogResults;
+            Actions = DialogActionSetViewModel.Create(actions);
 
-            CloseCommand = ReactiveCommand.Create<DialogResult>(_view.Close);
+            CloseCommand = ReactiveCommand.CreateFromTask(
+                async (ReactiveCommand<TContent, TResult> command) =>
+                {
+                    var result = await command.Execute(Content);
+
+                    _resultTcs.TrySetResult(result);
+                    _view.Close(result);
+                }
+            );
+
+            _isBusy = CloseCommand.IsExecuting.ToProperty(this, x => x.IsBusy);
         }
 
-        public string Title { get; }
+        public LocalizedString Title { get; }
 
-        public object Content { get; }
+        LocalizedString IContentDialogViewModel.Title => Title;
 
-        public IReadOnlyList<DialogResult> DialogResults { get; }
+        public TContent Content { get; }
 
-        public ICommand CloseCommand { get; }
+        object? IContentDialogViewModel.Content => Content;
+
+        public DialogActionSetViewModel<TContent, TResult> Actions { get; }
+
+        IEnumerable IContentDialogViewModel.Actions => Actions.Actions;
+
+        public ReactiveCommand<ReactiveCommand<TContent, TResult>, Unit> CloseCommand { get; }
+
+        ICommand IContentDialogViewModel.CloseCommand => CloseCommand;
+
+        public bool IsBusy => _isBusy.Value;
+
+        public bool OnClosing()
+        {
+            if (_resultTcs.Task.IsCompleted)
+            {
+                return true;
+            }
+
+            if (!IsBusy && Actions.CancelAction is not null)
+            {
+                _ = CancelAsync(Actions.CancelAction);
+            }
+
+            return _resultTcs.Task.IsCompleted;
+        }
+
+        private async Task CancelAsync(DialogAction<TContent, TResult> cancelAction) =>
+            await CloseCommand.Execute(cancelAction.Command);
     }
 }
