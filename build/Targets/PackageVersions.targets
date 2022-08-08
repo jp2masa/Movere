@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <AutofacVersion>6.4.0</AutofacVersion>
-        <AvaloniaVersion>0.10.17</AvaloniaVersion>
+        <AvaloniaVersion>0.10.999-cibuild0022994-beta</AvaloniaVersion>
         <AvaloniaFlexboxVersion>0.2.0</AvaloniaFlexboxVersion>
         <AvaloniaPropertyGeneratorVersion>0.10.0-beta4</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.17</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>0.10.999-build20220807-01</AvaloniaXamlBehaviorsVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>1.1.1</MicrosoftBclHashCodeVersion>
         <MicrosoftSourceLinkGitHubVersion>1.1.1</MicrosoftSourceLinkGitHubVersion>
@@ -25,6 +25,7 @@
         <PackageReference Update="jp2masa.Avalonia.PropertyGenerator.CSharp" Version="$(AvaloniaPropertyGeneratorVersion)" />
         <PackageReference Update="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
+        <PackageReference Update="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="IsExternalInit" Version="$(IsExternalInitVersion)" />
         <PackageReference Update="Microsoft.Bcl.HashCode" Version="$(MicrosoftBclHashCodeVersion)" />

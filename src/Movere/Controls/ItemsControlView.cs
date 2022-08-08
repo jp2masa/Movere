@@ -32,6 +32,9 @@ namespace Movere.Controls
 
         public IList<IDataTemplate> DataTemplates { get; }
 
+        public static ItemsControlView GetItemsView(AvaloniaObject obj) =>
+            obj.GetValue(ItemsViewProperty);
+
         private static void UpdateItemsView(ItemsControl sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.NewValue is null)

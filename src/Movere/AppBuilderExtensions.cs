@@ -12,6 +12,8 @@ namespace Movere
 
         private static void RegisterMovereDialogs<TAppBuilder>(AppBuilderBase<TAppBuilder> builder)
             where TAppBuilder : AppBuilderBase<TAppBuilder>, new() =>
-            AvaloniaLocator.CurrentMutable.Bind<ISystemDialogImpl>().ToSingleton<MovereSystemDialogImpl>();
+            AvaloniaLocator.CurrentMutable
+                .Bind<ISystemDialogImpl>().ToSingleton<MovereSystemDialogImpl>()
+                .Bind<IStorageProviderFactory>().ToSingleton<MovereStorageProviderFactory>();
     }
 }

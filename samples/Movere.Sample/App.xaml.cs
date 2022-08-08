@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Avalonia.Platform.Storage.FileIO;
 using Avalonia.ReactiveUI;
 
 using Movere.Sample.ViewModels;
@@ -40,6 +44,8 @@ namespace Movere.Sample
                 mainWindow.DataContext = new MainWindowViewModel(
                     () => AvaloniaOpenFile(mainWindow),
                     () => AvaloniaSaveFile(mainWindow),
+                    () => AvaloniaOldOpenFile(mainWindow),
+                    () => AvaloniaOldSaveFile(mainWindow),
                     messageDialogService,
                     contentDialogService,
                     openFileDialogService,
@@ -65,6 +71,34 @@ namespace Movere.Sample
 
         private static Task AvaloniaOpenFile(Window parent)
         {
+            var options = new FilePickerOpenOptions()
+            {
+                AllowMultiple = true,
+                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                FileTypeFilter = ImmutableArray.Create(
+                    new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } },
+                    new FilePickerFileType("Music files") { Patterns = new List<string>() { "mp3", "wav" } }
+                )
+            };
+
+            return parent.StorageProvider.OpenFilePickerAsync(options);
+        }
+
+        private static Task AvaloniaSaveFile(Window parent)
+        {
+            var options = new FilePickerSaveOptions()
+            {
+                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                FileTypeChoices = ImmutableArray.Create(
+                    new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } }
+                )
+            };
+
+            return parent.StorageProvider.SaveFilePickerAsync(options);
+        }
+
+        private static Task AvaloniaOldOpenFile(Window parent)
+        {
             var dialog = new OpenFileDialog()
             {
                 AllowMultiple = true,
@@ -79,7 +113,7 @@ namespace Movere.Sample
             return dialog.ShowAsync(parent);
         }
 
-        private static Task AvaloniaSaveFile(Window parent)
+        private static Task AvaloniaOldSaveFile(Window parent)
         {
             var dialog = new SaveFileDialog()
             {

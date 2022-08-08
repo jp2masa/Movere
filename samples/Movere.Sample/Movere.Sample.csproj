@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" />
+        <PackageReference Include="Avalonia.Themes.Fluent" />
     </ItemGroup>
 
     <ItemGroup>
