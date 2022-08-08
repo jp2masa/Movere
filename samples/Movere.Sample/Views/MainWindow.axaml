@@ -42,6 +42,12 @@
             <Button Content="Avalonia Save File"
                     Command="{Binding AvaloniaSaveFileCommand}" />
 
+            <Button Content="Avalonia Open File (Old)"
+                    Command="{Binding AvaloniaOldOpenFileCommand}" />
+
+            <Button Content="Avalonia Save File (Old)"
+                    Command="{Binding AvaloniaOldSaveFileCommand}" />
+
             <TextBlock Text="Custom content dialog result:" />
 
             <TextBlock Text="{Binding ContentDialogResult}" />

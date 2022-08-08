@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
 
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
 using Movere.Services;
+using Movere.Storage;
 using Movere.Win32;
 
 namespace Movere.Sample
@@ -39,9 +43,11 @@ namespace Movere.Sample
                 var printDialogService = new PrintDialogService(mainWindow);
 
                 mainWindow.DataContext = new MainWindowViewModel(
-#pragma warning disable CS0612 // Type or member is obsolete
                     () => AvaloniaOpenFile(mainWindow),
                     () => AvaloniaSaveFile(mainWindow),
+#pragma warning disable CS0612 // Type or member is obsolete
+                    () => AvaloniaOldOpenFile(mainWindow),
+                    () => AvaloniaOldSaveFile(mainWindow),
 #pragma warning restore CS0612 // Type or member is obsolete
                     messageDialogService,
                     contentDialogService,
@@ -71,8 +77,36 @@ namespace Movere.Sample
                 .UseMovereWin32()
                 .UseReactiveUI();
 
-        [Obsolete]
         private static Task AvaloniaOpenFile(Window parent)
+        {
+            var options = new FilePickerOpenOptions()
+            {
+                AllowMultiple = true,
+                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                FileTypeFilter = ImmutableArray.Create(
+                    new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } },
+                    new FilePickerFileType("Music files") { Patterns = new List<string>() { "mp3", "wav" } }
+                )
+            };
+
+            return parent.StorageProvider.OpenFilePickerAsync(options);
+        }
+
+        private static Task AvaloniaSaveFile(Window parent)
+        {
+            var options = new FilePickerSaveOptions()
+            {
+                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                FileTypeChoices = ImmutableArray.Create(
+                    new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } }
+                )
+            };
+
+            return parent.StorageProvider.SaveFilePickerAsync(options);
+        }
+
+        [Obsolete]
+        private static Task AvaloniaOldOpenFile(Window parent)
         {
             var dialog = new OpenFileDialog()
             {
@@ -89,7 +123,7 @@ namespace Movere.Sample
         }
 
         [Obsolete]
-        private static Task AvaloniaSaveFile(Window parent)
+        private static Task AvaloniaOldSaveFile(Window parent)
         {
             var dialog = new SaveFileDialog()
             {

@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using Avalonia;
 using Avalonia.Controls.Platform;
 
+using Movere.Storage;
+
 namespace Movere
 {
     public static class AppBuilderExtensions
@@ -31,6 +33,8 @@ namespace Movere
 
         [Obsolete]
         private static void RegisterMovereDialogs(AppBuilder builder) =>
-            AvaloniaLocator.CurrentMutable.Bind<ISystemDialogImpl>().ToSingleton<MovereSystemDialogImpl>();
+            AvaloniaLocator.CurrentMutable
+                .Bind<ISystemDialogImpl>().ToSingleton<MovereSystemDialogImpl>()
+                .Bind<IStorageProviderFactory>().ToSingleton<MovereStorageProviderFactory>();
     }
 }

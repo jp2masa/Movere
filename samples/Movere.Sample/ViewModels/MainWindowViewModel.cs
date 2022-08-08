@@ -39,6 +39,8 @@ namespace Movere.Sample.ViewModels
         public MainWindowViewModel(
             Func<Task> avaloniaOpenFile,
             Func<Task> avaloniaSaveFile,
+            Func<Task> avaloniaOldOpenFile,
+            Func<Task> avaloniaOldSaveFile,
             MessageDialogService messageDialogService,
             ContentDialogService<CustomContentViewModel, FormResult> contentDialogService,
             OpenFileDialogService openFileDialogService,
@@ -63,6 +65,9 @@ namespace Movere.Sample.ViewModels
 
             AvaloniaOpenFileCommand = ReactiveCommand.Create(avaloniaOpenFile);
             AvaloniaSaveFileCommand = ReactiveCommand.Create(avaloniaSaveFile);
+
+            AvaloniaOldOpenFileCommand = ReactiveCommand.Create(avaloniaOldOpenFile);
+            AvaloniaOldSaveFileCommand = ReactiveCommand.Create(avaloniaOldSaveFile);
         }
 
         public string MessageDialogResult
@@ -90,6 +95,10 @@ namespace Movere.Sample.ViewModels
         public ICommand AvaloniaOpenFileCommand { get; }
 
         public ICommand AvaloniaSaveFileCommand { get; }
+
+        public ICommand AvaloniaOldOpenFileCommand { get; }
+
+        public ICommand AvaloniaOldSaveFileCommand { get; }
 
         private async Task ShowMessageAsync() =>
             MessageDialogResult = (
