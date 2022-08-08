@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,27 +12,22 @@ using ReactiveUI;
 
 using Movere.Models;
 using Movere.Models.Filters;
+using Movere.Reactive;
 using Movere.Services;
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
-    public sealed class FileExplorerFolderViewModel : ReactiveObject, IDisposable
+    public sealed class FileExplorerFolderViewModel : ReactiveObject
     {
         private readonly IClipboardService _clipboard;
         private readonly IMessageDialogService _messageDialogService;
 
-        private readonly SourceList<FileSystemEntry> _entries = new SourceList<FileSystemEntry>();
-        private readonly ReadOnlyObservableCollection<FileSystemEntry> _items;
-
-        private readonly Subject<File> _fileOpened = new Subject<File>();
-        private readonly Subject<Folder> _folderOpened = new Subject<Folder>();
+        private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<FileSystemEntry>> _items;
 
         private ItemsView _itemsView = ItemsView.List;
 
         private Folder? _folder;
-
-        private IDisposable _folderEnumerationDisposable = Disposable.Empty;
 
         private FileSystemEntry? _selectedItem;
 
@@ -51,25 +45,27 @@ namespace Movere.ViewModels
 
             AllowMultipleSelection = allowMultipleSelection;
 
-            FileOpened = _fileOpened.AsObservable();
-            FolderOpened = _folderOpened.AsObservable();
+            SelectedItems = new ObservableCollection<FileSystemEntry>();
+
+            OpenItemCommand = ReactiveCommand.Create<FileSystemEntry, FileSystemEntry>(x => x);
+
+            FileOpened = OpenItemCommand.OfType<File>();
+            FolderOpened = OpenItemCommand.OfType<Folder>();
+
+            CopyCommand = ReactiveCommand.CreateFromTask(CopyAsync);
+            DeleteCommand = ReactiveCommand.CreateFromTask(DeleteAsync);
 
             filter ??= Observable.Return(Filter.True<FileSystemEntry>());
 
-            _entries.Connect()
+            _items = (
+                from folder in this.WhenAnyValue(x => x.Folder)
+                select (folder?.Entries ?? Enumerable.Empty<FileSystemEntry>())
+                    .ToObservable()
+                    .ToObservableChangeSet()
                     .Filter(filter.Select(FilterExtensions.ToFunc), ListFilterPolicy.ClearAndReplace)
-                    .Bind(out _items)
-                    .Subscribe();
-
-            SelectedItems = new ObservableCollection<FileSystemEntry>();
-
-            OpenItemCommand = ReactiveCommand.Create<FileSystemEntry>(ItemOpened);
-
-            CopyCommand = ReactiveCommand.Create(CopyAsync);
-            DeleteCommand = ReactiveCommand.Create(DeleteAsync);
-
-            this.WhenAnyValue(vm => vm.Folder)
-                .Subscribe(FolderChanged);
+                    .SubscribeRoc()
+            )
+                .ToProperty(this, x => x.Items);
         }
 
         public IFileIconProvider FileIconProvider { get; }
@@ -88,7 +84,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _folder, value);
         }
 
-        public ReadOnlyObservableCollection<FileSystemEntry> Items => _items;
+        public ReadOnlyObservableCollection<FileSystemEntry> Items => _items.Value;
 
         public FileSystemEntry? SelectedItem
         {
@@ -98,7 +94,7 @@ namespace Movere.ViewModels
 
         public ObservableCollection<FileSystemEntry> SelectedItems { get; }
 
-        public ICommand OpenItemCommand { get; }
+        public ReactiveCommand<FileSystemEntry, FileSystemEntry> OpenItemCommand { get; }
 
         public ICommand CopyCommand { get; }
 
@@ -108,38 +104,13 @@ namespace Movere.ViewModels
 
         public IObservable<Folder> FolderOpened { get; }
 
-        public void Dispose()
-        {
-            _fileOpened.Dispose();
-            _folderOpened.Dispose();
-
-            _folderEnumerationDisposable.Dispose();
-        }
-
-        private void ItemOpened(FileSystemEntry item)
-        {
-            switch (item)
-            {
-                case File file:
-                    _fileOpened.OnNext(file);
-                    return;
-                case Folder folder:
-                    _folderOpened.OnNext(folder);
-                    return;
-            }
-        }
-
-        private Task CopyAsync()
-        {
-            var files = new string[SelectedItems.Count];
-
-            for (int i = 0; i < SelectedItems.Count; i++)
-            {
-                files[i] = SelectedItems[i].FullPath;
-            }
-
-            return _clipboard.SetFilesAsync(files);
-        }
+        private Task CopyAsync() =>
+            _clipboard.SetFilesAsync(
+                ImmutableArray.CreateRange(
+                    from item in SelectedItems
+                    select item.FullPath
+                )
+            );
 
         private async Task DeleteAsync()
         {
@@ -154,21 +125,11 @@ namespace Movere.ViewModels
 
             if (result == DialogResult.Yes)
             {
-                await Task.WhenAll(SelectedItems.Select(x => x.DeleteAsync()));
+                await Task.WhenAll(
+                    from item in SelectedItems
+                    select item.DeleteAsync()
+                );
             }
-        }
-
-        private void FolderChanged(Folder? folder)
-        {
-            _folderEnumerationDisposable.Dispose();
-            _entries.Clear();
-
-            _folderEnumerationDisposable = folder is not null
-                ? folder.Entries
-                    .ToObservable()
-                    .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(entry => _entries.Add(entry))
-                : Disposable.Empty;
         }
     }
 }

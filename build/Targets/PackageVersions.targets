@@ -1,6 +1,7 @@
 <Project>
 
     <PropertyGroup>
+        <AutofacVersion>6.4.0</AutofacVersion>
         <AvaloniaVersion>0.10.17</AvaloniaVersion>
         <AvaloniaFlexboxVersion>0.2.0</AvaloniaFlexboxVersion>
         <AvaloniaPropertyGeneratorVersion>0.10.0-beta4</AvaloniaPropertyGeneratorVersion>
@@ -16,6 +17,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Update="Autofac" Version="$(AutofacVersion)" />
         <PackageReference Update="Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />

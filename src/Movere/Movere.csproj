@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac" />
         <PackageReference Include="Avalonia" />
         <PackageReference Include="Avalonia.Desktop" />
         <PackageReference Include="jp2masa.Avalonia.Flexbox" />

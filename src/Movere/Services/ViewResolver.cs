@@ -1,31 +1,27 @@
 ﻿using System;
-using System.Collections.Immutable;
+
+using Autofac.Features.Indexed;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-
-using Movere.ViewModels;
-using Movere.Views;
 
 namespace Movere.Services
 {
     internal sealed class ViewResolver : IDataTemplate
     {
-        public static ViewResolver Default { get; } = new ViewResolver();
+        private readonly IIndex<Type, Func<IControl>> _index;
 
-        private static readonly IImmutableDictionary<Type, Func<IControl>> s_mappings =
-            ImmutableDictionary.Create<Type, Func<IControl>>()
-                               .Add(typeof(FileExplorerAddressBarViewModel), New<FileExplorerAddressBarView>)
-                               .Add(typeof(FileExplorerFolderViewModel), New<FileExplorerFolderView>)
-                               .Add(typeof(FileExplorerTreeViewModel), New<FileExplorerTreeView>)
-                               .Add(typeof(FileExplorerViewModel), New<FileExplorerView>);
+        public ViewResolver(IIndex<Type, Func<IControl>> index)
+        {
+            _index = index;
+        }
 
-        private ViewResolver() { }
+        public bool Match(object data) =>
+            data is not null && _index.TryGetValue(data.GetType(), out _);
 
-        public bool Match(object data) => !(data is null) && s_mappings.ContainsKey(data.GetType());
-
-        public IControl Build(object param) => s_mappings[param.GetType()]();
-
-        private static T New<T>() where T : new() => new T();
+        public IControl Build(object param) =>
+            param is not null && _index.TryGetValue(param.GetType(), out var factory)
+                ? factory()
+                : throw new NotSupportedException();
     }
 }

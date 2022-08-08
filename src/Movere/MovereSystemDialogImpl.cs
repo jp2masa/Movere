@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Autofac;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
@@ -23,13 +26,21 @@ namespace Movere
         {
             if (dialog is OpenFileDialog openFileDialog)
             {
-                var view = new MovereOpenFileDialog() { DataTemplates = { ViewResolver.Default } };
+                var view = new MovereOpenFileDialog();
 
-                var viewModel = new OpenFileDialogViewModel(
-                    new DialogView<OpenFileDialogResult>(view),
-                    ClipboardService.Instance,
-                    DefaultFileIconProvider.Instance,
-                    new MessageDialogService(view),
+                var containerBuilder = new ContainerBuilder();
+
+                containerBuilder
+                    .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);
+
+                containerBuilder
+                    .RegisterInstance<Window>(view);
+
+                using var container = containerBuilder.Build();
+
+                view.DataTemplates.Add(container.Resolve<ViewResolver>());
+
+                var viewModel = container.Resolve<Func<bool, IEnumerable<MovereFilter>, OpenFileDialogViewModel>>()(
                     openFileDialog.AllowMultiple,
                     dialog.Filters.Select(ConvertFilter).ToImmutableArray());
 
@@ -56,13 +67,21 @@ namespace Movere
 
             if (dialog is SaveFileDialog saveFileDialog)
             {
-                var view = new MovereSaveFileDialog() { DataTemplates = { ViewResolver.Default } };
+                var view = new MovereSaveFileDialog();
 
-                var viewModel = new SaveFileDialogViewModel(
-                    new DialogView<SaveFileDialogResult>(view),
-                    ClipboardService.Instance,
-                    DefaultFileIconProvider.Instance,
-                    new MessageDialogService(view));
+                var containerBuilder = new ContainerBuilder();
+
+                containerBuilder
+                    .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);
+
+                containerBuilder
+                    .RegisterInstance<Window>(view);
+
+                using var container = containerBuilder.Build();
+
+                view.DataTemplates.Add(container.Resolve<ViewResolver>());
+
+                var viewModel = container.Resolve<SaveFileDialogViewModel>();
 
                 if (!String.IsNullOrWhiteSpace(dialog.Directory))
                 {

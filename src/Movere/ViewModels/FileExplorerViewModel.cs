@@ -10,7 +10,6 @@ using ReactiveUI;
 
 using Movere.Models;
 using Movere.Models.Filters;
-using Movere.Services;
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
@@ -38,17 +37,16 @@ namespace Movere.ViewModels
         private Folder _currentFolder;
 
         public FileExplorerViewModel(
-            IClipboardService clipboard,
-            IFileIconProvider fileIconProvider,
-            IMessageDialogService messageDialogService,
+            FileExplorerAddressBarViewModel addressBar,
+            FileExplorerTreeViewModel fileExplorerTree,
+            Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerFolderViewModel> fileExplorerFolderFactory,
             bool allowMultipleSelection,
             IObservable<IFilter<FileSystemEntry>>? filter = null)
         {
             _currentFolder = new Folder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
 
-            AddressBar = new FileExplorerAddressBarViewModel();
-
-            FileExplorerTree = new FileExplorerTreeViewModel();
+            AddressBar = addressBar;
+            FileExplorerTree = fileExplorerTree;
 
             filter ??= DefaultFilterObservable;
 
@@ -59,8 +57,7 @@ namespace Movere.ViewModels
 
             filter = Observable.CombineLatest(filter, searchTextFilter, (f, s) => f.And(s));
 
-            FileExplorerFolder = new FileExplorerFolderViewModel(
-                clipboard, fileIconProvider, messageDialogService, allowMultipleSelection, filter);
+            FileExplorerFolder = fileExplorerFolderFactory(allowMultipleSelection, filter);
 
             FileOpened = _fileOpened.AsObservable();
 

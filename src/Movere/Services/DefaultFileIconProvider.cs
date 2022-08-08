@@ -5,8 +5,6 @@ namespace Movere.Services
 {
     internal sealed class DefaultFileIconProvider : IFileIconProvider
     {
-        public static IFileIconProvider Instance { get; } = new DefaultFileIconProvider();
-
         public IFileIcon? GetFileIcon(string filePath)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

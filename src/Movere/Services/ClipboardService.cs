@@ -10,25 +10,17 @@ namespace Movere.Services
 {
     internal sealed class ClipboardService : IClipboardService
     {
-        internal static IClipboardService Instance { get; } =
-            new ClipboardService(AvaloniaLocator.Current.GetRequiredService<IClipboard>());
+        private static readonly IClipboard s_clipboard = AvaloniaLocator.Current.GetRequiredService<IClipboard>();
 
-        private readonly IClipboard _clipboard;
+        public Task ClearAsync() => s_clipboard.ClearAsync();
 
-        public ClipboardService(IClipboard clipboard)
-        {
-            _clipboard = clipboard;
-        }
+        public Task<string> GetTextAsync() => s_clipboard.GetTextAsync();
 
-        public Task ClearAsync() => _clipboard.ClearAsync();
-
-        public Task<string> GetTextAsync() => _clipboard.GetTextAsync();
-
-        public Task SetTextAsync(string text) => _clipboard.SetTextAsync(text);
+        public Task SetTextAsync(string text) => s_clipboard.SetTextAsync(text);
 
         public async Task<IReadOnlyCollection<string>> GetFilesAsync()
         {
-            var result = await _clipboard.GetDataAsync(DataFormats.FileNames);
+            var result = await s_clipboard.GetDataAsync(DataFormats.FileNames);
 
             if (result is IReadOnlyCollection<string> files)
             {
@@ -43,7 +35,7 @@ namespace Movere.Services
             var data = new DataObject();
             data.Set(DataFormats.FileNames, files);
 
-            return _clipboard.SetDataObjectAsync(data);
+            return s_clipboard.SetDataObjectAsync(data);
         }
     }
 }

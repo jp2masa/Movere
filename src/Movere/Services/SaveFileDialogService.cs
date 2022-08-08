@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Autofac;
+
 using Avalonia.Controls;
 
 using Movere.Models;
@@ -17,19 +19,27 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public Task<SaveFileDialogResult> ShowDialogAsync()
+        public async Task<SaveFileDialogResult> ShowDialogAsync()
         {
-            var dialog = new SaveFileDialog() { DataTemplates = { ViewResolver.Default } };
+            var dialog = new SaveFileDialog();
 
-            var viewModel = new SaveFileDialogViewModel(
-                new DialogView<SaveFileDialogResult>(dialog),
-                ClipboardService.Instance,
-                DefaultFileIconProvider.Instance,
-                new MessageDialogService(dialog));
+            var containerBuilder = new ContainerBuilder();
+
+            containerBuilder
+                .RegisterAssemblyModules(typeof(SaveFileDialogService).Assembly);
+
+            containerBuilder
+                .RegisterInstance<Window>(dialog);
+
+            using var container = containerBuilder.Build();
+
+            dialog.DataTemplates.Add(container.Resolve<ViewResolver>());
+
+            var viewModel = container.Resolve<SaveFileDialogViewModel>();
 
             dialog.DataContext = viewModel;
 
-            return dialog.ShowDialog<SaveFileDialogResult>(_owner);
+            return await dialog.ShowDialog<SaveFileDialogResult>(_owner);
         }
     }
 }

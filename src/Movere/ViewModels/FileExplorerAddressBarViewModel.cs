@@ -1,19 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
+
+using DynamicData;
 
 using ReactiveUI;
 
 using Movere.Models;
+using Movere.Reactive;
 
 namespace Movere.ViewModels
 {
     public sealed class FileExplorerAddressBarViewModel : ReactiveObject
     {
-        private readonly ObservableCollection<AddressSegmentViewModel> _addressSegments = new ObservableCollection<AddressSegmentViewModel>();
+        private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<AddressSegmentViewModel>> _addressSegments;
 
         private bool _isEditing;
 
@@ -22,12 +27,19 @@ namespace Movere.ViewModels
 
         public FileExplorerAddressBarViewModel()
         {
-            AddressSegments = new ReadOnlyObservableCollection<AddressSegmentViewModel>(_addressSegments);
-
             NavigateToAddressCommand = ReactiveCommand.Create<string>(NavigateToAddress);
 
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
-            AddressChanged.Subscribe(UpdateAddress);
+            AddressChanged.Subscribe(x => TextBoxAddress = x);
+
+            _addressSegments = (
+                from address in AddressChanged
+                select GetAddressSegments(address)
+                    .ToObservable()
+                    .ToObservableChangeSet()
+                    .SubscribeRoc()
+            )
+                .ToProperty(this, x => x.AddressSegments);
         }
 
         public bool IsEditing
@@ -51,7 +63,7 @@ namespace Movere.ViewModels
 
         public IObservable<string> AddressChanged { get; }
 
-        public ReadOnlyObservableCollection<AddressSegmentViewModel> AddressSegments { get; }
+        public ReadOnlyObservableCollection<AddressSegmentViewModel> AddressSegments => _addressSegments.Value;
 
         public ICommand NavigateToAddressCommand { get; }
 
@@ -69,32 +81,30 @@ namespace Movere.ViewModels
 
         private void NavigateToAddress(string address) => Address = address;
 
-        private void UpdateAddress(string address)
-        {
-            TextBoxAddress = address;
-            UpdateAddressSegments(address);
-        }
-
-        private void UpdateAddressSegments(string address)
+        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(string address)
         {
             if (Directory.Exists(address))
             {
                 var path = Path.GetFullPath(address);
                 var directory = new DirectoryInfo(path);
 
-                _addressSegments.Clear();
-                AddAddressSegments(_addressSegments, new Folder(directory));
+                return GetAddressSegments(new Folder(directory));
             }
+
+            return Enumerable.Empty<AddressSegmentViewModel>();
         }
 
-        private void AddAddressSegments(ObservableCollection<AddressSegmentViewModel> segments, Folder folder)
+        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(Folder folder)
         {
             if (folder.Parent is Folder parent)
             {
-                AddAddressSegments(segments, parent);
+                foreach (var segment in GetAddressSegments(parent))
+                {
+                    yield return segment;
+                }
             }
 
-            segments.Add(new AddressSegmentViewModel(folder));
+            yield return new AddressSegmentViewModel(folder);
         }
     }
 }
