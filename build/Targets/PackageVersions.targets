@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <AutofacVersion>6.4.0</AutofacVersion>
-        <AvaloniaVersion>0.10.999-cibuild0022994-beta</AvaloniaVersion>
-        <AvaloniaFlexboxVersion>0.2.0</AvaloniaFlexboxVersion>
+        <AvaloniaVersion>11.0.0-preview2</AvaloniaVersion>
+        <AvaloniaFlexboxVersion>0.3.0-beta.1</AvaloniaFlexboxVersion>
         <AvaloniaPropertyGeneratorVersion>0.10.0-beta4</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>0.10.999-build20220807-01</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>11.0.0-preview2</AvaloniaXamlBehaviorsVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>1.1.1</MicrosoftBclHashCodeVersion>
         <MicrosoftSourceLinkGitHubVersion>1.1.1</MicrosoftSourceLinkGitHubVersion>

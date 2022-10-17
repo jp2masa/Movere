@@ -1,13 +1,5 @@
 <Project>
 
-    <PropertyGroup>
-        <RestoreAdditionalProjectSources>
-            https://pkgs.dev.azure.com/AvaloniaUI/AvaloniaUI/_packaging/avalonia-all/nuget/v3/index.json;
-            https://www.myget.org/F/xamlbehaviors-nightly/api/v3/index.json;
-            $(RestoreAdditionalProjectSources)
-        </RestoreAdditionalProjectSources>
-    </PropertyGroup>
-
     <Import Project="build\Targets\Import.targets" />
 
 </Project>

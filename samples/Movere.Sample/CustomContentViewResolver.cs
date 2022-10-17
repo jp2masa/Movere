@@ -10,9 +10,9 @@ namespace Movere.Sample
 {
     class CustomContentViewResolver : IDataTemplate
     {
-        public bool Match(object data) => data is CustomContentViewModel || data is FieldViewModel;
+        public bool Match(object? data) => data is CustomContentViewModel || data is FieldViewModel;
 
-        public IControl Build(object param) =>
+        public IControl? Build(object? param) =>
             param switch
             {
                 CustomContentViewModel _ => new CustomContentView(),
