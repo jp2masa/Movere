@@ -1,19 +1,19 @@
 <Project>
 
     <PropertyGroup>
-        <AutofacVersion>6.4.0</AutofacVersion>
-        <AvaloniaVersion>11.0.0-preview2</AvaloniaVersion>
+        <AutofacVersion>6.5.0</AutofacVersion>
+        <AvaloniaVersion>11.0.0-preview5</AvaloniaVersion>
         <AvaloniaFlexboxVersion>0.3.0-beta.1</AvaloniaFlexboxVersion>
-        <AvaloniaPropertyGeneratorVersion>0.10.0-beta4</AvaloniaPropertyGeneratorVersion>
+        <AvaloniaPropertyGeneratorVersion>0.10.0-beta5</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>11.0.0-preview2</AvaloniaXamlBehaviorsVersion>
+        <AvaloniaXamlBehaviorsVersion>11.0.0-preview5</AvaloniaXamlBehaviorsVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>1.1.1</MicrosoftBclHashCodeVersion>
         <MicrosoftSourceLinkGitHubVersion>1.1.1</MicrosoftSourceLinkGitHubVersion>
         <NullableVersion>1.3.1</NullableVersion>
-        <ReactiveUIVersion>18.3.1</ReactiveUIVersion>
-        <SystemCollectionsImmutableVersion>6.0.0</SystemCollectionsImmutableVersion>
-        <SystemDrawingCommonVersion>6.0.0</SystemDrawingCommonVersion>
+        <ReactiveUIVersion>18.4.20</ReactiveUIVersion>
+        <SystemCollectionsImmutableVersion>7.0.0</SystemCollectionsImmutableVersion>
+        <SystemDrawingCommonVersion>7.0.0</SystemDrawingCommonVersion>
     </PropertyGroup>
 
     <ItemGroup>
