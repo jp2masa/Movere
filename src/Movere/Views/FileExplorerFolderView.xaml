@@ -41,14 +41,12 @@
                 <Setter Property="i:Interaction.Behaviors">
                     <b:BehaviorFactoryBinding>
                         <b:BehaviorCollectionTemplate>
-                            <b:BehaviorFactoryControl>
-                                <i:BehaviorCollection>
-                                    <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                        <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
-                                                                CommandParameter="{Binding}" />
-                                    </ia:EventTriggerBehavior>
-                                </i:BehaviorCollection>
-                            </b:BehaviorFactoryControl>
+                            <i:BehaviorCollection>
+                                <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                    <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
+                                                            CommandParameter="{Binding SelectedItem}" />
+                                </ia:EventTriggerBehavior>
+                            </i:BehaviorCollection>
                         </b:BehaviorCollectionTemplate>
                     </b:BehaviorFactoryBinding>
                 </Setter>

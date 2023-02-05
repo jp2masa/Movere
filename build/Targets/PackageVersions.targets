@@ -3,7 +3,7 @@
     <PropertyGroup>
         <AutofacVersion>6.5.0</AutofacVersion>
         <AvaloniaVersion>11.0.0-preview5</AvaloniaVersion>
-        <AvaloniaFlexboxVersion>0.3.0-beta.1</AvaloniaFlexboxVersion>
+        <AvaloniaFlexboxVersion>0.3.0-beta.2</AvaloniaFlexboxVersion>
         <AvaloniaPropertyGeneratorVersion>0.10.0-beta5</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>11.0.0-preview5</AvaloniaXamlBehaviorsVersion>

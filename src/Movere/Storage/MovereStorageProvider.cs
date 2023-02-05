@@ -9,7 +9,6 @@ using Autofac;
 
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using Avalonia.Platform.Storage.FileIO;
 
 using Movere.Models;
 using Movere.Services;
@@ -18,24 +17,24 @@ using MovereFilter = Movere.Models.FileDialogFilter;
 using MovereOpenFileDialog = Movere.Views.OpenFileDialog;
 using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
-namespace Movere
+namespace Movere.Storage
 {
-    internal sealed class MovereStorageProvider : BclStorageProvider
+    internal sealed class MovereStorageProvider : IStorageProvider
     {
-        private Window _window;
+        private readonly Window _window;
 
         public MovereStorageProvider(Window window)
         {
             _window = window;
         }
 
-        public override bool CanOpen => true;
+        public bool CanOpen => true;
 
-        public override bool CanSave => true;
+        public bool CanSave => true;
 
-        public override bool CanPickFolder => false;
+        public bool CanPickFolder => false;
 
-        public override async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
+        public async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
         {
             var view = new MovereOpenFileDialog();
 
@@ -47,13 +46,16 @@ namespace Movere
             containerBuilder
                 .RegisterInstance<Window>(view);
 
-            using var container = containerBuilder.Build();
+            await using var container = containerBuilder.Build();
 
             view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
             var viewModel = container.Resolve<Func<bool, IEnumerable<MovereFilter>, OpenFileDialogViewModel>>()(
                 options.AllowMultiple,
-                options.FileTypeFilter.Select(ConvertFilter).ToImmutableArray());
+                (options.FileTypeFilter ?? Array.Empty<FilePickerFileType>())
+                    .Select(ConvertFilter)
+                    .ToImmutableArray()
+            );
 
             var suggestedStartLocation = await (options.SuggestedStartLocation?.SaveBookmarkAsync() ?? Task.FromResult<string?>(null));
 
@@ -77,7 +79,7 @@ namespace Movere
                 .ToImmutableArray();
         }
 
-        public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
+        public async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
             var view = new MovereSaveFileDialog();
 
@@ -89,7 +91,7 @@ namespace Movere
             containerBuilder
                 .RegisterInstance<Window>(view);
 
-            using var container = containerBuilder.Build();
+            await using var container = containerBuilder.Build();
 
             view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
@@ -118,7 +120,22 @@ namespace Movere
             return (result is null || result.SelectedPath is null) ? null : new BclStorageFile(new FileInfo(result.SelectedPath));
         }
 
-        public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
+        public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
+            throw new NotSupportedException();
+
+        public Task<IStorageBookmarkFile?> OpenFileBookmarkAsync(string bookmark) =>
+            throw new NotSupportedException();
+
+        public Task<IStorageBookmarkFolder?> OpenFolderBookmarkAsync(string bookmark) =>
+            throw new NotSupportedException();
+
+        public Task<IStorageFile?> TryGetFileFromPath(Uri filePath) =>
+            throw new NotSupportedException();
+
+        public Task<IStorageFolder?> TryGetFolderFromPath(Uri folderPath) =>
+            throw new NotSupportedException();
+
+        public Task<IStorageFolder?> TryGetWellKnownFolder(WellKnownFolder wellKnownFolder) =>
             throw new NotSupportedException();
 
         private static MovereFilter ConvertFilter(FilePickerFileType filter) =>

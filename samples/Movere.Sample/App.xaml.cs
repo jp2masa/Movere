@@ -9,12 +9,12 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Avalonia.Platform.Storage.FileIO;
 using Avalonia.ReactiveUI;
 
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
 using Movere.Services;
+using Movere.Storage;
 
 namespace Movere.Sample
 {

@@ -15,7 +15,7 @@ namespace Movere.Converters
         {
             if (value is ItemsView view && targetType == typeof(ItemsControlView) && parameter is ResourceDictionary resources)
             {
-                if (resources.TryGetResource(view, out var result))
+                if (resources.TryGetResource(view, null, out var result))
                 {
                     return result;
                 }

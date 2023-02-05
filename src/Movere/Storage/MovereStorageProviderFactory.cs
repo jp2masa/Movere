@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using Avalonia.Platform.Storage;
 
-namespace Movere
+namespace Movere.Storage
 {
     internal sealed class MovereStorageProviderFactory : IStorageProviderFactory
     {

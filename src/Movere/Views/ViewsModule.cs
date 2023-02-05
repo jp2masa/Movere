@@ -17,7 +17,7 @@ namespace Movere.Views
                 .RegisterAssemblyTypes(ThisAssembly)
                 .InNamespaceOf<ViewsModule>()
                 .Where(x => GetViewModelType(x) is not null)
-                .Keyed<IControl>(x => GetViewModelType(x)!);
+                .Keyed<Control>(x => GetViewModelType(x)!);
         }
 
         private static Type? GetViewModelType(Type viewType)

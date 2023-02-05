@@ -5,17 +5,16 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using Avalonia.Data;
 
 namespace Movere.Controls
 {
     public partial class ItemsControlView : StyledElement
     {
-        private static readonly ITemplate<IPanel> DefaultPanelTemplate =
-            new FuncTemplate<IPanel>(() => new VirtualizingStackPanel());
+        private static readonly ITemplate<Panel> DefaultPanelTemplate =
+            new FuncTemplate<Panel>(() => new VirtualizingStackPanel());
 
-        public static readonly StyledProperty<ITemplate<IPanel>> PanelTemplateProperty =
-            AvaloniaProperty.Register<ItemsControlView, ITemplate<IPanel>>(nameof(PanelTemplate), DefaultPanelTemplate);
+        public static readonly StyledProperty<ITemplate<Panel>> PanelTemplateProperty =
+            AvaloniaProperty.Register<ItemsControlView, ITemplate<Panel>>(nameof(PanelTemplate), DefaultPanelTemplate);
 
         public static readonly AttachedProperty<ItemsControlView> ItemsViewProperty =
             AvaloniaProperty.RegisterAttached<ItemsControlView, ItemsControl, ItemsControlView>("ItemsView");
@@ -52,7 +51,7 @@ namespace Movere.Controls
             sender.DataTemplates.Clear();
             sender.DataTemplates.AddRange(view.DataTemplates);
 
-            var template = sender.GetBaseValue(TemplatedControl.TemplateProperty, BindingPriority.LocalValue);
+            var template = sender.GetBaseValue(TemplatedControl.TemplateProperty);
 
             sender.SetValue(TemplatedControl.TemplateProperty, null);
             sender.ApplyTemplate();

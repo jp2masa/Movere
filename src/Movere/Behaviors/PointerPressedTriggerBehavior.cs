@@ -38,7 +38,7 @@ namespace Movere.Behaviors
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            var point = e.GetCurrentPoint((IInputElement)AssociatedObject!);
+            var point = e.GetCurrentPoint((Visual)AssociatedObject!);
 
             if (point.Properties.PointerUpdateKind == PointerUpdateKind)
             {

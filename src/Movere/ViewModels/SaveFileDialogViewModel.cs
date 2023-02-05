@@ -73,15 +73,10 @@ namespace Movere.ViewModels
                         Strings.FileAlreadyExistsMessage,
                         Strings.Save,
                         DialogIcon.Warning,
-                        DialogResultSet.YesNoCancel));
+                        DialogResultSet.YesNo));
 
                 if (result != DialogResult.Yes)
                 {
-                    if (result == DialogResult.No)
-                    {
-                        Cancel();
-                    }
-
                     return;
                 }
             }
