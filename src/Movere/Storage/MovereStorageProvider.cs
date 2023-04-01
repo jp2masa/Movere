@@ -19,7 +19,7 @@ using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere.Storage
 {
-    internal sealed class MovereStorageProvider : IStorageProvider
+    internal sealed class MovereStorageProvider : BclStorageProvider
     {
         private readonly Window _window;
 
@@ -28,13 +28,13 @@ namespace Movere.Storage
             _window = window;
         }
 
-        public bool CanOpen => true;
+        public override bool CanOpen => true;
 
-        public bool CanSave => true;
+        public override bool CanSave => true;
 
-        public bool CanPickFolder => false;
+        public override bool CanPickFolder => false;
 
-        public async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
+        public override async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
         {
             var view = new MovereOpenFileDialog();
 
@@ -79,7 +79,7 @@ namespace Movere.Storage
                 .ToImmutableArray();
         }
 
-        public async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
+        public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
             var view = new MovereSaveFileDialog();
 
@@ -120,22 +120,7 @@ namespace Movere.Storage
             return (result is null || result.SelectedPath is null) ? null : new BclStorageFile(new FileInfo(result.SelectedPath));
         }
 
-        public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
-            throw new NotSupportedException();
-
-        public Task<IStorageBookmarkFile?> OpenFileBookmarkAsync(string bookmark) =>
-            throw new NotSupportedException();
-
-        public Task<IStorageBookmarkFolder?> OpenFolderBookmarkAsync(string bookmark) =>
-            throw new NotSupportedException();
-
-        public Task<IStorageFile?> TryGetFileFromPath(Uri filePath) =>
-            throw new NotSupportedException();
-
-        public Task<IStorageFolder?> TryGetFolderFromPath(Uri folderPath) =>
-            throw new NotSupportedException();
-
-        public Task<IStorageFolder?> TryGetWellKnownFolder(WellKnownFolder wellKnownFolder) =>
+        public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
             throw new NotSupportedException();
 
         private static MovereFilter ConvertFilter(FilePickerFileType filter) =>

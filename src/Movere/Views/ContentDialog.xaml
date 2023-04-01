@@ -18,7 +18,7 @@
 
         <ItemsControl DockPanel.Dock="Bottom"
                       Margin="4"
-                      Items="{Binding Actions}">
+                      ItemsSource="{Binding Actions}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <flex:FlexPanel ColumnSpacing="8"

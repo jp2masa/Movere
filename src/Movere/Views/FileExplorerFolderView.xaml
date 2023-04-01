@@ -27,7 +27,7 @@
              BorderThickness="0"
              SelectionMode="{Binding AllowMultipleSelection, Converter={StaticResource AllowMultipleSelectionConverter}}"
              c:ItemsControlView.ItemsView="{ReflectionBinding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
-             Items="{Binding Items}"
+             ItemsSource="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
         <ListBox.ContextMenu>

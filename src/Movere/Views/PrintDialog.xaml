@@ -35,7 +35,7 @@
                            Text="Printer:" />
 
                 <ComboBox Grid.Column="2"
-                          Items="{Binding AvailablePrinters}"
+                          ItemsSource="{Binding AvailablePrinters}"
                           SelectedItem="{Binding PrinterSettings.PrinterName}" />
 
                 <Button Grid.Column="4"
@@ -57,7 +57,7 @@
 
                         <StackPanel Spacing="8">
 
-                            <ItemsControl Items="{Binding PrintPreviewPages}">
+                            <ItemsControl ItemsSource="{Binding PrintPreviewPages}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Image Stretch="Uniform" Width="200" Height="200" Source="{Binding Image}" />

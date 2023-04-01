@@ -40,7 +40,7 @@
                 <ComboBox Grid.Column="4"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
-                          Items="{Binding Filters}"
+                          ItemsSource="{Binding Filters}"
                           SelectedItem="{Binding SelectedFilter}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>

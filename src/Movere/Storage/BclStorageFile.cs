@@ -1,108 +1,117 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/ccd8f3a59b2fe4d889cb8233c3db2e70c174c30e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFile.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/532e89c837d61d37d7fb2273f852d51bdc0f1999/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFile.cs
 
 using System;
 using System.IO;
 using System.Security;
 using System.Threading.Tasks;
+
 using Avalonia.Platform.Storage;
 
-namespace Movere.Storage
+namespace Movere.Storage;
+
+internal class BclStorageFile : IStorageBookmarkFile
 {
-    internal class BclStorageFile : IStorageBookmarkFile
+    public BclStorageFile(FileInfo fileInfo)
     {
-        public BclStorageFile(string fileName)
+        FileInfo = fileInfo ?? throw new ArgumentNullException(nameof(fileInfo));
+    }
+
+    public FileInfo FileInfo { get; }
+
+    public string Name => FileInfo.Name;
+
+    public virtual bool CanBookmark => true;
+
+    public Uri Path
+    {
+        get
         {
-            FileInfo = new FileInfo(fileName);
-        }
-
-        public BclStorageFile(FileInfo fileInfo)
-        {
-            FileInfo = fileInfo ?? throw new ArgumentNullException(nameof(fileInfo));
-        }
-
-        public FileInfo FileInfo { get; }
-
-        public bool CanOpenRead => true;
-
-        public bool CanOpenWrite => true;
-
-        public string Name => FileInfo.Name;
-
-        public virtual bool CanBookmark => true;
-
-        public Uri Path
-        {
-            get
+            try
             {
-                try
+                if (FileInfo.Directory is not null)
                 {
-                    if (FileInfo.Directory is not null)
-                    {
-                        return StorageProviderHelpers.FilePathToUri(FileInfo.FullName);
-                    }
+                    return StorageProviderHelpers.FilePathToUri(FileInfo.FullName);
                 }
-                catch (SecurityException)
-                {
-                }
-                return new Uri(FileInfo.Name, UriKind.Relative);
             }
-        }
-
-        public Task<StorageItemProperties> GetBasicPropertiesAsync()
-        {
-            if (FileInfo.Exists)
+            catch (SecurityException)
             {
-                return Task.FromResult(new StorageItemProperties(
-                    (ulong)FileInfo.Length,
-                    FileInfo.CreationTimeUtc,
-                    FileInfo.LastAccessTimeUtc));
             }
-            return Task.FromResult(new StorageItemProperties());
+            return new Uri(FileInfo.Name, UriKind.Relative);
+        }
+    }
+
+    public Task<StorageItemProperties> GetBasicPropertiesAsync()
+    {
+        if (FileInfo.Exists)
+        {
+            return Task.FromResult(new StorageItemProperties(
+                (ulong)FileInfo.Length,
+                FileInfo.CreationTimeUtc,
+                FileInfo.LastAccessTimeUtc));
+        }
+        return Task.FromResult(new StorageItemProperties());
+    }
+
+    public Task<IStorageFolder?> GetParentAsync()
+    {
+        if (FileInfo.Directory is { } directory)
+        {
+            return Task.FromResult<IStorageFolder?>(new BclStorageFolder(directory));
+        }
+        return Task.FromResult<IStorageFolder?>(null);
+    }
+
+    public Task<Stream> OpenReadAsync()
+    {
+        return Task.FromResult<Stream>(FileInfo.OpenRead());
+    }
+
+    public Task<Stream> OpenWriteAsync()
+    {
+        return Task.FromResult<Stream>(FileInfo.OpenWrite());
+    }
+
+    public virtual Task<string?> SaveBookmarkAsync()
+    {
+        return Task.FromResult<string?>(FileInfo.FullName);
+    }
+
+    public Task ReleaseBookmarkAsync()
+    {
+        // No-op
+        return Task.CompletedTask;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+    }
+
+    ~BclStorageFile()
+    {
+        Dispose(disposing: false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    public async Task DeleteAsync()
+    {
+        FileInfo.Delete();
+    }
+
+    public async Task<IStorageItem?> MoveAsync(IStorageFolder destination)
+    {
+        if (destination is BclStorageFolder storageFolder)
+        {
+            var newPath = System.IO.Path.Combine(storageFolder.DirectoryInfo.FullName, FileInfo.Name);
+            FileInfo.MoveTo(newPath);
+
+            return new BclStorageFile(new FileInfo(newPath));
         }
 
-        public Task<IStorageFolder?> GetParentAsync()
-        {
-            if (FileInfo.Directory is { } directory)
-            {
-                return Task.FromResult<IStorageFolder?>(new BclStorageFolder(directory));
-            }
-            return Task.FromResult<IStorageFolder?>(null);
-        }
-
-        public Task<Stream> OpenReadAsync()
-        {
-            return Task.FromResult<Stream>(FileInfo.OpenRead());
-        }
-
-        public Task<Stream> OpenWriteAsync()
-        {
-            return Task.FromResult<Stream>(FileInfo.OpenWrite());
-        }
-
-        public virtual Task<string?> SaveBookmarkAsync()
-        {
-            return Task.FromResult<string?>(FileInfo.FullName);
-        }
-
-        public Task ReleaseBookmarkAsync()
-        {
-            // No-op
-            return Task.CompletedTask;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-
-        ~BclStorageFile()
-        {
-            Dispose(disposing: false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+        return null;
     }
 }
