@@ -4,8 +4,6 @@ using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 
-using Win32WindowImpl = Avalonia.Win32.WindowImpl;
-
 namespace Movere
 {
     internal static class WindowExtensions
@@ -26,9 +24,11 @@ namespace Movere
 
         private static void OnEnableWin32DialogModalFramePropertyChanged(Window window, AvaloniaPropertyChangedEventArgs e)
         {
-            if (window.PlatformImpl is Win32WindowImpl win && e.NewValue is bool enableWin32DialogModalFrame)
+            if (window.PlatformImpl.Handle is { } handle
+                && String.Equals(handle.HandleDescriptor, "HWND", StringComparison.InvariantCultureIgnoreCase)
+                && e.NewValue is bool enableWin32DialogModalFrame)
             {
-                var hwnd = win.Handle.Handle;
+                var hwnd = handle.Handle;
                 var exStyle = (WindowStyles)GetWindowLong(hwnd, (int)WindowLongParam.GWL_EXSTYLE);
 
                 if (enableWin32DialogModalFrame)

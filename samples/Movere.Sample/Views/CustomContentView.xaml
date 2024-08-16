@@ -7,7 +7,7 @@
              Width="256"
              Padding="4">
 
-    <ItemsControl Items="{Binding Fields}">
+    <ItemsControl ItemsSource="{Binding Fields}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Spacing="8" />

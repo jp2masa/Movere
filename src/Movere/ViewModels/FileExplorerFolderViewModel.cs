@@ -118,7 +118,7 @@ namespace Movere.ViewModels
                 new MessageDialogOptions(
                     $"{SelectedItems.Count} item(s) will be removed permanently. Continue?",
                     "Delete items",
-                    DialogIcon.Warning,
+                    AvaloniaDialogIcon.Warning,
                     DialogResultSet.YesNo
                 )
             );

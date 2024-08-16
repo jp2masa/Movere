@@ -6,13 +6,14 @@ namespace Movere.Services
 {
     internal sealed class AvaloniaBitmapFileIcon : IFileIcon
     {
-        public AvaloniaBitmapFileIcon(IBitmap bitmap)
+        public AvaloniaBitmapFileIcon(Bitmap bitmap)
         {
             Bitmap = bitmap;
         }
 
-        public IBitmap Bitmap { get; }
+        public Bitmap Bitmap { get; }
 
-        public void Save(Stream stream) => Bitmap.Save(stream);
+        public void Save(Stream stream) =>
+            Bitmap.Save(stream);
     }
 }

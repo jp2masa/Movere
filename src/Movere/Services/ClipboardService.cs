@@ -8,15 +8,15 @@ using Avalonia.Input.Platform;
 
 namespace Movere.Services
 {
-    internal sealed class ClipboardService : IClipboardService
+    public sealed class ClipboardService : IClipboardService
     {
         private static readonly IClipboard s_clipboard = AvaloniaLocator.Current.GetRequiredService<IClipboard>();
 
         public Task ClearAsync() => s_clipboard.ClearAsync();
 
-        public Task<string> GetTextAsync() => s_clipboard.GetTextAsync();
+        public Task<string?> GetTextAsync() => s_clipboard.GetTextAsync();
 
-        public Task SetTextAsync(string text) => s_clipboard.SetTextAsync(text);
+        public Task SetTextAsync(string? text) => s_clipboard.SetTextAsync(text);
 
         public async Task<IReadOnlyCollection<string>> GetFilesAsync()
         {

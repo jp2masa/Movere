@@ -7,9 +7,9 @@ namespace Movere.Services
     {
         Task ClearAsync();
 
-        Task<string> GetTextAsync();
+        Task<string?> GetTextAsync();
 
-        Task SetTextAsync(string text);
+        Task SetTextAsync(string? text);
 
         Task<IReadOnlyCollection<string>> GetFilesAsync();
 

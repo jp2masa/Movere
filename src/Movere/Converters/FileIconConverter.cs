@@ -28,10 +28,14 @@ namespace Movere.Converters
                 return BindingOperations.DoNothing;
             }
 
-            if (values.Count == 2
-                && values[0] is File file
-                && values[1] is IFileIconProvider fileIconProvider
-                && targetType.IsAssignableFrom(typeof(IImage)))
+            if (values.Count != 2
+                || !targetType.IsAssignableFrom(typeof(IImage)))
+            {
+                throw new NotSupportedException();
+            }
+
+            if (values[0] is File file
+                && values[1] is IFileIconProvider fileIconProvider)
             {
                 return fileIconProvider.GetFileIcon(file.FullPath) switch
                 {
@@ -41,7 +45,7 @@ namespace Movere.Converters
                 };
             }
 
-            throw new NotSupportedException();
+            return _defaultFileIcon.Value;
         }
 
         private static Bitmap LoadDefaultFileIcon()

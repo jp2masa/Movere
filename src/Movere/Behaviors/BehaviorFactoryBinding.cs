@@ -1,31 +1,42 @@
 ﻿using System;
-using System.Reactive.Subjects;
+using System.Globalization;
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.Data.Converters;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
+using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Metadata;
 using Avalonia.Xaml.Interactivity;
 
 namespace Movere.Behaviors
 {
-    internal sealed class BehaviorFactoryBinding : IBinding
+    internal sealed class BehaviorFactoryBinding
     {
+        private sealed class Converter(BehaviorFactoryBinding owner) : IValueConverter
+        {
+            public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+                owner.Content?.Build(value);
+
+            public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+                throw new NotSupportedException();
+        }
+
         [Content]
         public BehaviorCollectionTemplate? Content { get; set; }
 
-        public InstancedBinding? Initiate(
-            IAvaloniaObject target,
-            AvaloniaProperty? targetProperty,
-            object? anchor = null,
-            bool enableDataValidation = false) =>
-            new InstancedBinding(
-                new BehaviorSubject<object?>(
-                    Content?.Build(target)
-                    ?? throw new InvalidOperationException("Invalid BehaviorFactoryBinding usage!")),
-                BindingMode.OneWay,
-                BindingPriority.Style);
+        public IBinding ProvideValue(IServiceProvider serviceProvider) =>
+            new CompiledBindingExtension(
+                new CompiledBindingPathBuilder()
+                    .Self()
+                    .Build()
+            )
+            {
+                Converter = new Converter(this)
+            };
     }
 
     internal sealed class BehaviorCollectionTemplate : ITemplate<object?, BehaviorCollection?>
@@ -36,9 +47,12 @@ namespace Movere.Behaviors
 
         public BehaviorCollection? Build(object? param)
         {
-            var func = (Func<IServiceProvider?, object?>)Content!;
-            var result = (ControlTemplateResult)func.Invoke(null)!;
-            var control = (BehaviorFactoryControl)result.Control;
+            var result = TemplateContent.Load(Content);
+
+            if (result?.Result is not BehaviorFactoryControl control)
+            {
+                throw new InvalidOperationException("Invalid BehaviorFactoryBinding usage!");
+            }
 
             var target = (AvaloniaObject)param!;
             control[~Control.DataContextProperty] = target[~Control.DataContextProperty];

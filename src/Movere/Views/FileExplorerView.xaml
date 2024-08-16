@@ -83,7 +83,7 @@
                      BorderThickness="0"
                      Margin="4"
                      Padding="0"
-                     Items="{Binding ItemsViews}"
+                     ItemsSource="{Binding ItemsViews}"
                      SelectedItem="{Binding FileExplorerFolder.ItemsView}">
                 <ListBox.Styles>
                     <Style Selector="ListBoxItem">

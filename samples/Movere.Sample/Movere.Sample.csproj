@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <OutputType>WinExe</OutputType>
         <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
         <IsPackable>False</IsPackable>
@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" />
+        <PackageReference Include="Avalonia.Themes.Fluent" />
     </ItemGroup>
 
     <ItemGroup>

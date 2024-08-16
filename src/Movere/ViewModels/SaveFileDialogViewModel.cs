@@ -72,7 +72,7 @@ namespace Movere.ViewModels
                     new MessageDialogOptions(
                         Strings.FileAlreadyExistsMessage,
                         Strings.Save,
-                        DialogIcon.Warning,
+                        AvaloniaDialogIcon.Warning,
                         DialogResultSet.YesNoCancel));
 
                 if (result != DialogResult.Yes)

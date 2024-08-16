@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 
 using Avalonia;
 using Avalonia.Data;
+using Avalonia.Data.Converters;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
 
 using Movere.Models;
 using Movere.Resources;
@@ -13,50 +16,23 @@ namespace Movere
 {
     internal sealed class LocalizedStringExtension
     {
-        private sealed class LocalizedStringBinding : IBinding
+        private sealed class Converter : IMultiValueConverter
         {
-            public LocalizedStringBinding(object key, object?[] args)
+            public static IMultiValueConverter Instance { get; } = new Converter();
+
+            private Converter()
             {
-                Key = key;
-                Args = args;
             }
 
-            public object Key { get; }
-
-            public object?[] Args { get; }
-
-            public InstancedBinding? Initiate(
-                IAvaloniaObject target,
-                AvaloniaProperty? targetProperty,
-                object? anchor = null,
-                bool enableDataValidation = false)
+            public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
             {
-                var observableKey = Key is IBinding binding
-                    ? (
-                        from key in binding.Initiate(target, null)?.Observable
-                            ?? Observable.Never<string>().StartWith(String.Empty)
-                        select ConvertKey(key)
-                    )
-                    : Observable.Never<LocalizedString>().StartWith(ConvertKey(Key));
+                if (values.Any(x => x == AvaloniaProperty.UnsetValue))
+                {
+                    return null;
+                }
 
-                var observableArgsList =
-                    from x in Args
-                    select x is IBinding binding
-                        ? binding.Initiate(target, null)?.Observable
-                        : Observable.Never<object?>().StartWith(x);
-
-                var observableArgs = observableArgsList.Any()
-                    ? (
-                        from args in Observable.CombineLatest(observableArgsList)
-                        select args.ToArray()
-                    )
-                    : Observable.Never<object?[]>().StartWith(new object?[][] { Array.Empty<object?>() });
-
-                return InstancedBinding.OneWay(
-                    from key in observableKey
-                    from args in observableArgs
-                    select String.Format(key.GetString(), args)
-                );
+                var key = ConvertKey(values[0]);
+                return String.Format(key.GetString(culture), values.Skip(1).ToArray());
             }
 
             private static LocalizedString ConvertKey(object? key) =>
@@ -67,42 +43,59 @@ namespace Movere
                     BindingNotification => String.Empty,
                     _ => throw new NotSupportedException("Key must be either string or LocalizedString!")
                 };
-    }
+        }
 
         public LocalizedStringExtension(object key)
         {
             Key = key;
-            Args = Array.Empty<object?>();
+            Args = [];
         }
 
         public LocalizedStringExtension(object key, object? arg0)
         {
             Key = key;
-            Args = new object?[] { arg0 };
+            Args = [arg0];
         }
 
         public LocalizedStringExtension(object key, object? arg0, object? arg1)
         {
             Key = key;
-            Args = new object?[] { arg0, arg1 };
+            Args = [arg0, arg1];
         }
 
         public LocalizedStringExtension(object key, object? arg0, object? arg1, object? arg2)
         {
             Key = key;
-            Args = new object?[] { arg0, arg1, arg2 };
+            Args = [arg0, arg1, arg2];
         }
 
         public object Key { get; }
 
         public object?[] Args { get; }
 
-        public IBinding ProvideValue(IServiceProvider serviceProvider) =>
-            new LocalizedStringBinding(
-                Key is string key
-                    ? new LocalizedString(Strings.ResourceManager, key)
-                    : Key,
-                Args
-            );
+        public IBinding ProvideValue(IServiceProvider serviceProvider)
+        {
+            var key = (Key as IBinding) ?? CreateConstantBinding(Key);
+
+            var args = Args
+                .Select(x => (x as IBinding) ?? CreateConstantBinding(x))
+                .ToArray();
+
+            return new MultiBinding()
+            {
+                Bindings = [key, ..args],
+                Converter = Converter.Instance
+            };
+        }
+
+        private static CompiledBindingExtension CreateConstantBinding(object value) =>
+            new CompiledBindingExtension(
+                new CompiledBindingPathBuilder()
+                    .Build()
+            )
+            {
+                Mode = BindingMode.OneTime,
+                Source = value
+            };
     }
 }

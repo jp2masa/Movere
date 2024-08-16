@@ -12,7 +12,7 @@ namespace Movere.Sample
     {
         public bool Match(object data) => data is CustomContentViewModel || data is FieldViewModel;
 
-        public IControl Build(object param) =>
+        public Control Build(object param) =>
             param switch
             {
                 CustomContentViewModel _ => new CustomContentView(),

@@ -15,7 +15,7 @@
 
     <TreeView Grid.Column="0"
               BorderThickness="0"
-              Items="{Binding FolderHierarchy}"
+              ItemsSource="{Binding FolderHierarchy}"
               SelectedItem="{Binding SelectedFolder}">
         <TreeView.Styles>
             <Style Selector="TreeViewItem">

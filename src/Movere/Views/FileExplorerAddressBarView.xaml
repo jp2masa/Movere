@@ -37,7 +37,7 @@
 
             <ItemsControl DockPanel.Dock="Left"
                           HorizontalAlignment="Left"
-                          Items="{Binding AddressSegments}">
+                          ItemsSource="{Binding AddressSegments}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <c:BreadcrumbPanel />
@@ -65,7 +65,7 @@
                             <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
                                    IsLightDismissEnabled="True"
                                    IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
-                                <ContextMenu Items="{Binding Children}">
+                                <ContextMenu ItemsSource="{Binding Children}">
                                     <ContextMenu.Styles>
                                         <Style Selector="MenuItem">
                                             <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />

@@ -16,7 +16,7 @@ namespace Movere.Behaviors
         {
             base.OnAttached();
 
-            if (!(AssociatedObject is IInputElement input))
+            if (!(AssociatedObject is InputElement input))
             {
                 return;
             }
@@ -26,7 +26,7 @@ namespace Movere.Behaviors
 
         protected override void OnDetaching()
         {
-            if (AssociatedObject is not IInputElement input)
+            if (AssociatedObject is not InputElement input)
             {
                 return;
             }
@@ -38,7 +38,7 @@ namespace Movere.Behaviors
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            var point = e.GetCurrentPoint((IInputElement)AssociatedObject!);
+            var point = e.GetCurrentPoint((InputElement)AssociatedObject!);
 
             if (point.Properties.PointerUpdateKind == PointerUpdateKind)
             {

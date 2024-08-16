@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:flex="clr-namespace:Avalonia.Flexbox;assembly=Avalonia.Flexbox"
+        xmlns:flex="clr-namespace:Avalonia.Labs.Panels;assembly=Avalonia.Labs.Panels"
         xmlns:local="clr-namespace:Movere"
         xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.ContentDialog"
@@ -18,7 +18,7 @@
 
         <ItemsControl DockPanel.Dock="Bottom"
                       Margin="4"
-                      Items="{Binding Actions}">
+                      ItemsSource="{Binding Actions}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <flex:FlexPanel ColumnSpacing="8"

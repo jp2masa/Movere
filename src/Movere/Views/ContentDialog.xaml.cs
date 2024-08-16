@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
-
-#if AVALONIA_DIAGNOSTICS
+﻿#if AVALONIA_DIAGNOSTICS
 using Avalonia;
 #endif
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
@@ -22,9 +21,9 @@ namespace Movere.Views
 
         private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
-        protected override void OnClosing(CancelEventArgs e)
+        protected override void OnClosing(WindowClosingEventArgs e)
         {
-            if (ViewModel is IContentDialogViewModel vm)
+            if (ViewModel is { } vm)
             {
                 e.Cancel = !vm.OnClosing();
             }
