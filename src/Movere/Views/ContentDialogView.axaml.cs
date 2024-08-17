@@ -9,9 +9,9 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal sealed class ContentDialog : ReactiveWindow<IContentDialogViewModel>
+    internal sealed partial class ContentDialogView : ReactiveWindow<IContentDialogViewModel>
     {
-        public ContentDialog()
+        public ContentDialogView()
         {
             InitializeComponent();
 #if AVALONIA_DIAGNOSTICS

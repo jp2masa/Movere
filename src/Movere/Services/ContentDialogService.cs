@@ -22,7 +22,7 @@ namespace Movere.Services
 
         public Task<TResult> ShowDialogAsync(ContentDialogOptions<TContent, TResult> options)
         {
-            var dialog = new ContentDialog() { DataTemplates = { _viewResolver } };
+            var dialog = new ContentDialogView() { DataTemplates = { _viewResolver } };
 
             var viewModel = new ContentDialogViewModel<TContent, TResult>(
                 new DialogView<TResult>(dialog),
