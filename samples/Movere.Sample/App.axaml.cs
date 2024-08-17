@@ -14,7 +14,7 @@ using Movere.Services;
 
 namespace Movere.Sample
 {
-    internal class App : Application
+    internal partial class App : Application
     {
         public override void Initialize() => AvaloniaXamlLoader.Load(this);
 

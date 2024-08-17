@@ -5,9 +5,9 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal sealed class FileExplorerTreeView : ReactiveUserControl<FileExplorerTreeViewModel>
+    internal sealed partial class MessageDialogView : ReactiveUserControl<MessageDialogViewModel>
     {
-        public FileExplorerTreeView()
+        public MessageDialogView()
         {
             InitializeComponent();
         }

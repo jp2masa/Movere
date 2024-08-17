@@ -8,9 +8,9 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal sealed class PrintDialog : ReactiveWindow<PrintDialogViewModel>
+    internal sealed partial class OpenFileDialog : ReactiveWindow<OpenFileDialogViewModel>
     {
-        public PrintDialog()
+        public OpenFileDialog()
         {
             InitializeComponent();
 #if AVALONIA_DIAGNOSTICS

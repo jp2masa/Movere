@@ -5,7 +5,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    public sealed class FileExplorerView : ReactiveUserControl<FileExplorerViewModel>
+    public sealed partial class FileExplorerView : ReactiveUserControl<FileExplorerViewModel>
     {
         public FileExplorerView()
         {

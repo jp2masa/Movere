@@ -1,13 +1,13 @@
 ﻿using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using Movere.ViewModels;
+using Movere.Sample.ViewModels;
 
-namespace Movere.Views
+namespace Movere.Sample.Views
 {
-    internal sealed class MessageDialogView : ReactiveUserControl<MessageDialogViewModel>
+    internal sealed partial class FieldView : ReactiveUserControl<FieldViewModel>
     {
-        public MessageDialogView()
+        public FieldView()
         {
             InitializeComponent();
         }

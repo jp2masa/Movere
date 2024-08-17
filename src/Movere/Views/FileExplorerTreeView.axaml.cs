@@ -5,9 +5,9 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal sealed class FileExplorerAddressBarView : ReactiveUserControl<FileExplorerAddressBarViewModel>
+    internal sealed partial class FileExplorerTreeView : ReactiveUserControl<FileExplorerTreeViewModel>
     {
-        public FileExplorerAddressBarView()
+        public FileExplorerTreeView()
         {
             InitializeComponent();
         }

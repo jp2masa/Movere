@@ -4,13 +4,13 @@ using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using Movere.Sample.ViewModels;
+using Movere.ViewModels;
 
-namespace Movere.Sample.Views
+namespace Movere.Views
 {
-    internal sealed class MainWindow : ReactiveWindow<MainWindowViewModel>
+    internal sealed partial class SaveFileDialog : ReactiveWindow<SaveFileDialogViewModel>
     {
-        public MainWindow()
+        public SaveFileDialog()
         {
             InitializeComponent();
 #if AVALONIA_DIAGNOSTICS

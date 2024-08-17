@@ -5,9 +5,9 @@ using Movere.Sample.ViewModels;
 
 namespace Movere.Sample.Views
 {
-    internal sealed class FieldView : ReactiveUserControl<FieldViewModel>
+    internal sealed partial class CustomContentView : ReactiveUserControl<CustomContentViewModel>
     {
-        public FieldView()
+        public CustomContentView()
         {
             InitializeComponent();
         }

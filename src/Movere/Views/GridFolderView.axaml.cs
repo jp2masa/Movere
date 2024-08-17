@@ -4,9 +4,9 @@ using Movere.Controls;
 
 namespace Movere.Views
 {
-    public sealed class ListFolderView : ItemsControlView
+    public sealed partial class GridFolderView : ItemsControlView
     {
-        public ListFolderView()
+        public GridFolderView()
         {
             InitializeComponent();
         }

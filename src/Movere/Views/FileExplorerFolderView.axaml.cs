@@ -1,13 +1,13 @@
 ﻿using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-using Movere.Sample.ViewModels;
+using Movere.ViewModels;
 
-namespace Movere.Sample.Views
+namespace Movere.Views
 {
-    internal sealed class CustomContentView : ReactiveUserControl<CustomContentViewModel>
+    internal sealed partial class FileExplorerFolderView : ReactiveUserControl<FileExplorerFolderViewModel>
     {
-        public CustomContentView()
+        public FileExplorerFolderView()
         {
             InitializeComponent();
         }
