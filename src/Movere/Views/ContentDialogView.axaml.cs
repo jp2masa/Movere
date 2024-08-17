@@ -2,7 +2,6 @@
 using Avalonia;
 #endif
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using Movere.ViewModels;
@@ -18,8 +17,6 @@ namespace Movere.Views
             this.AttachDevTools();
 #endif
         }
-
-        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {

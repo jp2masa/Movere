@@ -1,7 +1,6 @@
 ﻿#if AVALONIA_DIAGNOSTICS
 using Avalonia;
 #endif
-using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
 using Movere.Sample.ViewModels;
@@ -17,7 +16,5 @@ namespace Movere.Sample.Views
             this.AttachDevTools();
 #endif
         }
-
-        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
     }
 }

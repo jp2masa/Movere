@@ -1,6 +1,4 @@
-﻿using Avalonia.Markup.Xaml;
-
-using Movere.Controls;
+﻿using Movere.Controls;
 
 namespace Movere.Views
 {
@@ -10,7 +8,5 @@ namespace Movere.Views
         {
             InitializeComponent();
         }
-
-        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
     }
 }
