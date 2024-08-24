@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -24,55 +23,28 @@ namespace Movere
 
         private static void OnEnableWin32DialogModalFramePropertyChanged(Window window, AvaloniaPropertyChangedEventArgs e)
         {
-            if (window.PlatformImpl.Handle is { } handle
-                && String.Equals(handle.HandleDescriptor, "HWND", StringComparison.InvariantCultureIgnoreCase)
-                && e.NewValue is bool enableWin32DialogModalFrame)
+            if (e.NewValue is not bool enableWin32DialogModalFrame)
             {
-                var hwnd = handle.Handle;
-                var exStyle = (WindowStyles)GetWindowLong(hwnd, (int)WindowLongParam.GWL_EXSTYLE);
+                return;
+            }
 
-                if (enableWin32DialogModalFrame)
-                {
-                    exStyle |= WindowStyles.WS_EX_DLGMODALFRAME;
-                }
-                else
-                {
-                    exStyle &= ~WindowStyles.WS_EX_DLGMODALFRAME;
-                }
-
-                SetWindowLong(hwnd, (int)WindowLongParam.GWL_EXSTYLE, (uint)exStyle);
+            if (enableWin32DialogModalFrame)
+            {
+                Win32Properties.AddWindowStylesCallback(window, WindowStylesCallback);
+            }
+            else
+            {
+                Win32Properties.RemoveWindowStylesCallback(window, WindowStylesCallback);
             }
         }
 
-        // interop adapted from Avalonia
+        private static (uint style, uint exStyle) WindowStylesCallback(uint style, uint exStyle) =>
+            (style, exStyle | (uint)WindowStyles.WS_EX_DLGMODALFRAME);
 
         [Flags]
         private enum WindowStyles : uint
         {
             WS_EX_DLGMODALFRAME = 0x00000001
         }
-
-        private enum WindowLongParam
-        {
-            GWL_EXSTYLE = -20
-        }
-
-        [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLong")]
-        private static extern uint GetWindowLong32b(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern uint GetWindowLongPtr(IntPtr hWnd, int nIndex);
-
-        private static uint GetWindowLong(IntPtr hWnd, int nIndex) =>
-            IntPtr.Size == 4 ? GetWindowLong32b(hWnd, nIndex) : GetWindowLongPtr(hWnd, nIndex);
-
-        [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
-        private static extern uint SetWindowLong32b(IntPtr hWnd, int nIndex, uint value);
-
-        [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
-        private static extern IntPtr SetWindowLong64b(IntPtr hWnd, int nIndex, IntPtr value);
-
-        public static uint SetWindowLong(IntPtr hWnd, int nIndex, uint value) =>
-            IntPtr.Size == 4 ? SetWindowLong32b(hWnd, nIndex, value) : (uint)SetWindowLong64b(hWnd, nIndex, new IntPtr(value)).ToInt32();
     }
 }

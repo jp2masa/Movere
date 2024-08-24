@@ -5,6 +5,7 @@
         <OutputType>WinExe</OutputType>
         <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
         <IsPackable>False</IsPackable>
+        <AvaloniaIncludeApplicationIconAsWindowIcon>false</AvaloniaIncludeApplicationIconAsWindowIcon>
     </PropertyGroup>
 
     <ItemGroup>
