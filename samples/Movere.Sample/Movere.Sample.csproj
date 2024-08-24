@@ -6,6 +6,7 @@
         <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
         <IsPackable>False</IsPackable>
         <AvaloniaIncludeApplicationIconAsWindowIcon>false</AvaloniaIncludeApplicationIconAsWindowIcon>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
     <ItemGroup>

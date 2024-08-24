@@ -4,6 +4,7 @@
         <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
         <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
         <AvaloniaAccessUnstablePrivateApis>true</AvaloniaAccessUnstablePrivateApis>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
     <ItemGroup>
