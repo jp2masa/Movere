@@ -1,66 +1,46 @@
-﻿using System.Collections;
-using System.Reactive;
+﻿using System;
+using System.Collections;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 using ReactiveUI;
-
-using Movere.Services;
-using Movere.Models;
 
 namespace Movere.ViewModels
 {
     internal interface IContentDialogViewModel
     {
-        LocalizedString Title { get; }
-
         object? Content { get; }
 
         IEnumerable Actions { get; }
-
-        ICommand CloseCommand { get; }
-
-        bool OnClosing();
     }
 
-    internal sealed class ContentDialogViewModel<TContent, TResult> : ReactiveObject, IContentDialogViewModel
+    internal static class ContentDialogViewModel
     {
-        private readonly IDialogView<TResult> _view;
+        public static ContentDialogViewModel<TContent, TResult> Create<TContent, TResult>(
+            TContent content,
+            DialogActionSet<TContent, TResult> actions
+        ) =>
+            new ContentDialogViewModel<TContent, TResult>(content, actions);
+    }
 
-        private readonly ObservableAsPropertyHelper<bool> _isBusy;
-        private readonly TaskCompletionSource<TResult> _resultTcs = new TaskCompletionSource<TResult>();
-
+    internal sealed class ContentDialogViewModel<TContent, TResult>
+        : ReactiveObject, IContentDialogViewModel, IDialogContentViewModel<TResult>
+    {
         internal ContentDialogViewModel(
-            IDialogView<TResult> view,
-            LocalizedString title,
             TContent content,
             DialogActionSet<TContent, TResult> actions)
         {
-            _view = view;
-
-            Title = title;
             Content = content;
 
             Actions = DialogActionSetViewModel.Create(actions);
 
-            CloseCommand = ReactiveCommand.CreateFromTask(
-                async (ReactiveCommand<TContent, TResult> command) =>
-                {
-                    var result = await command.Execute(Content);
-
-                    _resultTcs.TrySetResult(result);
-                    _view.Close(result);
-                }
+            CloseCommand = ReactiveCommand.Create(
+                (ReactiveCommand<TContent, TResult> command) =>
+                    command.Execute(Content)
             );
 
-            _isBusy = CloseCommand.IsExecuting.ToProperty(this, x => x.IsBusy);
+            Result = CloseCommand.AsObservable();
         }
-
-        public LocalizedString Title { get; }
-
-        LocalizedString IContentDialogViewModel.Title => Title;
-
+        
         public TContent Content { get; }
 
         object? IContentDialogViewModel.Content => Content;
@@ -69,28 +49,18 @@ namespace Movere.ViewModels
 
         IEnumerable IContentDialogViewModel.Actions => Actions.Actions;
 
-        public ReactiveCommand<ReactiveCommand<TContent, TResult>, Unit> CloseCommand { get; }
+        public ReactiveCommand<ReactiveCommand<TContent, TResult>, IObservable<TResult>> CloseCommand { get; }
 
-        ICommand IContentDialogViewModel.CloseCommand => CloseCommand;
+        public IObservable<IObservable<TResult>> Result { get; }
 
-        public bool IsBusy => _isBusy.Value;
-
-        public bool OnClosing()
+        public void Close()
         {
-            if (_resultTcs.Task.IsCompleted)
+            if (Actions.CancelAction is { } cancelAction)
             {
-                return true;
+                CloseCommand
+                    .Execute(cancelAction.Command)
+                    .Subscribe();
             }
-
-            if (!IsBusy && Actions.CancelAction is not null)
-            {
-                _ = CancelAsync(Actions.CancelAction);
-            }
-
-            return _resultTcs.Task.IsCompleted;
         }
-
-        private async Task CancelAsync(DialogAction<TContent, TResult> cancelAction) =>
-            await CloseCommand.Execute(cancelAction.Command);
     }
 }

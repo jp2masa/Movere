@@ -4,8 +4,7 @@
              x:Class="Movere.Sample.Views.CustomContentView"
              x:CompileBindings="True"
              x:DataType="vm:CustomContentViewModel"
-             Width="256"
-             Padding="4">
+             MinWidth="256">
 
     <ItemsControl ItemsSource="{Binding Fields}">
         <ItemsControl.ItemsPanel>

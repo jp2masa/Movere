@@ -1,23 +1,18 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:flex="clr-namespace:Avalonia.Labs.Panels;assembly=Avalonia.Labs.Panels"
-        xmlns:local="clr-namespace:Movere"
-        xmlns:vm="clr-namespace:Movere.ViewModels"
-        x:Class="Movere.Views.ContentDialogView"
-        x:CompileBindings="True"
-        x:DataType="vm:IContentDialogViewModel"
-        x:Name="dialog"
-        local:WindowExtensions.EnableWin32DialogModalFrame="True"
-        CanResize="False"
-        SizeToContent="WidthAndHeight"
-        Title="{local:LocalizedString {Binding Title}}"
-        ShowInTaskbar="False"
-        WindowStartupLocation="CenterOwner">
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:flex="clr-namespace:Avalonia.Labs.Panels;assembly=Avalonia.Labs.Panels"
+    xmlns:local="clr-namespace:Movere"
+    xmlns:vm="clr-namespace:Movere.ViewModels"
+    x:Class="Movere.Views.ContentDialogView"
+    x:CompileBindings="True"
+    x:DataType="vm:IContentDialogViewModel"
+    x:Name="dialog">
 
-    <DockPanel Margin="4">
+    <DockPanel>
 
         <ItemsControl DockPanel.Dock="Bottom"
-                      Margin="4"
+                      Padding="8"
                       ItemsSource="{Binding Actions}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -38,8 +33,9 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ContentControl Content="{Binding Content}" />
+        <ContentControl Padding="8"
+                        Content="{Binding Content}" />
 
     </DockPanel>
 
-</Window>
+</UserControl>
