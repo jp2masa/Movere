@@ -3,6 +3,7 @@
         xmlns:v="clr-namespace:Movere.Views"
         xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.PrintDialog"
+        x:DataType="vm:PrintDialogViewModel"
         MinWidth="240"
         MinHeight="160"
         Width="800"
