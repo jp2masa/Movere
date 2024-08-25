@@ -7,7 +7,6 @@
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.FileExplorerAddressBarView"
-             x:CompileBindings="True"
              x:DataType="vm:FileExplorerAddressBarViewModel"
              x:Name="root"
              BorderBrush="{DynamicResource ThemeBorderMidBrush}" 

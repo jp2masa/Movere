@@ -5,7 +5,6 @@
              xmlns:m="clr-namespace:Movere.Models"
              xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.FileExplorerTreeView"
-             x:CompileBindings="True"
              x:DataType="vm:FileExplorerTreeViewModel"
              x:Name="root">
     <UserControl.Resources>

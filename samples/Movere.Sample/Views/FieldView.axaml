@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:Movere.Sample.ViewModels"
              x:Class="Movere.Sample.Views.FieldView"
-             x:CompileBindings="True"
              x:DataType="vm:FieldViewModel">
 
     <TextBox Grid.Column="2"

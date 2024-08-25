@@ -5,7 +5,6 @@
     xmlns:local="clr-namespace:Movere"
     xmlns:vm="clr-namespace:Movere.ViewModels"
     x:Class="Movere.Views.ContentDialogView"
-    x:CompileBindings="True"
     x:DataType="vm:IContentDialogViewModel"
     x:Name="dialog">
 

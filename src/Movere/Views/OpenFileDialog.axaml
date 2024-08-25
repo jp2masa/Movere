@@ -4,7 +4,6 @@
         xmlns:v="clr-namespace:Movere.Views"
         xmlns:vm="clr-namespace:Movere.ViewModels"
         x:Class="Movere.Views.OpenFileDialog"
-        x:CompileBindings="True"
         x:DataType="vm:OpenFileDialogViewModel"
         Name="Dialog"
         MinWidth="240"

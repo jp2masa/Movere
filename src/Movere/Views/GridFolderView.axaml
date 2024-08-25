@@ -3,8 +3,7 @@
                     xmlns:c="clr-namespace:Movere.Controls"
                     xmlns:conv="clr-namespace:Movere.Converters"
                     xmlns:m="clr-namespace:Movere.Models"
-                    x:Class="Movere.Views.GridFolderView"
-                    x:CompileBindings="True">
+                    x:Class="Movere.Views.GridFolderView">
     <c:ItemsControlView.Resources>
         <conv:FileIconConverter x:Key="FileIconConverter" />
         <IImage x:Key="FolderIcon">/Resources/Icons/Folder.png</IImage>
