@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Autofac;
 
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using AvaloniaFilter = Avalonia.Controls.FileDialogFilter;
@@ -29,7 +30,10 @@ namespace Movere
             {
                 var view = new MovereOpenFileDialog();
 
-                var containerBuilder = new ContainerBuilder();
+                var containerBuilder = new ContainerBuilder()
+                {
+                    Properties = { ["Application"] = Application.Current }
+                };
 
                 containerBuilder
                     .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);
@@ -70,7 +74,10 @@ namespace Movere
             {
                 var view = new MovereSaveFileDialog();
 
-                var containerBuilder = new ContainerBuilder();
+                var containerBuilder = new ContainerBuilder()
+                {
+                    Properties = { ["Application"] = Application.Current }
+                };
 
                 containerBuilder
                     .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);

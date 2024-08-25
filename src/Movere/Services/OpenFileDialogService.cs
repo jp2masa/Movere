@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Autofac;
 
+using Avalonia;
 using Window = Avalonia.Controls.Window;
 
 using Movere.Models;
@@ -26,7 +27,10 @@ namespace Movere.Services
         {
             var dialog = new OpenFileDialog();
 
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new ContainerBuilder()
+            {
+                Properties = { ["Application"] = Application.Current }
+            };
 
             containerBuilder
                 .RegisterAssemblyModules(typeof(OpenFileDialogService).Assembly);

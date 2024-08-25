@@ -1,6 +1,7 @@
 ﻿using Autofac;
+using Module = Autofac.Module;
 
-using Movere.Services;
+using Avalonia;
 
 namespace Movere.Services
 {
@@ -19,6 +20,22 @@ namespace Movere.Services
             builder
                 .RegisterGeneric(typeof(DialogView<>))
                 .As(typeof(IDialogView<>));
-       }
+
+            if (builder
+                .Properties
+                .TryGetValue("Application", out var applicationObj)
+                && applicationObj is Application application
+            )
+            {
+                var extensions = application.GetValue(AppBuilderExtensions.MovereExtensionsProperty);
+
+                foreach (var extension in extensions)
+                {
+                    builder
+                        .Register((_, _) => extension.Factory())
+                        .As(extension.Type);
+                }
+            }
+        }
     }
 }

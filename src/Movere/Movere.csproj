@@ -21,6 +21,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Movere.Explorer" />
         <InternalsVisibleTo Include="Movere.Sample" />
+        <InternalsVisibleTo Include="Movere.Win32" />
     </ItemGroup>
 
     <ItemGroup>

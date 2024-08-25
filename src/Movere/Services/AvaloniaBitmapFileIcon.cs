@@ -15,5 +15,8 @@ namespace Movere.Services
 
         public void Save(Stream stream) =>
             Bitmap.Save(stream);
+
+        public void Dispose() =>
+            Bitmap.Dispose();
     }
 }

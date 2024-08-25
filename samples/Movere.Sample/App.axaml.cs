@@ -11,6 +11,7 @@ using Avalonia.ReactiveUI;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
 using Movere.Services;
+using Movere.Win32;
 
 namespace Movere.Sample
 {
@@ -52,15 +53,18 @@ namespace Movere.Sample
 
         [STAThread]
         private static int Main(string[] args) =>
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
 
         private static AppBuilder BuildAvaloniaApp() =>
-            AppBuilder.Configure<App>()
+            AppBuilder
+                .Configure<App>()
                 .UsePlatformDetect()
 #if DEBUG
                 .LogToTrace()
 #endif
                 .UseMovere()
+                .UseMovereWin32()
                 .UseReactiveUI();
 
         private static Task AvaloniaOpenFile(Window parent)

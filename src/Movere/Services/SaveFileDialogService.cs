@@ -2,6 +2,7 @@
 
 using Autofac;
 
+using Avalonia;
 using Avalonia.Controls;
 
 using Movere.Models;
@@ -23,7 +24,10 @@ namespace Movere.Services
         {
             var dialog = new SaveFileDialog();
 
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new ContainerBuilder()
+            {
+                Properties = { ["Application"] = Application.Current }
+            };
 
             containerBuilder
                 .RegisterAssemblyModules(typeof(SaveFileDialogService).Assembly);

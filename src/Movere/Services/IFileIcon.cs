@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Movere.Services
 {
-    public interface IFileIcon
+    public interface IFileIcon : IDisposable
     {
         void Save(Stream stream);
     }

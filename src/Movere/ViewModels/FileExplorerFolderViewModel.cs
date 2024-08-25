@@ -20,6 +20,12 @@ namespace Movere.ViewModels
 {
     public sealed class FileExplorerFolderViewModel : ReactiveObject
     {
+        private sealed class NullFileIconProvider : IFileIconProvider
+        {
+            public IFileIcon? GetFileIcon(string filePath) =>
+                null;
+        }
+
         private readonly IClipboardService _clipboard;
         private readonly IMessageDialogService _messageDialogService;
 
@@ -33,15 +39,15 @@ namespace Movere.ViewModels
 
         public FileExplorerFolderViewModel(
             IClipboardService clipboard,
-            IFileIconProvider fileIconProvider,
             IMessageDialogService messageDialogService,
             bool allowMultipleSelection,
+            IFileIconProvider? fileIconProvider = null,
             IObservable<IFilter<FileSystemEntry>>? filter = null)
         {
             _clipboard = clipboard;
             _messageDialogService = messageDialogService;
 
-            FileIconProvider = fileIconProvider;
+            FileIconProvider = fileIconProvider ?? new NullFileIconProvider();
 
             AllowMultipleSelection = allowMultipleSelection;
 
