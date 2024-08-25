@@ -3,6 +3,7 @@ using System.Buffers;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Imaging;
@@ -13,6 +14,7 @@ using Movere.Services;
 
 namespace Movere.Win32.Services
 {
+    [SupportedOSPlatform("windows5.1.2600")]
     internal sealed class FileIconProvider : IFileIconProvider
     {
         public unsafe IFileIcon? GetFileIcon(string filePath)
@@ -63,6 +65,7 @@ namespace Movere.Win32.Services
         }
     }
 
+    [SupportedOSPlatform("windows5.1.2600")]
     internal sealed class FileIcon(HICON hIcon) : IFileIcon
     {
         public unsafe void Save(Stream stream)
