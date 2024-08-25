@@ -88,7 +88,7 @@ namespace Movere
             };
         }
 
-        private static CompiledBindingExtension CreateConstantBinding(object value) =>
+        private static CompiledBindingExtension CreateConstantBinding(object? value) =>
             new CompiledBindingExtension(
                 new CompiledBindingPathBuilder()
                     .Build()

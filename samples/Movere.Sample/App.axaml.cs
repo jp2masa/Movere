@@ -39,8 +39,10 @@ namespace Movere.Sample
                 var printDialogService = new PrintDialogService(mainWindow);
 
                 mainWindow.DataContext = new MainWindowViewModel(
+#pragma warning disable CS0612 // Type or member is obsolete
                     () => AvaloniaOpenFile(mainWindow),
                     () => AvaloniaSaveFile(mainWindow),
+#pragma warning restore CS0612 // Type or member is obsolete
                     messageDialogService,
                     contentDialogService,
                     openFileDialogService,
@@ -57,6 +59,7 @@ namespace Movere.Sample
                 .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
 
         private static AppBuilder BuildAvaloniaApp() =>
+#pragma warning disable CS0612 // Type or member is obsolete
             AppBuilder
                 .Configure<App>()
                 .UsePlatformDetect()
@@ -64,9 +67,11 @@ namespace Movere.Sample
                 .LogToTrace()
 #endif
                 .UseMovere()
+#pragma warning restore CS0612 // Type or member is obsolete
                 .UseMovereWin32()
                 .UseReactiveUI();
 
+        [Obsolete]
         private static Task AvaloniaOpenFile(Window parent)
         {
             var dialog = new OpenFileDialog()
@@ -83,6 +88,7 @@ namespace Movere.Sample
             return dialog.ShowAsync(parent);
         }
 
+        [Obsolete]
         private static Task AvaloniaSaveFile(Window parent)
         {
             var dialog = new SaveFileDialog()

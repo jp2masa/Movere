@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using Avalonia.Platform;
 
 namespace Movere.Models
@@ -25,7 +26,7 @@ namespace Movere.Models
 
         public static IDialogIcon Error { get; } = new AvaloniaDialogIcon("avares://Movere/Resources/Icons/Error.png");
 
-        private readonly AvaloniaBitmap _bitmap;
+        private readonly AvaloniaBitmap? _bitmap;
 
         public AvaloniaDialogIcon(string path)
         {

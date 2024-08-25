@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 
 namespace Movere.Win32.Services
 {
-    [GeneratedComClass]
     internal sealed partial class Win32Stream(Stream stream) : IStream.Interface
     {
         private readonly Stream _stream = stream;
