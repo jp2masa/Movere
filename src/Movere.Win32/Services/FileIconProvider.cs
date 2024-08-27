@@ -32,7 +32,7 @@ namespace Movere.Win32.Services
                 filePathSpan[filePath.Length] = '\0';
             }
 
-            if (filePath.Length < 256)
+            if (filePathSpanLength < 512)
             {
                 Span<char> filePathSpan = stackalloc char[filePathSpanLength];
                 CopyFilePath(filePath, filePathSpan);

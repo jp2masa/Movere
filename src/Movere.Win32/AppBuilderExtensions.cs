@@ -11,7 +11,7 @@ namespace Movere.Win32
     public static class AppBuilderExtensions
     {
         [SupportedOSPlatform("windows5.1.2600")]
-        private static Movere.AppBuilderExtensions.Extension s_extension =
+        private static readonly Movere.AppBuilderExtensions.Extension s_fileIconProviderExtension =
             new Movere.AppBuilderExtensions.Extension(typeof(IFileIconProvider), () => new FileIconProvider());
 
         public static AppBuilder UseMovereWin32(this AppBuilder builder) =>
@@ -20,7 +20,7 @@ namespace Movere.Win32
                 {
                     if (OperatingSystem.IsWindowsVersionAtLeast(5, 1, 2600, 2600))
                     {
-                        x.Instance?.AddExtension(s_extension);
+                        x.Instance?.AddExtension(s_fileIconProviderExtension);
                     }
                 }
             );
