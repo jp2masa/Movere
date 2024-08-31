@@ -16,7 +16,8 @@
     <c:ItemsControlView.DataTemplates>
         <DataTemplate DataType="m:File">
             <StackPanel Orientation="Horizontal"
-                        Spacing="4">
+                        Spacing="4"
+                        ToolTip.Tip="{Binding Name}">
                 <Image Width="16"
                        Height="16">
                     <Image.Source>
@@ -32,7 +33,8 @@
         </DataTemplate>
         <DataTemplate DataType="m:Folder">
             <StackPanel Orientation="Horizontal"
-                        Spacing="4">
+                        Spacing="4"
+                        ToolTip.Tip="{Binding Name}">
                 <Image Width="16"
                        Height="16"
                        Source="{StaticResource FolderIcon}" />

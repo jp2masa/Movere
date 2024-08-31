@@ -17,7 +17,9 @@
               ItemsSource="{Binding FolderHierarchy}"
               SelectedItem="{Binding SelectedFolder}">
         <TreeView.Styles>
-            <Style Selector="TreeViewItem">
+            <Style
+                x:DataType="m:Folder"
+                Selector="TreeViewItem">
                 <Setter Property="IsExpanded">
                     <Setter.Value>
                         <MultiBinding Converter="{StaticResource FileExplorerTreeIsExpandedConverter}">
@@ -28,6 +30,7 @@
                 </Setter>
                 <Setter Property="MinHeight" Value="0" />
                 <Setter Property="Padding" Value="4" />
+                <Setter Property="ToolTip.Tip" Value="{Binding Name}" />
             </Style>
         </TreeView.Styles>
         <TreeView.ItemTemplate>

@@ -15,7 +15,8 @@
     </c:ItemsControlView.PanelTemplate>
     <c:ItemsControlView.DataTemplates>
         <DataTemplate DataType="m:File">
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="4"
+                        ToolTip.Tip="{Binding Name}">
                 <Image HorizontalAlignment="Center"
                        Width="32"
                        Height="32">
@@ -34,7 +35,8 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="m:Folder">
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="4"
+                        ToolTip.Tip="{Binding Name}">
                 <Image HorizontalAlignment="Center"
                        Width="32"
                        Height="32"
