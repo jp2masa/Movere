@@ -59,6 +59,7 @@
                                     CommandParameter="{Binding Address}" />
                             <Button x:Name="PopupButton"
                                     Classes="btn-address-bar transparent"
+                                    IsVisible="{Binding Children.Count}"
                                     Content="»"
                                     Command="{Binding OpenPopupCommand}" />
                             <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
