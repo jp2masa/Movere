@@ -67,7 +67,9 @@
                                    IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
                                 <ContextMenu ItemsSource="{Binding Children}">
                                     <ContextMenu.Styles>
-                                        <Style Selector="MenuItem">
+                                        <Style
+                                            x:DataType="vm:AddressSegmentChildViewModel"
+                                            Selector="MenuItem">
                                             <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />
                                             <Setter Property="CommandParameter" Value="{Binding Address}" />
                                             <Setter Property="Header" Value="{Binding Name}" />
