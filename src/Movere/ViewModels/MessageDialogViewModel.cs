@@ -11,7 +11,7 @@ namespace Movere.ViewModels
         private readonly IDialogIcon _icon;
         private readonly Lazy<Bitmap?> _bitmap;
 
-        public MessageDialogViewModel(IDialogIcon icon, string message)
+        public MessageDialogViewModel(IDialogIcon icon, LocalizedString message)
         {
             _icon = icon;
             _bitmap = new Lazy<Bitmap?>(LoadIcon);
@@ -22,7 +22,7 @@ namespace Movere.ViewModels
         public Bitmap? Icon =>
             _bitmap.Value;
 
-        public string Message { get; }
+        public LocalizedString Message { get; }
 
         private Bitmap? LoadIcon()
         {

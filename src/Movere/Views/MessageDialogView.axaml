@@ -1,5 +1,6 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Movere"
              xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.MessageDialogView"
              x:DataType="vm:MessageDialogViewModel"
@@ -17,7 +18,7 @@
 
         <TextBlock Margin="4"
                    VerticalAlignment="Stretch"
-                   Text="{Binding Message}"
+                   Text="{local:LocalizedString {Binding Message}}"
                    TextWrapping="Wrap" />
 
     </DockPanel>

@@ -123,10 +123,12 @@ namespace Movere.ViewModels
             var result = await _messageDialogService.ShowMessageDialogAsync(
                 new MessageDialogOptions(
                     $"{SelectedItems.Count} item(s) will be removed permanently. Continue?",
-                    "Delete items",
-                    AvaloniaDialogIcon.Warning,
-                    DialogResultSet.YesNo
+                    (LocalizedString)"Delete items"
                 )
+                {
+                    Icon = AvaloniaDialogIcon.Warning,
+                    DialogResults = DialogResultSet.YesNo
+                }
             );
 
             if (result == DialogResult.Yes)

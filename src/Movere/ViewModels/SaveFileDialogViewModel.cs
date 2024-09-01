@@ -15,6 +15,17 @@ namespace Movere.ViewModels
     internal sealed class SaveFileDialogViewModel : ReactiveObject
     {
         private readonly IDialogView<SaveFileDialogResult> _view;
+
+        private static readonly MessageDialogOptions s_fileAlreadyExistsMessageDialogOptions =
+            new MessageDialogOptions(
+                new LocalizedString(Strings.ResourceManager, nameof(Strings.FileAlreadyExistsMessage)),
+                new LocalizedString(Strings.ResourceManager, nameof(Strings.Save))
+            )
+            {
+                Icon = AvaloniaDialogIcon.Warning,
+                DialogResults = DialogResultSet.YesNoCancel
+            };
+
         private readonly IMessageDialogService _messageDialogService;
 
         private string _fileName = String.Empty;
@@ -66,27 +77,23 @@ namespace Movere.ViewModels
 
             path = Path.GetFullPath(path);
 
-            if (System.IO.File.Exists(path))
+            var result = System.IO.File.Exists(path)
+                ? await _messageDialogService
+                    .ShowMessageDialogAsync(s_fileAlreadyExistsMessageDialogOptions)
+                : DialogResult.Yes;
+
+            if (result == DialogResult.Yes)
             {
-                var result = await _messageDialogService.ShowMessageDialogAsync(
-                    new MessageDialogOptions(
-                        Strings.FileAlreadyExistsMessage,
-                        Strings.Save,
-                        AvaloniaDialogIcon.Warning,
-                        DialogResultSet.YesNoCancel));
-
-                if (result != DialogResult.Yes)
-                {
-                    if (result == DialogResult.No)
-                    {
-                        Cancel();
-                    }
-
-                    return;
-                }
+                Close(new SaveFileDialogResult(path));
             }
-
-            Close(new SaveFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItem?.FullPath));
+            else if (result == DialogResult.No)
+            {
+                Cancel();
+            }
+            else if (result != DialogResult.Cancel)
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         private void Cancel() => Close(new SaveFileDialogResult(null));

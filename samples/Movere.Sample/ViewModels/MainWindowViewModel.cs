@@ -108,10 +108,12 @@ namespace Movere.Sample.ViewModels
                         "really really really really really really really really really really really really " +
                         "really really really really really really really really really really really really " +
                         "really really really really really really really really really long message",
-                        "Message Dialog",
-                        AvaloniaDialogIcon.Error,
-                        DialogResultSet.AbortRetryIgnore
+                        (LocalizedString)"Message Dialog"
                     )
+                    {
+                        Icon = AvaloniaDialogIcon.Error,
+                        DialogResults = DialogResultSet.AbortRetryIgnore
+                    }
                 )
             )
                 .Name.GetString() ?? "null";

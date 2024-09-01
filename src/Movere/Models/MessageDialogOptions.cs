@@ -1,7 +1,19 @@
-﻿namespace Movere.Models
+﻿using System;
+
+namespace Movere.Models
 {
-    public sealed class MessageDialogOptions
+    public sealed record MessageDialogOptions
     {
+        public MessageDialogOptions(
+            LocalizedString message,
+            LocalizedString title
+        )
+        {
+            Message = message;
+            Title = title;
+        }
+
+        [Obsolete("Use `new MessageDialogOptions(message, title)` instead")]
         public MessageDialogOptions(
             string message,
             string title = "Message",
@@ -16,12 +28,14 @@
             DialogResults = dialogResults ?? DialogResultSet.OK;
         }
 
-        public string Message { get; }
+        public LocalizedString Message { get; init; }
 
-        public string Title { get; }
+        public LocalizedString Title { get; init; }
 
-        public IDialogIcon Icon { get; }
+        public IDialogIcon Icon { get; init; } =
+            DialogIcon.None;
 
-        public DialogResultSet DialogResults { get; }
+        public DialogResultSet DialogResults { get; init; } =
+            DialogResultSet.OK;
     }
 }
