@@ -72,7 +72,8 @@ namespace Movere.Sample
 #if DEBUG
                 .LogToTrace()
 #endif
-                .UseMovere()
+                .UseMovereSystemDialogs()
+                .UseMovereStorageProvider(new MovereStorageProviderOptions() { IsFallback = false })
 #pragma warning restore CS0612 // Type or member is obsolete
                 .UseMovereWin32()
                 .UseReactiveUI();

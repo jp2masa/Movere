@@ -27,14 +27,30 @@ namespace Movere
                     .Add(extension)
             );
 
-        [Obsolete]
-        public static AppBuilder UseMovere(this AppBuilder builder) =>
-            builder.AfterSetup(RegisterMovereDialogs);
+        public static AppBuilder UseMovereStorageProvider(
+            this AppBuilder builder,
+            MovereStorageProviderOptions? options = null
+        ) =>
+            builder.AfterSetup(
+                _ =>
+                    AvaloniaLocator.CurrentMutable
+                        .Bind<IStorageProviderFactory>()
+                        .ToConstant(new MovereStorageProviderFactory(options))
+            );
 
         [Obsolete]
-        private static void RegisterMovereDialogs(AppBuilder builder) =>
-            AvaloniaLocator.CurrentMutable
-                .Bind<ISystemDialogImpl>().ToSingleton<MovereSystemDialogImpl>()
-                .Bind<IStorageProviderFactory>().ToSingleton<MovereStorageProviderFactory>();
+        public static AppBuilder UseMovereSystemDialogs(this AppBuilder builder) =>
+            builder.AfterSetup(
+                _ =>
+                    AvaloniaLocator.CurrentMutable
+                        .Bind<ISystemDialogImpl>()
+                        .ToSingleton<MovereSystemDialogImpl>()
+            );
+
+        [Obsolete]
+        public static AppBuilder UseMovere(this AppBuilder builder) =>
+            builder
+                .UseMovereSystemDialogs()
+                .UseMovereStorageProvider();
     }
 }
