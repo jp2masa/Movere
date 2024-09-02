@@ -6,6 +6,6 @@ namespace Movere.Services
 {
     public interface IOpenFileDialogService
     {
-        Task<OpenFileDialogResult> ShowDialogAsync(bool allowMultipleSelection = false);
+        Task<OpenFileDialogResult> ShowDialogAsync(OpenFileDialogOptions? options = null);
     }
 }

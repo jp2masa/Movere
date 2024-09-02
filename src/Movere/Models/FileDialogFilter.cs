@@ -2,7 +2,7 @@
 
 namespace Movere.Models
 {
-    internal sealed class FileDialogFilter
+    public sealed class FileDialogFilter
     {
         public FileDialogFilter(string name, ImmutableArray<string> extensions)
         {

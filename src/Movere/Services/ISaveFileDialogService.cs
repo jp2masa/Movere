@@ -6,6 +6,6 @@ namespace Movere.Services
 {
     public interface ISaveFileDialogService
     {
-        Task<SaveFileDialogResult> ShowDialogAsync();
+        Task<SaveFileDialogResult> ShowDialogAsync(SaveFileDialogOptions? options = null);
     }
 }

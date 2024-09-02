@@ -1,10 +1,11 @@
-﻿using System.Drawing.Printing;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Movere.Models;
 
 namespace Movere.Services
 {
     public interface IPrintDialogService
     {
-        Task<bool> ShowDialogAsync(PrintDocument document);
+        Task<bool> ShowDialogAsync(PrintDialogOptions options);
     }
 }

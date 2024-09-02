@@ -8,6 +8,8 @@ using static System.Drawing.Printing.PrinterSettings;
 
 using ReactiveUI;
 
+using Movere.Models;
+
 namespace Movere.ViewModels
 {
     internal sealed class PrintDialogViewModel : ReactiveObject
@@ -22,10 +24,13 @@ namespace Movere.ViewModels
         private IReadOnlyList<string> _availablePrinters = InstalledPrinters.ToReadOnlyList();
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-        public PrintDialogViewModel(PrintDocument document, Action<bool> closeAction)
+        public PrintDialogViewModel(
+            PrintDialogOptions options,
+            Action<bool> closeAction
+        )
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
-            _document = document;
+            _document = options.Document;
             _closeAction = closeAction;
 
             _document.PrintController = _controller;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -45,26 +44,22 @@ namespace Movere
 
                 view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-                var viewModel = container.Resolve<Func<bool, IEnumerable<MovereFilter>, OpenFileDialogViewModel>>()(
-                    openFileDialog.AllowMultiple,
-                    dialog.Filters.Select(ConvertFilter).ToImmutableArray());
-
-                if (!String.IsNullOrWhiteSpace(dialog.Directory))
+                var options = new OpenFileDialogOptions()
                 {
-                    var directory = new DirectoryInfo(dialog.Directory);
+                    AllowMultipleSelection = openFileDialog.AllowMultiple,
+                    Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                    InitialDirectory =
+                        String.IsNullOrWhiteSpace(dialog.Directory)
+                        || new DirectoryInfo(dialog.Directory) is not { Exists: true } initialDirectory
+                        ? null
+                        : initialDirectory,
+                    InitialFileName = dialog.InitialFileName
+                };
 
-                    if (directory.Exists)
-                    {
-                        viewModel.FileExplorer.CurrentFolder = new Folder(directory);
-                    }
-                }
+                var viewModelFactory = container
+                    .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
 
-                if (!(dialog.InitialFileName is null))
-                {
-                    viewModel.FileName = dialog.InitialFileName;
-                }
-
-                view.DataContext = viewModel;
+                view.DataContext = viewModelFactory(options);
 
                 var result = await view.ShowDialog<OpenFileDialogResult>(parent);
                 return result is null ? Array.Empty<string>() : result.SelectedPaths.ToArray();
@@ -89,24 +84,21 @@ namespace Movere
 
                 view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-                var viewModel = container.Resolve<SaveFileDialogViewModel>();
-
-                if (!String.IsNullOrWhiteSpace(dialog.Directory))
+                var options = new SaveFileDialogOptions()
                 {
-                    var directory = new DirectoryInfo(dialog.Directory);
+                    //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                    InitialDirectory =
+                        String.IsNullOrWhiteSpace(dialog.Directory)
+                        || new DirectoryInfo(dialog.Directory) is not { Exists: true } initialDirectory
+                            ? null
+                            : initialDirectory,
+                    InitialFileName = dialog.InitialFileName
+                };
 
-                    if (directory.Exists)
-                    {
-                        viewModel.FileExplorer.CurrentFolder = new Folder(directory);
-                    }
-                }
+                var viewModelFactory = container
+                    .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
 
-                if (!(dialog.InitialFileName is null))
-                {
-                    viewModel.FileName = dialog.InitialFileName;
-                }
-
-                view.DataContext = viewModel;
+                view.DataContext = viewModelFactory(options);
 
                 var result = await view.ShowDialog<SaveFileDialogResult>(parent);
                 return (result is null || result.SelectedPath is null) ? Array.Empty<string>() : new string[] { result.SelectedPath };

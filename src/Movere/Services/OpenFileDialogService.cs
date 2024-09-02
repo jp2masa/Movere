@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Autofac;
@@ -23,8 +21,10 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public async Task<OpenFileDialogResult> ShowDialogAsync(bool allowMultipleSelection = false)
+        public async Task<OpenFileDialogResult> ShowDialogAsync(OpenFileDialogOptions? options = null)
         {
+            options ??= OpenFileDialogOptions.Default;
+
             var dialog = new OpenFileDialog();
 
             var containerBuilder = new ContainerBuilder()
@@ -42,11 +42,10 @@ namespace Movere.Services
 
             dialog.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-            var viewModel = container.Resolve<Func<bool, IEnumerable<FileDialogFilter>, OpenFileDialogViewModel>>()(
-                allowMultipleSelection,
-                Enumerable.Empty<FileDialogFilter>());
+            var viewModelFactory = container
+                .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
 
-            dialog.DataContext = viewModel;
+            dialog.DataContext = viewModelFactory(options);
 
             return await dialog.ShowDialog<OpenFileDialogResult>(_owner);
         }

@@ -50,21 +50,19 @@ namespace Movere.Storage
 
             view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-            var viewModel = container.Resolve<Func<bool, IEnumerable<MovereFilter>, OpenFileDialogViewModel>>()(
-                options.AllowMultiple,
-                (options.FileTypeFilter ?? Array.Empty<FilePickerFileType>())
-                    .Select(ConvertFilter)
-                    .ToImmutableArray()
-            );
-
-            if (options.SuggestedStartLocation is IStorageItemWithFileSystemInfo item
-                && item.FileSystemInfo is DirectoryInfo directory
-                && directory.Exists)
+            var convertedOptions = new OpenFileDialogOptions()
             {
-                viewModel.FileExplorer.CurrentFolder = new Folder(directory);
-            }
+                AllowMultipleSelection = options.AllowMultiple,
+                Filters = options.FileTypeFilter?.Select(ConvertFilter).ToImmutableArray()
+                    ?? ImmutableArray<MovereFilter>.Empty,
+                InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
+                InitialFileName = options.SuggestedFileName
+            };
 
-            view.DataContext = viewModel;
+            var viewModelFactory = container
+                .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
+
+            view.DataContext = viewModelFactory(convertedOptions);
 
             var result = await view.ShowDialog<OpenFileDialogResult>(_window);
 
@@ -90,22 +88,19 @@ namespace Movere.Storage
 
             view.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-            var viewModel = container.Resolve<SaveFileDialogViewModel>();
-
-
-            if (options.SuggestedStartLocation is IStorageItemWithFileSystemInfo item
-                && item.FileSystemInfo is DirectoryInfo directory
-                && directory.Exists)
+            // TODO: implement FileTypeChoices and DefaultExtension
+            // TODO: implement ShowOverwritePrompt (it's always shown)
+            var convertedOptions = new SaveFileDialogOptions()
             {
-                viewModel.FileExplorer.CurrentFolder = new Folder(directory);
-            }
+                //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
+                InitialFileName = options.SuggestedFileName
+            };
+            
+            var viewModelFactory = container
+                .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
 
-            if (!(options.SuggestedFileName is null))
-            {
-                viewModel.FileName = options.SuggestedFileName;
-            }
-
-            view.DataContext = viewModel;
+            view.DataContext = viewModelFactory(convertedOptions);
 
             var result = await view.ShowDialog<SaveFileDialogResult>(_window);
             return result?.SelectedPath is null ? null : new BclStorageFile(new FileInfo(result.SelectedPath));
@@ -116,6 +111,13 @@ namespace Movere.Storage
 
         private static MovereFilter ConvertFilter(FilePickerFileType filter) =>
             new MovereFilter(filter.Name, GetExtensions(filter));
+
+        private static DirectoryInfo? TryConvertStorageFolder(IStorageFolder? folder, bool checkIfExists = false) =>
+            folder is IStorageItemWithFileSystemInfo item
+            && item.FileSystemInfo is DirectoryInfo directory
+            && (!checkIfExists || directory.Exists)
+            ? directory
+            : null;
 
         private static ImmutableArray<string> GetExtensions(FilePickerFileType filter) =>
             (

@@ -164,7 +164,8 @@ namespace Movere.Sample.ViewModels
             ContentDialogResult = $"Result: {result}    ID: {id.Value}    First Name: {firstName.Value}    Last Name: {lastName.Value}";
         }
 
-        private Task OpenFileAsync() => _openFileDialogService.ShowDialogAsync(true);
+        private Task OpenFileAsync() =>
+            _openFileDialogService.ShowDialogAsync(new OpenFileDialogOptions() { AllowMultipleSelection = true });
 
         private Task SaveFileAsync() => _saveFileDialogService.ShowDialogAsync();
 
@@ -178,7 +179,7 @@ namespace Movere.Sample.ViewModels
             using var document = new PrintDocument();
 
             document.PrintPage += PrintDocument;
-            await _printDialogService.ShowDialogAsync(document);
+            await _printDialogService.ShowDialogAsync(new PrintDialogOptions(document));
         }
 
         private static void PrintDocument(object sender, PrintPageEventArgs e)

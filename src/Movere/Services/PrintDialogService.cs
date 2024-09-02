@@ -1,8 +1,8 @@
-﻿using System.Drawing.Printing;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Avalonia.Controls;
 
+using Movere.Models;
 using Movere.ViewModels;
 using Movere.Views;
 
@@ -17,10 +17,10 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public Task<bool> ShowDialogAsync(PrintDocument document)
+        public Task<bool> ShowDialogAsync(PrintDialogOptions options)
         {
             var dialog = new PrintDialog();
-            var viewModel = new PrintDialogViewModel(document, r => dialog.Close(r));
+            var viewModel = new PrintDialogViewModel(options, r => dialog.Close(r));
 
             dialog.DataContext = viewModel;
 

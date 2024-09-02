@@ -28,17 +28,26 @@ namespace Movere.ViewModels
 
         private readonly IMessageDialogService _messageDialogService;
 
-        private string _fileName = String.Empty;
+        private string _fileName;
 
         public SaveFileDialogViewModel(
+            SaveFileDialogOptions options,
             IDialogView<SaveFileDialogResult> view,
             Func<bool, FileExplorerViewModel> fileExplorerFactory,
-            IMessageDialogService messageDialogService)
+            IMessageDialogService messageDialogService
+        )
         {
             _view = view;
             _messageDialogService = messageDialogService;
 
+            _fileName = options.InitialFileName ?? String.Empty;
+
             FileExplorer = fileExplorerFactory(false);
+
+            if (options.InitialDirectory is { } initialDirectory)
+            {
+                FileExplorer.CurrentFolder = new Folder(initialDirectory);
+            }
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);

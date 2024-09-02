@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Autofac;
 
@@ -20,8 +21,10 @@ namespace Movere.Services
             _owner = owner;
         }
 
-        public async Task<SaveFileDialogResult> ShowDialogAsync()
+        public async Task<SaveFileDialogResult> ShowDialogAsync(SaveFileDialogOptions? options = null)
         {
+            options ??= SaveFileDialogOptions.Default;
+
             var dialog = new SaveFileDialog();
 
             var containerBuilder = new ContainerBuilder()
@@ -39,9 +42,10 @@ namespace Movere.Services
 
             dialog.DataTemplates.Add(container.Resolve<ViewResolver>());
 
-            var viewModel = container.Resolve<SaveFileDialogViewModel>();
+            var viewModelFactory = container
+                .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
 
-            dialog.DataContext = viewModel;
+            dialog.DataContext = viewModelFactory(options);
 
             return await dialog.ShowDialog<SaveFileDialogResult>(_owner);
         }

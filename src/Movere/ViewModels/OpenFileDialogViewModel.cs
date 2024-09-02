@@ -23,21 +23,31 @@ namespace Movere.ViewModels
         private FileDialogFilterViewModel? _selectedFilter;
 
         public OpenFileDialogViewModel(
+            OpenFileDialogOptions options,
             IDialogView<OpenFileDialogResult> view,
-            Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerViewModel> fileExplorerFactory,
-            bool allowMultipleSelection,
-            IEnumerable<FileDialogFilter> filters)
+            Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerViewModel> fileExplorerFactory
+        )
         {
             _view = view;
 
-            Filters = filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
+            Filters = options.Filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
             SelectedFilter = Filters.FirstOrDefault();
 
-            _fileName = String.Empty;
+            _fileName = options.InitialFileName ?? String.Empty;
 
-            var filter = this.WhenAnyValue(vm => vm.SelectedFilter).Select(vm => vm?.Filter).Select(Filter.FileDialog.Matches);
+            static IFilter<FileSystemEntry> FileFilterMatches(FileDialogFilterViewModel? x) =>
+                Filter.FileDialog.Matches(x?.Filter);
 
-            FileExplorer = fileExplorerFactory(allowMultipleSelection, filter);
+            var filter = this
+                .WhenAnyValue(vm => vm.SelectedFilter)
+                .Select(FileFilterMatches);
+
+            FileExplorer = fileExplorerFactory(options.AllowMultipleSelection, filter);
+
+            if (options.InitialDirectory is { } initialDirectory)
+            {
+                FileExplorer.CurrentFolder = new Folder(initialDirectory);
+            }
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
