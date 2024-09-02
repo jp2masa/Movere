@@ -9,7 +9,7 @@
     <DockPanel Margin="4">
 
         <Image DockPanel.Dock="Left"
-               IsVisible="{Binding !!Icon}"
+               IsVisible="{Binding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
                Margin="4"
                VerticalAlignment="Top"
                Width="48"
