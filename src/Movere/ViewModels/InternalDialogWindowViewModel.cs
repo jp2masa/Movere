@@ -19,7 +19,7 @@ namespace Movere.ViewModels
             new InternalDialogWindowViewModel<TContent, TResult>(view, title, content);
     }
 
-    internal sealed class InternalDialogWindowViewModel<TContent, TResult> : ReactiveObject, IDialogWindowViewModel
+    internal sealed class InternalDialogWindowViewModel<TContent, TResult> : ReactiveObject, IDialogWindowViewModel<TContent>
         where TContent : IDialogContentViewModel<TResult>
     {
         private readonly IDialogView<TResult> _view;

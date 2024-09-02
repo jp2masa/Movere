@@ -1,6 +1,6 @@
 ﻿namespace Movere.Services
 {
-    public interface IDialogView<TResult>
+    public interface IDialogView<in TResult>
     {
         void Close(TResult result);
     }

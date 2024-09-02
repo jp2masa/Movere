@@ -17,11 +17,22 @@ namespace Movere.Services
         }
 
         public bool Match(object? data) =>
-            data is not null && _index.TryGetValue(data.GetType(), out _);
+            GetFactory(data) is not null;
 
-        public Control Build(object? param) =>
-            param is not null && _index.TryGetValue(param.GetType(), out var factory)
-                ? factory()
-                : throw new NotSupportedException();
+        public Control? Build(object? param) =>
+            GetFactory(param)?.Invoke()
+                ?? throw new NotSupportedException();
+
+        private Func<Control>? GetFactory(object? vm) =>
+            vm is not null
+            && (
+                _index.TryGetValue(vm.GetType(), out var factory)
+                || (
+                    vm.GetType().IsConstructedGenericType
+                    && _index.TryGetValue(vm.GetType().GetGenericTypeDefinition(), out factory)
+                )
+            )
+                ? factory
+                : null;
     }
 }

@@ -1,5 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:flex="clr-namespace:Avalonia.Labs.Panels;assembly=Avalonia.Labs.Panels"
         xmlns:vm="clr-namespace:Movere.Sample.ViewModels"
         x:Class="Movere.Sample.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -9,9 +10,11 @@
         Title="Movere Sample"
         WindowStartupLocation="CenterScreen">
 
-    <Grid ColumnDefinitions="*,*,*">
+    <Grid ColumnDefinitions="*,*,*"
+          RowDefinitions="*, 8, Auto">
 
         <StackPanel Grid.Column="1"
+                    Grid.Row="0"
                     Margin="0,16"
                     Spacing="8">
             <StackPanel.Styles>
@@ -53,6 +56,22 @@
             <TextBlock Text="{Binding ContentDialogResult}" />
 
         </StackPanel>
+
+        <flex:FlexPanel
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="2"
+            Margin="16, 8"
+            Direction="Column"
+            AlignItems="FlexEnd"
+            ColumnSpacing="16"
+            RowSpacing="16">
+
+            <CheckBox
+                Content="Use Overlay Dialogs"
+                IsChecked="{Binding UseOverlayDialogs}"/>
+
+        </flex:FlexPanel>
 
     </Grid>
 

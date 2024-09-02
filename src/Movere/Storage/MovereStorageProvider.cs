@@ -5,29 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Autofac;
-
-using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 
 using Movere.Models;
 using Movere.Services;
-using Movere.ViewModels;
 using MovereFilter = Movere.Models.FileDialogFilter;
-using MovereOpenFileDialog = Movere.Views.OpenFileDialog;
-using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere.Storage
 {
-    internal sealed class MovereStorageProvider : BclStorageProvider
+    internal sealed class MovereStorageProvider(
+        Func<IDialogHost> hostFactory,
+        MovereStorageProviderOptions options
+    )
+        : BclStorageProvider
     {
-        private readonly Window _window;
-
-        public MovereStorageProvider(Window window)
-        {
-            _window = window;
-        }
-
         public override bool CanOpen => true;
 
         public override bool CanSave => true;
@@ -36,19 +27,9 @@ namespace Movere.Storage
 
         public override async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
         {
-            var view = new MovereOpenFileDialog();
+            await using var host = hostFactory();
 
-            var containerBuilder = new ContainerBuilder();
-
-            containerBuilder
-                .RegisterAssemblyModules(typeof(MovereStorageProvider).Assembly);
-
-            containerBuilder
-                .RegisterInstance<Window>(view);
-
-            await using var container = containerBuilder.Build();
-
-            view.DataTemplates.Add(container.Resolve<ViewResolver>());
+            var service = new OpenFileDialogService(host);
 
             var convertedOptions = new OpenFileDialogOptions()
             {
@@ -59,34 +40,25 @@ namespace Movere.Storage
                 InitialFileName = options.SuggestedFileName
             };
 
-            var viewModelFactory = container
-                .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
+            if (options.Title is { } title)
+            {
+                // no conditional assignment of init properties
+                // (https://github.com/dotnet/csharplang/discussions/5588)
+                convertedOptions = convertedOptions with { Title = title };
+            }
 
-            view.DataContext = viewModelFactory(convertedOptions);
+            var result = await service.ShowDialogAsync(convertedOptions);
 
-            var result = await view.ShowDialog<OpenFileDialogResult>(_window);
-
-            return (result?.SelectedPaths
+            return result.SelectedPaths
                 .Select(static x => new BclStorageFile(new FileInfo(x)))
-                .ToImmutableArray())
-                ?? ImmutableArray<BclStorageFile>.Empty;
+                .ToImmutableArray();
         }
 
         public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
-            var view = new MovereSaveFileDialog();
+            await using var host = hostFactory();
 
-            var containerBuilder = new ContainerBuilder();
-
-            containerBuilder
-                .RegisterAssemblyModules(typeof(MovereStorageProvider).Assembly);
-
-            containerBuilder
-                .RegisterInstance<Window>(view);
-
-            await using var container = containerBuilder.Build();
-
-            view.DataTemplates.Add(container.Resolve<ViewResolver>());
+            var service = new SaveFileDialogService(host);
 
             // TODO: implement FileTypeChoices and DefaultExtension
             // TODO: implement ShowOverwritePrompt (it's always shown)
@@ -96,14 +68,19 @@ namespace Movere.Storage
                 InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
                 InitialFileName = options.SuggestedFileName
             };
-            
-            var viewModelFactory = container
-                .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
 
-            view.DataContext = viewModelFactory(convertedOptions);
+            if (options.Title is { } title)
+            {
+                // no conditional assignment of init properties
+                // (https://github.com/dotnet/csharplang/discussions/5588)
+                convertedOptions = convertedOptions with { Title = title };
+            }
 
-            var result = await view.ShowDialog<SaveFileDialogResult>(_window);
-            return result?.SelectedPath is null ? null : new BclStorageFile(new FileInfo(result.SelectedPath));
+            var result = await service.ShowDialogAsync(convertedOptions);
+
+            return result.SelectedPath is null
+                ? null
+                : new BclStorageFile(new FileInfo(result.SelectedPath));
         }
 
         public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>

@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows.Input;
 
 using ReactiveUI;
 
 using Movere.Models;
 using Movere.Models.Filters;
-using Movere.Services;
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
-    internal sealed class OpenFileDialogViewModel : ReactiveObject
+    internal sealed class OpenFileDialogViewModel
+        : ReactiveObject, IDialogContentViewModel<OpenFileDialogResult>
     {
-        private readonly IDialogView<OpenFileDialogResult> _view;
+        private readonly ISubject<IObservable<OpenFileDialogResult>> _resultSubject =
+            new Subject<IObservable<OpenFileDialogResult>>();
 
         private string _fileName;
 
@@ -24,12 +26,9 @@ namespace Movere.ViewModels
 
         public OpenFileDialogViewModel(
             OpenFileDialogOptions options,
-            IDialogView<OpenFileDialogResult> view,
             Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerViewModel> fileExplorerFactory
         )
         {
-            _view = view;
-
             Filters = options.Filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
             SelectedFilter = Filters.FirstOrDefault();
 
@@ -51,6 +50,8 @@ namespace Movere.ViewModels
 
             OpenCommand = ReactiveCommand.Create(Open);
             CancelCommand = ReactiveCommand.Create(Cancel);
+
+            Result = _resultSubject.AsObservable();
 
             FileExplorer.FileOpened.Subscribe(_ => Open());
             FileExplorer.FileExplorerFolder.WhenAnyValue(vm => vm.SelectedItem).Subscribe(SelectedItemChanged);
@@ -76,6 +77,11 @@ namespace Movere.ViewModels
 
         public ICommand CancelCommand { get; }
 
+        public IObservable<IObservable<OpenFileDialogResult>> Result { get; }
+
+        public void Close() =>
+            Cancel();
+
         private void Open()
         {
             if (FileExplorer.FileExplorerFolder.SelectedItem is Folder folder)
@@ -89,7 +95,11 @@ namespace Movere.ViewModels
 
         private void Cancel() => Close(new OpenFileDialogResult(Enumerable.Empty<string>()));
 
-        private void Close(OpenFileDialogResult result) => _view.Close(result);
+        private void Close(OpenFileDialogResult result)
+        {
+            _resultSubject.OnNext(Observable.Return(result));
+            _resultSubject.OnCompleted();
+        }
 
         private void SelectedItemChanged(FileSystemEntry? entry)
         {

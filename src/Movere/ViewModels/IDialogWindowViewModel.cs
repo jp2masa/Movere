@@ -2,7 +2,7 @@
 
 namespace Movere.ViewModels
 {
-    internal interface IDialogWindowViewModel
+    public interface IDialogWindowViewModel
     {
         LocalizedString Title { get; }
 
@@ -11,5 +11,10 @@ namespace Movere.ViewModels
         bool IsBusy { get; }
 
         bool OnClosing();
+    }
+
+    public interface IDialogWindowViewModel<out TContent> : IDialogWindowViewModel
+    {
+        new TContent Content { get; }
     }
 }

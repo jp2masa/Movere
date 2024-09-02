@@ -4,19 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Autofac;
-
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using AvaloniaFilter = Avalonia.Controls.FileDialogFilter;
 
+using Movere.Avalonia.Services;
 using Movere.Models;
 using Movere.Services;
-using Movere.ViewModels;
+using Movere.Storage;
 using MovereFilter = Movere.Models.FileDialogFilter;
-using MovereOpenFileDialog = Movere.Views.OpenFileDialog;
-using MovereSaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere
 {
@@ -25,24 +21,13 @@ namespace Movere
     {
         public async Task<string[]?> ShowFileDialogAsync(FileDialog dialog, Window parent)
         {
+            var application = MovereStorageProviderFactory.GetApplication();
+
+            await using var host = new WindowDialogHost(application, parent);
+
             if (dialog is OpenFileDialog openFileDialog)
             {
-                var view = new MovereOpenFileDialog();
-
-                var containerBuilder = new ContainerBuilder()
-                {
-                    Properties = { ["Application"] = Application.Current }
-                };
-
-                containerBuilder
-                    .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);
-
-                containerBuilder
-                    .RegisterInstance<Window>(view);
-
-                using var container = containerBuilder.Build();
-
-                view.DataTemplates.Add(container.Resolve<ViewResolver>());
+                var service = new OpenFileDialogService(host);
 
                 var options = new OpenFileDialogOptions()
                 {
@@ -56,33 +41,20 @@ namespace Movere
                     InitialFileName = dialog.InitialFileName
                 };
 
-                var viewModelFactory = container
-                    .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
+                if (dialog.Title is { } title)
+                {
+                    // no conditional assignment of init properties
+                    // (https://github.com/dotnet/csharplang/discussions/5588)
+                    options = options with { Title = title };
+                }
 
-                view.DataContext = viewModelFactory(options);
-
-                var result = await view.ShowDialog<OpenFileDialogResult>(parent);
-                return result is null ? Array.Empty<string>() : result.SelectedPaths.ToArray();
+                var result = await service.ShowDialogAsync(options);
+                return result.SelectedPaths.ToArray();
             }
 
             if (dialog is SaveFileDialog saveFileDialog)
             {
-                var view = new MovereSaveFileDialog();
-
-                var containerBuilder = new ContainerBuilder()
-                {
-                    Properties = { ["Application"] = Application.Current }
-                };
-
-                containerBuilder
-                    .RegisterAssemblyModules(typeof(MovereSystemDialogImpl).Assembly);
-
-                containerBuilder
-                    .RegisterInstance<Window>(view);
-
-                using var container = containerBuilder.Build();
-
-                view.DataTemplates.Add(container.Resolve<ViewResolver>());
+                var service = new SaveFileDialogService(host);
 
                 var options = new SaveFileDialogOptions()
                 {
@@ -95,13 +67,15 @@ namespace Movere
                     InitialFileName = dialog.InitialFileName
                 };
 
-                var viewModelFactory = container
-                    .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
+                if (dialog.Title is { } title)
+                {
+                    // no conditional assignment of init properties
+                    // (https://github.com/dotnet/csharplang/discussions/5588)
+                    options = options with { Title = title };
+                }
 
-                view.DataContext = viewModelFactory(options);
-
-                var result = await view.ShowDialog<SaveFileDialogResult>(parent);
-                return (result is null || result.SelectedPath is null) ? Array.Empty<string>() : new string[] { result.SelectedPath };
+                var result = await service.ShowDialogAsync(options);
+                return result.SelectedPath is null ? [] : [result.SelectedPath];
             }
 
             throw new NotImplementedException();

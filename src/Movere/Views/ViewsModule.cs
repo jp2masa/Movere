@@ -5,6 +5,8 @@ using Autofac;
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 
+using Movere.ViewModels;
+
 namespace Movere.Views
 {
     internal class ViewsModule : Module
@@ -18,6 +20,10 @@ namespace Movere.Views
                 .InNamespaceOf<ViewsModule>()
                 .Where(x => GetViewModelType(x) is not null)
                 .Keyed<Control>(x => GetViewModelType(x)!);
+
+            builder
+                .RegisterType<ContentDialogView>()
+                .Keyed<Control>(typeof(ContentDialogViewModel<,>));
         }
 
         private static Type? GetViewModelType(Type viewType)

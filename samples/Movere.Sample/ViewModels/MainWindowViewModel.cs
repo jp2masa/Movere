@@ -25,49 +25,57 @@ namespace Movere.Sample.ViewModels
 
     internal class MainWindowViewModel : ReactiveObject
     {
-        private readonly MessageDialogService _messageDialogService;
-        private readonly ContentDialogService<CustomContentViewModel, FormResult> _contentDialogService;
+        private sealed class DialogServices(IDialogHost host)
+        {
+            public IMessageDialogService Message { get; } =
+                new MessageDialogService(host);
 
-        private readonly OpenFileDialogService _openFileDialogService;
-        private readonly SaveFileDialogService _saveFileDialogService;
+            public IContentDialogService<CustomContentViewModel, FormResult> Content { get; } =
+                new ContentDialogService<CustomContentViewModel, FormResult>(host);
 
-        private readonly PrintDialogService _printDialogService;
+            public IOpenFileDialogService OpenFile { get; } =
+                new OpenFileDialogService(host);
+
+            public ISaveFileDialogService SaveFile { get; } =
+                new SaveFileDialogService(host);
+
+            public IPrintDialogService Print { get; } =
+                new PrintDialogService(host);
+        }
+
+        private readonly DialogServices _windowDialogServices;
+        private readonly DialogServices _overlayDialogServices;
 
         private string _messageDialogResult = "Not opened yet";
         private string _contentDialogResult = "Not opened yet";
 
+        private bool _useOverlayDialogs = false;
+
         public MainWindowViewModel(
+            IDialogHost windowHost,
+            IDialogHost overlayHost,
             Func<Task> avaloniaOpenFile,
             Func<Task> avaloniaSaveFile,
             Func<Task> avaloniaOldOpenFile,
-            Func<Task> avaloniaOldSaveFile,
-            MessageDialogService messageDialogService,
-            ContentDialogService<CustomContentViewModel, FormResult> contentDialogService,
-            OpenFileDialogService openFileDialogService,
-            SaveFileDialogService saveFileDialogService,
-            PrintDialogService printDialogService)
+            Func<Task> avaloniaOldSaveFile
+        )
         {
-            _messageDialogService = messageDialogService;
-            _contentDialogService = contentDialogService;
+            _windowDialogServices = new DialogServices(windowHost);
+            _overlayDialogServices = new DialogServices(overlayHost);
 
-            _openFileDialogService = openFileDialogService;
-            _saveFileDialogService = saveFileDialogService;
+            ShowMessageCommand = ReactiveCommand.CreateFromTask(ShowMessageAsync);
+            ShowCustomContentCommand = ReactiveCommand.CreateFromTask(ShowCustomContentAsync);
 
-            _printDialogService = printDialogService;
+            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
+            SaveFileCommand = ReactiveCommand.CreateFromTask(SaveFileAsync);
 
-            ShowMessageCommand = ReactiveCommand.Create(ShowMessageAsync);
-            ShowCustomContentCommand = ReactiveCommand.Create(ShowCustomContentAsync);
+            PrintCommand = ReactiveCommand.CreateFromTask(PrintAsync);
 
-            OpenFileCommand = ReactiveCommand.Create(OpenFileAsync);
-            SaveFileCommand = ReactiveCommand.Create(SaveFileAsync);
+            AvaloniaOpenFileCommand = ReactiveCommand.CreateFromTask(avaloniaOpenFile);
+            AvaloniaSaveFileCommand = ReactiveCommand.CreateFromTask(avaloniaSaveFile);
 
-            PrintCommand = ReactiveCommand.Create(PrintAsync);
-
-            AvaloniaOpenFileCommand = ReactiveCommand.Create(avaloniaOpenFile);
-            AvaloniaSaveFileCommand = ReactiveCommand.Create(avaloniaSaveFile);
-
-            AvaloniaOldOpenFileCommand = ReactiveCommand.Create(avaloniaOldOpenFile);
-            AvaloniaOldSaveFileCommand = ReactiveCommand.Create(avaloniaOldSaveFile);
+            AvaloniaOldOpenFileCommand = ReactiveCommand.CreateFromTask(avaloniaOldOpenFile);
+            AvaloniaOldSaveFileCommand = ReactiveCommand.CreateFromTask(avaloniaOldSaveFile);
         }
 
         public string MessageDialogResult
@@ -100,9 +108,20 @@ namespace Movere.Sample.ViewModels
 
         public ICommand AvaloniaOldSaveFileCommand { get; }
 
+        public bool UseOverlayDialogs
+        {
+            get => _useOverlayDialogs;
+            set => this.RaiseAndSetIfChanged(ref _useOverlayDialogs, value);
+        }
+
+        private DialogServices Dialogs =>
+            UseOverlayDialogs
+                ? _overlayDialogServices
+                : _windowDialogServices;
+
         private async Task ShowMessageAsync() =>
             MessageDialogResult = (
-                await _messageDialogService.ShowMessageDialogAsync(
+                await Dialogs.Message.ShowMessageDialogAsync(
                     new MessageDialogOptions(
                         "Some really really really really really really really really really really really " +
                         "really really really really really really really really really really really really " +
@@ -157,7 +176,7 @@ namespace Movere.Sample.ViewModels
                 )
             );
 
-            var result = await _contentDialogService.ShowDialogAsync(
+            var result = await Dialogs.Content.ShowDialogAsync(
                 ContentDialogOptions.Create("Custom content", vm, DialogActionSet.Create(actions, actions[2], actions[0]))
             );
 
@@ -165,9 +184,15 @@ namespace Movere.Sample.ViewModels
         }
 
         private Task OpenFileAsync() =>
-            _openFileDialogService.ShowDialogAsync(new OpenFileDialogOptions() { AllowMultipleSelection = true });
+            Dialogs.OpenFile.ShowDialogAsync(
+                new OpenFileDialogOptions()
+                {
+                    AllowMultipleSelection = true
+                }
+            );
 
-        private Task SaveFileAsync() => _saveFileDialogService.ShowDialogAsync();
+        private Task SaveFileAsync() =>
+            Dialogs.SaveFile.ShowDialogAsync();
 
         private async Task PrintAsync()
         {
@@ -179,7 +204,9 @@ namespace Movere.Sample.ViewModels
             using var document = new PrintDocument();
 
             document.PrintPage += PrintDocument;
-            await _printDialogService.ShowDialogAsync(new PrintDialogOptions(document));
+
+            await Dialogs.Print
+                .ShowDialogAsync(new PrintDialogOptions(document));
         }
 
         private static void PrintDocument(object sender, PrintPageEventArgs e)

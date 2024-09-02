@@ -1,0 +1,65 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Movere"
+    xmlns:vm="clr-namespace:Movere.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Movere.Views.DialogOverlay"
+    x:DataType="vm:IDialogWindowViewModel"
+    Background="#88888888"
+    HorizontalContentAlignment="Center"
+    VerticalContentAlignment="Center"
+    Padding="32">
+
+    <Design.DataContext>
+        <vm:DesignDialogWindowViewModel>
+            <vm:DesignDialogWindowViewModel.Content>
+                <UserControl
+                    MinWidth="320"
+                    MinHeight="120"
+                    Padding="12, 8">
+                    <DockPanel>
+                        <Button
+                            DockPanel.Dock="Bottom"
+                            HorizontalAlignment="Right"
+                            Content="OK" />
+                        <TextBlock
+                            Text="Dialog Content" />
+                    </DockPanel>
+                </UserControl>
+            </vm:DesignDialogWindowViewModel.Content>
+        </vm:DesignDialogWindowViewModel>
+    </Design.DataContext>
+
+    <Border
+        CornerRadius="4"
+        BorderBrush="#FF888888"
+        BorderThickness="1"
+        BoxShadow="0 0 8 2 #FF888888">
+
+        <Border
+            ClipToBounds="True"
+            CornerRadius="4"
+            Background="{DynamicResource SystemRegionBrush}">
+
+            <DockPanel>
+
+                <TextBlock
+                    DockPanel.Dock="Top"
+                    Background="{DynamicResource SystemControlBackgroundAccentBrush}"
+                    Foreground="{DynamicResource SystemControlBackgroundChromeWhiteBrush}"
+                    Padding="12,8"
+                    Text="{local:LocalizedString {Binding Title}}" />
+
+                <ContentControl
+                    Content="{Binding Content}" />
+
+            </DockPanel>
+
+        </Border>
+
+    </Border>
+
+</UserControl>

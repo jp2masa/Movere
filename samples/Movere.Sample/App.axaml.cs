@@ -11,9 +11,9 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
 
+using Movere.Avalonia.Services;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
-using Movere.Services;
 using Movere.Storage;
 using Movere.Win32;
 
@@ -31,29 +31,21 @@ namespace Movere.Sample
             {
                 var mainWindow = new MainWindow();
 
-                var messageDialogService = new MessageDialogService(mainWindow);
+                var customContentViewResolver = new CustomContentViewResolver();
 
-                var contentDialogService = new ContentDialogService<CustomContentViewModel, FormResult>(
-                    mainWindow,
-                    new CustomContentViewResolver());
-
-                var openFileDialogService = new OpenFileDialogService(mainWindow);
-                var saveFileDialogService = new SaveFileDialogService(mainWindow);
-
-                var printDialogService = new PrintDialogService(mainWindow);
+                var windowHost = new WindowDialogHost(this, mainWindow, customContentViewResolver);
+                var overlayHost = new OverlayDialogHost(this, mainWindow, customContentViewResolver);
 
                 mainWindow.DataContext = new MainWindowViewModel(
+                    windowHost,
+                    overlayHost,
                     () => AvaloniaOpenFile(mainWindow),
                     () => AvaloniaSaveFile(mainWindow),
 #pragma warning disable CS0612 // Type or member is obsolete
                     () => AvaloniaOldOpenFile(mainWindow),
-                    () => AvaloniaOldSaveFile(mainWindow),
+                    () => AvaloniaOldSaveFile(mainWindow)
 #pragma warning restore CS0612 // Type or member is obsolete
-                    messageDialogService,
-                    contentDialogService,
-                    openFileDialogService,
-                    saveFileDialogService,
-                    printDialogService);
+                );
 
                 desktop.MainWindow = mainWindow;
             }
@@ -78,7 +70,7 @@ namespace Movere.Sample
                 .UseMovereWin32()
                 .UseReactiveUI();
 
-        private static Task AvaloniaOpenFile(Window parent)
+        private static Task AvaloniaOpenFile(TopLevel parent)
         {
             var options = new FilePickerOpenOptions()
             {
@@ -93,7 +85,7 @@ namespace Movere.Sample
             return parent.StorageProvider.OpenFilePickerAsync(options);
         }
 
-        private static Task AvaloniaSaveFile(Window parent)
+        private static Task AvaloniaSaveFile(TopLevel parent)
         {
             var options = new FilePickerSaveOptions()
             {

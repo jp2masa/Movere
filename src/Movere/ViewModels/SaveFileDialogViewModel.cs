@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,10 +14,9 @@ using File = Movere.Models.File;
 
 namespace Movere.ViewModels
 {
-    internal sealed class SaveFileDialogViewModel : ReactiveObject
+    internal sealed class SaveFileDialogViewModel
+        : ReactiveObject, IDialogContentViewModel<SaveFileDialogResult>
     {
-        private readonly IDialogView<SaveFileDialogResult> _view;
-
         private static readonly MessageDialogOptions s_fileAlreadyExistsMessageDialogOptions =
             new MessageDialogOptions(
                 new LocalizedString(Strings.ResourceManager, nameof(Strings.FileAlreadyExistsMessage)),
@@ -28,16 +29,17 @@ namespace Movere.ViewModels
 
         private readonly IMessageDialogService _messageDialogService;
 
+        private readonly ISubject<IObservable<SaveFileDialogResult>> _resultSubject =
+            new Subject<IObservable<SaveFileDialogResult>>();
+
         private string _fileName;
 
         public SaveFileDialogViewModel(
             SaveFileDialogOptions options,
-            IDialogView<SaveFileDialogResult> view,
             Func<bool, FileExplorerViewModel> fileExplorerFactory,
             IMessageDialogService messageDialogService
         )
         {
-            _view = view;
             _messageDialogService = messageDialogService;
 
             _fileName = options.InitialFileName ?? String.Empty;
@@ -51,6 +53,8 @@ namespace Movere.ViewModels
 
             SaveCommand = ReactiveCommand.Create(SaveAsync);
             CancelCommand = ReactiveCommand.Create(Cancel);
+
+            Result = _resultSubject.AsObservable();
 
             FileExplorer.FileOpened.Subscribe(async file => await SaveAsync());
 
@@ -68,6 +72,11 @@ namespace Movere.ViewModels
         public ICommand SaveCommand { get; }
 
         public ICommand CancelCommand { get; }
+
+        public IObservable<IObservable<SaveFileDialogResult>> Result { get; }
+
+        public void Close() =>
+            Cancel();
 
         private async Task SaveAsync()
         {
@@ -107,7 +116,11 @@ namespace Movere.ViewModels
 
         private void Cancel() => Close(new SaveFileDialogResult(null));
 
-        private void Close(SaveFileDialogResult result) => _view.Close(result);
+        private void Close(SaveFileDialogResult result)
+        {
+            _resultSubject.OnNext(Observable.Return(result));
+            _resultSubject.OnCompleted();
+        }
 
         private void SelectedItemChanged(FileSystemEntry? entry)
         {

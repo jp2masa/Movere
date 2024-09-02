@@ -17,10 +17,6 @@ namespace Movere.Services
                 .AsSelf()
                 .AsImplementedInterfaces();
 
-            builder
-                .RegisterGeneric(typeof(DialogView<>))
-                .As(typeof(IDialogView<>));
-
             if (builder
                 .Properties
                 .TryGetValue("Application", out var applicationObj)

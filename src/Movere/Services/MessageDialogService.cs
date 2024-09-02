@@ -1,24 +1,14 @@
 ﻿using System.Threading.Tasks;
 
-using Avalonia.Controls;
-using Avalonia.Controls.Templates;
-
 using Movere.Models;
 using Movere.ViewModels;
-using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class MessageDialogService : IMessageDialogService
+    public sealed class MessageDialogService(IDialogHost host) : IMessageDialogService
     {
-        private static readonly IDataTemplate s_viewResolver = new FuncDataTemplate<MessageDialogViewModel>((vm, ns) => new MessageDialogView());
-
-        private readonly ContentDialogService<MessageDialogViewModel, DialogResult> _contentDialogService;
-
-        public MessageDialogService(Window owner)
-        {
-            _contentDialogService = new ContentDialogService<MessageDialogViewModel, DialogResult>(owner, s_viewResolver);
-        }
+        private readonly ContentDialogService<MessageDialogViewModel, DialogResult> _contentDialogService =
+            new ContentDialogService<MessageDialogViewModel, DialogResult>(host);
 
         public Task<DialogResult> ShowMessageDialogAsync(MessageDialogOptions options) =>
             _contentDialogService.ShowDialogAsync(

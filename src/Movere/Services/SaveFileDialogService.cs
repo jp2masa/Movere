@@ -1,53 +1,34 @@
 ﻿using System;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 
 using Autofac;
 
-using Avalonia;
-using Avalonia.Controls;
-
 using Movere.Models;
 using Movere.ViewModels;
-using SaveFileDialog = Movere.Views.SaveFileDialog;
 
 namespace Movere.Services
 {
-    public sealed class SaveFileDialogService : ISaveFileDialogService
+    public sealed class SaveFileDialogService(IDialogHost host) : ISaveFileDialogService
     {
-        private readonly Window _owner;
-
-        public SaveFileDialogService(Window owner)
-        {
-            _owner = owner;
-        }
-
-        public async Task<SaveFileDialogResult> ShowDialogAsync(SaveFileDialogOptions? options = null)
+        public Task<SaveFileDialogResult> ShowDialogAsync(SaveFileDialogOptions? options = null)
         {
             options ??= SaveFileDialogOptions.Default;
 
-            var dialog = new SaveFileDialog();
-
-            var containerBuilder = new ContainerBuilder()
-            {
-                Properties = { ["Application"] = Application.Current }
-            };
-
-            containerBuilder
-                .RegisterAssemblyModules(typeof(SaveFileDialogService).Assembly);
-
-            containerBuilder
-                .RegisterInstance<Window>(dialog);
-
-            using var container = containerBuilder.Build();
-
-            dialog.DataTemplates.Add(container.Resolve<ViewResolver>());
-
+            var container = (host as IMovereDialogHost)?.Container
+                ?? throw new InvalidOperationException(
+                    $"{nameof(SaveFileDialogService)} only supports dialog hosts implemented by Movere!"
+                );
+            
             var viewModelFactory = container
                 .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
 
-            dialog.DataContext = viewModelFactory(options);
-
-            return await dialog.ShowDialog<SaveFileDialogResult>(_owner);
+            return host
+                .ShowDialog<SaveFileDialogViewModel, SaveFileDialogResult>(
+                    view =>
+                        InternalDialogWindowViewModel.Create(view, options.Title, viewModelFactory(options))
+                )
+                .ToTask();
         }
     }
 }

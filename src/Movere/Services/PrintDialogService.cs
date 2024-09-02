@@ -1,30 +1,32 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 
-using Avalonia.Controls;
+using Autofac;
 
 using Movere.Models;
 using Movere.ViewModels;
-using Movere.Views;
 
 namespace Movere.Services
 {
-    public sealed class PrintDialogService : IPrintDialogService
+    public sealed class PrintDialogService(IDialogHost host) : IPrintDialogService
     {
-        private readonly Window _owner;
-
-        public PrintDialogService(Window owner)
-        {
-            _owner = owner;
-        }
-
         public Task<bool> ShowDialogAsync(PrintDialogOptions options)
         {
-            var dialog = new PrintDialog();
-            var viewModel = new PrintDialogViewModel(options, r => dialog.Close(r));
+            var container = (host as IMovereDialogHost)?.Container
+                ?? throw new InvalidOperationException(
+                    $"{nameof(PrintDialogService)} only supports dialog hosts implemented by Movere!"
+                );
 
-            dialog.DataContext = viewModel;
+            var viewModelFactory = container
+                .Resolve<Func<PrintDialogOptions, PrintDialogViewModel>>();
 
-            return dialog.ShowDialog<bool>(_owner);
+            return host
+                .ShowDialog<PrintDialogViewModel, bool>(
+                    view =>
+                        InternalDialogWindowViewModel.Create(view, options.Title, viewModelFactory(options))
+                )
+                .ToTask();
         }
     }
 }

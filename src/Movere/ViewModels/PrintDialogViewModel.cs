@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows.Input;
 using static System.Drawing.Printing.PrinterSettings;
 
@@ -12,26 +13,24 @@ using Movere.Models;
 
 namespace Movere.ViewModels
 {
-    internal sealed class PrintDialogViewModel : ReactiveObject
+    internal sealed class PrintDialogViewModel
+        : ReactiveObject, IDialogContentViewModel<bool>
     {
         private readonly PrintDocument _document;
         private readonly PreviewPrintController _controller = new PreviewPrintController();
 
-        private readonly Action<bool> _closeAction;
+        private readonly ISubject<IObservable<bool>> _resultSubject =
+            new Subject<IObservable<bool>>();
 
         private IReadOnlyList<PrintPreviewPageViewModel> _printPreviewPages;
 
         private IReadOnlyList<string> _availablePrinters = InstalledPrinters.ToReadOnlyList();
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-        public PrintDialogViewModel(
-            PrintDialogOptions options,
-            Action<bool> closeAction
-        )
+        public PrintDialogViewModel(PrintDialogOptions options)
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             _document = options.Document;
-            _closeAction = closeAction;
 
             _document.PrintController = _controller;
 
@@ -48,6 +47,8 @@ namespace Movere.ViewModels
                 this.ObservableForProperty(vm => vm.PrinterSettings.PrinterName).Select(x => x is not null));
 
             CancelCommand = ReactiveCommand.Create(Cancel);
+
+            Result = _resultSubject.AsObservable();
 
             RefreshAvailablePrinters();
         }
@@ -74,6 +75,12 @@ namespace Movere.ViewModels
 
         private void RefreshAvailablePrinters() => AvailablePrinters = InstalledPrinters.ToReadOnlyList();
 
+
+        public IObservable<IObservable<bool>> Result { get; }
+
+        public void Close() =>
+            Cancel();
+
         private void Print()
         {
             _document.PrinterSettings = PrinterSettings.PrinterSettings;
@@ -85,7 +92,9 @@ namespace Movere.ViewModels
         private void Close(bool result)
         {
             _document.PrintController = new StandardPrintController();
-            _closeAction(result);
+
+            _resultSubject.OnNext(Observable.Return(result));
+            _resultSubject.OnCompleted();
         }
 
         private void UpdatePrintPreview(PrinterSettings printerSettings)

@@ -1,18 +1,14 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:v="clr-namespace:Movere.Views"
-        xmlns:vm="clr-namespace:Movere.ViewModels"
-        x:Class="Movere.Views.PrintDialog"
-        x:DataType="vm:PrintDialogViewModel"
-        MinWidth="240"
-        MinHeight="160"
-        Width="800"
-        Height="480"
-        Title="Print"
-        WindowStartupLocation="CenterOwner">
-    <!--
-        ShowInTaskbar="False"
-    -->
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Movere.Views"
+    xmlns:vm="clr-namespace:Movere.ViewModels"
+    x:Class="Movere.Views.PrintDialog"
+    x:DataType="vm:PrintDialogViewModel"
+    MinWidth="240"
+    MinHeight="160"
+    Width="800"
+    Height="480">
 
     <DockPanel Margin="8">
 
@@ -103,4 +99,4 @@
 
     </DockPanel>
 
-</Window>
+</UserControl>

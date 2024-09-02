@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing.Printing;
 
+using Movere.Resources;
+
 namespace Movere.Models
 {
     public sealed record PrintDialogOptions
@@ -11,5 +13,8 @@ namespace Movere.Models
         }
 
         public PrintDocument Document { get; init; }
+
+        public LocalizedString Title { get; init; } =
+            new LocalizedString(Strings.ResourceManager, nameof(Strings.Print));
     }
 }
