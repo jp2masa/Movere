@@ -97,8 +97,8 @@ class Build : NukeBuild
         IsLocalBuild
             ? "-local"
             : (
-                TagName is not null
-                    ? ""
+                TagVersion is not null
+                    ? $"-{TagVersion.Release}"
                     : $"-build2.{BuildNumber}+{GitHubActions.Sha[0..7]}"
             );
 
@@ -133,7 +133,7 @@ class Build : NukeBuild
             )
         );
 
-    private Target PushMyGet => _ => _
+    private Target PushToMyGet => _ => _
         .TriggeredBy(Pack)
         .OnlyWhenStatic(
             () =>
@@ -141,21 +141,9 @@ class Build : NukeBuild
                 && Configuration == Configuration.Debug
         )
         .Requires(() => MyGetApiKey)
-        .Executes(
-            () =>
-                NupkgArtifactsPath
-                    .GetFiles()
-                    .ForEach(
-                        nupkg => DotNetTasks.DotNetNuGetPush(
-                            x => x
-                                .SetSource(MyGetFeedUrl)
-                                .SetApiKey(MyGetApiKey)
-                                .SetTargetPath(nupkg)
-                        )
-                    )
-        );
+        .Executes(() => PushToNuGetFeed(MyGetFeedUrl, MyGetApiKey!));
 
-    private Target PushNuGet => _ => _
+    private Target PushToNuGet => _ => _
         .TriggeredBy(Pack)
         .OnlyWhenStatic(
             () =>
@@ -164,21 +152,11 @@ class Build : NukeBuild
         )
         .Requires(() => NuGetApiKey)
         .Executes(
-            () =>
-                NupkgArtifactsPath
-                    .GetFiles()
-                    .ForEach(
-                        nupkg => DotNetTasks.DotNetNuGetPush(
-                            x => x
-                                .SetSource(NuGetConstants.V3FeedUrl)
-                                .SetApiKey(NuGetApiKey)
-                                .SetTargetPath(nupkg)
-                        )
-                    )
+            () => PushToNuGetFeed(NuGetConstants.V3FeedUrl, NuGetApiKey!)
         );
 
-    private Target ReleaseGitHub => _ => _
-        .TriggeredBy(Pack, PushNuGet)
+    private Target ReleaseToGitHub => _ => _
+        .TriggeredBy(Pack, PushToNuGet)
         .OnlyWhenStatic(
             () =>
                 TagVersion is not null
@@ -197,23 +175,52 @@ class Build : NukeBuild
                     )
                 );
 
-                var release = await client
-                    .Repository
-                    .Release
-                    .Create(
-                        repositoryId,
-                        new NewRelease(TagName!)
-                        {
-                            Draft = true,
-                            Name = TagName!,
-                            Prerelease = TagVersion!.IsPrerelease
-                        }
-                );
+                Release release;
+
+                try
+                {
+                    release = await client
+                        .Repository
+                        .Release
+                        .Get(repositoryId, TagName!);
+
+                    if (!release.Draft)
+                    {
+                        return;
+                    }
+                }
+                catch (ApiException)
+                {
+                    release = await client
+                        .Repository
+                        .Release
+                        .Create(
+                            repositoryId,
+                            new NewRelease(TagName!)
+                            {
+                                Draft = true,
+                                Name = TagName!,
+                                Prerelease = TagVersion!.IsPrerelease
+                            }
+                        );
+                }
 
                 // preserve order
                 foreach (var nupkg in NupkgArtifactsPath.GetFiles())
                 {
                     using var ms = new MemoryStream(nupkg.ReadAllBytes());
+
+                    if (
+                        release.Assets.Any(
+                            x => StringEqualsOrdinalIgnoreCase(
+                                x.Name,
+                                nupkg.Name
+                            )
+                        )
+                    )
+                    {
+                        continue;
+                    }
 
                     await client
                         .Repository
@@ -236,6 +243,19 @@ class Build : NukeBuild
                 );
             }
         );
+
+    private void PushToNuGetFeed(string feedUrl, string apiKey) =>
+        NupkgArtifactsPath
+            .GetFiles()
+            .ForEach(
+                nupkg => DotNetTasks.DotNetNuGetPush(
+                    x => x
+                        .SetApiKey(apiKey)
+                        .SetSkipDuplicate(true)
+                        .SetSource(feedUrl)
+                        .SetTargetPath(nupkg)
+                )
+            );
 
     private static bool StringEqualsOrdinalIgnoreCase(string? x, string? y) =>
         String.Equals(x, y, StringComparison.OrdinalIgnoreCase);

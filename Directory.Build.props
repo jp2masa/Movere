@@ -30,9 +30,7 @@
 
     <PropertyGroup>
         <PackageVersion>0.2.0</PackageVersion>
-        <PackageVersionSuffix Condition="'$(APPVEYOR)' == 'True'">-build.$(APPVEYOR_BUILD_NUMBER)+$(APPVEYOR_REPO_COMMIT.Substring(0, 7))</PackageVersionSuffix>
-        <PackageVersionSuffix Condition="'$(PackageVersionSuffix)' == ''  AND '$(DesignTimeBuild)' != 'True'">-localbuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</PackageVersionSuffix>
-        <PackageVersionSuffix Condition="'$(APPVEYOR_REPO_TAG)' == 'True'"></PackageVersionSuffix>
+        <PackageVersionSuffix Condition="'$(CI)' != 'True' AND '$(PackageVersionSuffix)' == ''  AND '$(DesignTimeBuild)' != 'True'">-localbuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</PackageVersionSuffix>
     </PropertyGroup>
 
     <ItemGroup>
