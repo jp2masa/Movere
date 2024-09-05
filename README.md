@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/8iddgvgjklwoj91y/branch/master?svg=true)](https://ci.appveyor.com/project/jp2masa/Movere/branch/master)
+[![Build Status](https://github.com/jp2masa/Movere/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jp2masa/Movere/actions/workflows/build.yml)
 [![NuGet](https://img.shields.io/nuget/v/Movere.svg)](https://www.nuget.org/packages/Movere/)
 [![MyGet](https://img.shields.io/myget/jp2masa/vpre/Movere.svg?label=myget)](https://www.myget.org/feed/jp2masa/package/nuget/Movere)
 

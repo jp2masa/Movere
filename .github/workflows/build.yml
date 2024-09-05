@@ -1,0 +1,27 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    runs-on: windows-latest
+    env:
+      BUILD_NUMBER_OFFSET: ${{ vars.BUILD_NUMBER_OFFSET }}
+      CONFIGURATION: ${{ matrix.configuration }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Cache: .nuke/temp, ~/.nuget/packages'
+        uses: actions/cache@v3
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
+      - name: 'Run: '
+        run: ./build.cmd

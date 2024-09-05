@@ -8,6 +8,8 @@
 
 # Build results
 
+.nuke/temp/
+
 [Aa]rtifacts/
 [Bb]in/
 [Oo]bj/

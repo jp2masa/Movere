@@ -6,9 +6,17 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89EF6D8C-C8F7-4374-B424-C88013F4791C}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		appveyor.yml = appveyor.yml
+		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5198C849-634F-4EFC-9D2B-37EDC21545B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{00A091A2-D308-4078-B5E3-A9D04DD9503D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{233FDDCD-5706-4E83-AF15-41A0CA9F0E42}"
@@ -26,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{9C93
 		build\Targets\RepoLayout.props = build\Targets\RepoLayout.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build\_build.csproj", "{111F78F0-6F7E-438A-BE99-DAFEB691BBFD}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere", "src\Movere\Movere.csproj", "{4B0E3D01-F0C9-42EF-9556-32C96F59E353}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere.Sample", "samples\Movere.Sample\Movere.Sample.csproj", "{1C5611B0-C2EE-43C5-BA3F-8016E2704969}"
@@ -38,6 +48,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{111F78F0-6F7E-438A-BE99-DAFEB691BBFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111F78F0-6F7E-438A-BE99-DAFEB691BBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B0E3D01-F0C9-42EF-9556-32C96F59E353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B0E3D01-F0C9-42EF-9556-32C96F59E353}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B0E3D01-F0C9-42EF-9556-32C96F59E353}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +67,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{5198C849-634F-4EFC-9D2B-37EDC21545B7} = {89EF6D8C-C8F7-4374-B424-C88013F4791C}
+		{00A091A2-D308-4078-B5E3-A9D04DD9503D} = {5198C849-634F-4EFC-9D2B-37EDC21545B7}
 		{233FDDCD-5706-4E83-AF15-41A0CA9F0E42} = {89EF6D8C-C8F7-4374-B424-C88013F4791C}
 		{9C9397C0-677A-481E-9A3B-5C0152ECF6E1} = {233FDDCD-5706-4E83-AF15-41A0CA9F0E42}
 	EndGlobalSection
