@@ -84,7 +84,9 @@ class Build : NukeBuild
 
     private SemanticVersion? TagVersion =>
         TagName is not null
-        && SemanticVersion.TryParse(TagName, out var version)
+        && TagName.Length >= 2
+        && TagName[0] == 'v'
+        && SemanticVersion.TryParse(TagName[1..], out var version)
             ? version
             : null;
 
@@ -184,48 +186,55 @@ class Build : NukeBuild
         )
         .Requires(() => GitHubToken)
         .Executes(
-            new Func<Task>(
-                async () =>
-                {
-                    var client = new GitHubClient(
-                        new ProductHeaderValue("jp2masa"),
-                        new Octokit.Internal.InMemoryCredentialStore(
-                            new Credentials(GitHubToken)
-                        )
-                    );
+            async () =>
+            {
+                var repositoryId = GetVariable<long>("GITHUB_REPOSITORY_ID");
 
-                    var release = await client
+                var client = new GitHubClient(
+                    new ProductHeaderValue("jp2masa"),
+                    new Octokit.Internal.InMemoryCredentialStore(
+                        new Credentials(GitHubToken)
+                    )
+                );
+
+                var release = await client
+                    .Repository
+                    .Release
+                    .Create(
+                        repositoryId,
+                        new NewRelease(TagName!)
+                        {
+                            Draft = true,
+                            Name = TagName!,
+                            Prerelease = TagVersion!.IsPrerelease
+                        }
+                );
+
+                // preserve order
+                foreach (var nupkg in NupkgArtifactsPath.GetFiles())
+                {
+                    using var ms = new MemoryStream(nupkg.ReadAllBytes());
+
+                    await client
                         .Repository
                         .Release
-                        .Create(
-                            GetVariable<long>("GITHUB_REPOSITORY_ID"),
-                            new NewRelease(TagName!)
-                            {
-                                Name = TagName!,
-                                Prerelease = TagVersion!.IsPrerelease
-                            }
-                    );
-
-                    // preserve order
-                    foreach (var nupkg in NupkgArtifactsPath.GetFiles())
-                    {
-                        using var ms = new MemoryStream(nupkg.ReadAllBytes());
-
-                        await client
-                            .Repository
-                            .Release
-                            .UploadAsset(
-                                release,
-                                new ReleaseAssetUpload(
-                                    nupkg.Name,
-                                    "application/octet-stream",
-                                    ms,
-                                    null
-                                )
-                            );
-                    }
+                        .UploadAsset(
+                            release,
+                            new ReleaseAssetUpload(
+                                nupkg.Name,
+                                "application/octet-stream",
+                                ms,
+                                null
+                            )
+                        );
                 }
-            )
+
+                await client.Repository.Release.Edit(
+                    repositoryId,
+                    release.Id,
+                    new ReleaseUpdate() { Draft = false }
+                );
+            }
         );
 
     private static bool StringEqualsOrdinalIgnoreCase(string? x, string? y) =>
