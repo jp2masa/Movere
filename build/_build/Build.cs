@@ -95,10 +95,14 @@ class Build : NukeBuild
 
     private string PackageVersionSuffix =>
         IsLocalBuild
-            ? "-local"
+            ? String.Empty
             : (
                 TagVersion is not null
-                    ? $"-{TagVersion.Release}"
+                    ? (
+                        String.IsNullOrEmpty(TagVersion.Release)
+                            ? String.Empty
+                            : $"-{TagVersion.Release}"
+                    )
                     : $"-build2.{BuildNumber}+{GitHubActions.Sha[0..7]}"
             );
 
