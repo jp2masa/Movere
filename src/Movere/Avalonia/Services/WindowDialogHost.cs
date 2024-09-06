@@ -11,7 +11,7 @@ using Movere.Views;
 
 namespace Movere.Avalonia.Services
 {
-    internal sealed class WindowDialogHost(Application application, Window owner, IDataTemplate? dataTemplate = null)
+    public sealed class WindowDialogHost(Application application, Window owner, IDataTemplate? dataTemplate = null)
         : DialogHostBase(application, dataTemplate)
     {
         private sealed class DialogView<TResult>(Window window) : IDialogView<TResult>

@@ -13,7 +13,7 @@ using Movere.Views;
 
 namespace Movere.Avalonia.Services
 {
-    internal sealed class OverlayDialogHost(Application application, Visual target, IDataTemplate? dataTemplate = null)
+    public sealed class OverlayDialogHost(Application application, Visual target, IDataTemplate? dataTemplate = null)
         : DialogHostBase(application, dataTemplate)
     {
         private sealed class DialogView<TResult> : IDialogView<TResult>

@@ -12,10 +12,12 @@ using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
 
 using Movere.Avalonia.Services;
+using Movere.Avalonia.Storage;
+using Movere.Models;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
-using Movere.Storage;
 using Movere.Win32;
+using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
 
 namespace Movere.Sample
 {
@@ -72,10 +74,12 @@ namespace Movere.Sample
 
         private static Task AvaloniaOpenFile(TopLevel parent)
         {
+            var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
             var options = new FilePickerOpenOptions()
             {
                 AllowMultiple = true,
-                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                SuggestedStartLocation = new Folder(new DirectoryInfo(userProfilePath)).ToStorageFolder(),
                 FileTypeFilter = ImmutableArray.Create(
                     new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } },
                     new FilePickerFileType("Music files") { Patterns = new List<string>() { "mp3", "wav" } }
@@ -87,9 +91,11 @@ namespace Movere.Sample
 
         private static Task AvaloniaSaveFile(TopLevel parent)
         {
+            var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
             var options = new FilePickerSaveOptions()
             {
-                SuggestedStartLocation = new BclStorageFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))),
+                SuggestedStartLocation = new Folder(new DirectoryInfo(userProfilePath)).ToStorageFolder(),
                 FileTypeChoices = ImmutableArray.Create(
                     new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } }
                 )
