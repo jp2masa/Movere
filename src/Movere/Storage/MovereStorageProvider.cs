@@ -29,8 +29,6 @@ namespace Movere.Storage
         {
             await using var host = hostFactory();
 
-            var service = new OpenFileDialogService(host);
-
             var convertedOptions = new OpenFileDialogOptions()
             {
                 AllowMultipleSelection = options.AllowMultiple,
@@ -47,7 +45,7 @@ namespace Movere.Storage
                 convertedOptions = convertedOptions with { Title = title };
             }
 
-            var result = await service.ShowDialogAsync(convertedOptions);
+            var result = await host.ShowOpenFileDialogAsync(convertedOptions);
 
             return result.SelectedPaths
                 .Select(static x => new BclStorageFile(new FileInfo(x)))
@@ -57,8 +55,6 @@ namespace Movere.Storage
         public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
             await using var host = hostFactory();
-
-            var service = new SaveFileDialogService(host);
 
             // TODO: implement FileTypeChoices and DefaultExtension
             // TODO: implement ShowOverwritePrompt (it's always shown)
@@ -76,7 +72,7 @@ namespace Movere.Storage
                 convertedOptions = convertedOptions with { Title = title };
             }
 
-            var result = await service.ShowDialogAsync(convertedOptions);
+            var result = await host.ShowSaveFileDialogAsync(convertedOptions);
 
             return result.SelectedPath is null
                 ? null

@@ -27,7 +27,7 @@ namespace Movere.ViewModels
         }
 
         private readonly IClipboardService _clipboard;
-        private readonly IMessageDialogService _messageDialogService;
+        private readonly IDialogHost _dialogHost;
 
         private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<FileSystemEntry>> _items;
 
@@ -39,13 +39,13 @@ namespace Movere.ViewModels
 
         public FileExplorerFolderViewModel(
             IClipboardService clipboard,
-            IMessageDialogService messageDialogService,
+            IDialogHost dialogHost,
             bool allowMultipleSelection,
             IFileIconProvider? fileIconProvider = null,
             IObservable<IFilter<FileSystemEntry>>? filter = null)
         {
             _clipboard = clipboard;
-            _messageDialogService = messageDialogService;
+            _dialogHost = dialogHost;
 
             FileIconProvider = fileIconProvider ?? new NullFileIconProvider();
 
@@ -120,7 +120,7 @@ namespace Movere.ViewModels
 
         private async Task DeleteAsync()
         {
-            var result = await _messageDialogService.ShowMessageDialogAsync(
+            var result = await _dialogHost.ShowMessageDialogAsync(
                 new MessageDialogOptions(
                     $"{SelectedItems.Count} item(s) will be removed permanently. Continue?",
                     (LocalizedString)"Delete items"

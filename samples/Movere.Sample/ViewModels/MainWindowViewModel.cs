@@ -25,26 +25,8 @@ namespace Movere.Sample.ViewModels
 
     internal class MainWindowViewModel : ReactiveObject
     {
-        private sealed class DialogServices(IDialogHost host)
-        {
-            public IMessageDialogService Message { get; } =
-                new MessageDialogService(host);
-
-            public IContentDialogService<CustomContentViewModel, FormResult> Content { get; } =
-                new ContentDialogService<CustomContentViewModel, FormResult>(host);
-
-            public IOpenFileDialogService OpenFile { get; } =
-                new OpenFileDialogService(host);
-
-            public ISaveFileDialogService SaveFile { get; } =
-                new SaveFileDialogService(host);
-
-            public IPrintDialogService Print { get; } =
-                new PrintDialogService(host);
-        }
-
-        private readonly DialogServices _windowDialogServices;
-        private readonly DialogServices _overlayDialogServices;
+        private readonly IDialogHost _windowDialogHost;
+        private readonly IDialogHost _overlayDialogHost;
 
         private string _messageDialogResult = "Not opened yet";
         private string _contentDialogResult = "Not opened yet";
@@ -60,8 +42,8 @@ namespace Movere.Sample.ViewModels
             Func<Task> avaloniaOldSaveFile
         )
         {
-            _windowDialogServices = new DialogServices(windowHost);
-            _overlayDialogServices = new DialogServices(overlayHost);
+            _windowDialogHost = windowHost;
+            _overlayDialogHost = overlayHost;
 
             ShowMessageCommand = ReactiveCommand.CreateFromTask(ShowMessageAsync);
             ShowCustomContentCommand = ReactiveCommand.CreateFromTask(ShowCustomContentAsync);
@@ -114,14 +96,14 @@ namespace Movere.Sample.ViewModels
             set => this.RaiseAndSetIfChanged(ref _useOverlayDialogs, value);
         }
 
-        private DialogServices Dialogs =>
+        private IDialogHost DialogHost =>
             UseOverlayDialogs
-                ? _overlayDialogServices
-                : _windowDialogServices;
+                ? _overlayDialogHost
+                : _windowDialogHost;
 
         private async Task ShowMessageAsync() =>
             MessageDialogResult = (
-                await Dialogs.Message.ShowMessageDialogAsync(
+                await DialogHost.ShowMessageDialogAsync(
                     new MessageDialogOptions(
                         "Some really really really really really really really really really really really " +
                         "really really really really really really really really really really really really " +
@@ -176,7 +158,7 @@ namespace Movere.Sample.ViewModels
                 )
             );
 
-            var result = await Dialogs.Content.ShowDialogAsync(
+            var result = await DialogHost.ShowContentDialogAsync(
                 ContentDialogOptions.Create("Custom content", vm, DialogActionSet.Create(actions, actions[2], actions[0]))
             );
 
@@ -184,7 +166,7 @@ namespace Movere.Sample.ViewModels
         }
 
         private Task OpenFileAsync() =>
-            Dialogs.OpenFile.ShowDialogAsync(
+            DialogHost.ShowOpenFileDialogAsync(
                 new OpenFileDialogOptions()
                 {
                     AllowMultipleSelection = true
@@ -192,7 +174,7 @@ namespace Movere.Sample.ViewModels
             );
 
         private Task SaveFileAsync() =>
-            Dialogs.SaveFile.ShowDialogAsync();
+            DialogHost.ShowSaveFileDialogAsync();
 
         private async Task PrintAsync()
         {
@@ -205,8 +187,8 @@ namespace Movere.Sample.ViewModels
 
             document.PrintPage += PrintDocument;
 
-            await Dialogs.Print
-                .ShowDialogAsync(new PrintDialogOptions(document));
+            await DialogHost
+                .ShowPrintDialogAsync(new PrintDialogOptions(document));
         }
 
         private static void PrintDocument(object sender, PrintPageEventArgs e)

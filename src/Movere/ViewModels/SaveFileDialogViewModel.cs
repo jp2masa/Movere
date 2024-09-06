@@ -27,7 +27,7 @@ namespace Movere.ViewModels
                 DialogResults = DialogResultSet.YesNoCancel
             };
 
-        private readonly IMessageDialogService _messageDialogService;
+        private readonly IDialogHost _dialogHost;
 
         private readonly ISubject<IObservable<SaveFileDialogResult>> _resultSubject =
             new Subject<IObservable<SaveFileDialogResult>>();
@@ -37,10 +37,10 @@ namespace Movere.ViewModels
         public SaveFileDialogViewModel(
             SaveFileDialogOptions options,
             Func<bool, FileExplorerViewModel> fileExplorerFactory,
-            IMessageDialogService messageDialogService
+            IDialogHost dialogHost
         )
         {
-            _messageDialogService = messageDialogService;
+            _dialogHost = dialogHost;
 
             _fileName = options.InitialFileName ?? String.Empty;
 
@@ -96,7 +96,7 @@ namespace Movere.ViewModels
             path = Path.GetFullPath(path);
 
             var result = System.IO.File.Exists(path)
-                ? await _messageDialogService
+                ? await _dialogHost
                     .ShowMessageDialogAsync(s_fileAlreadyExistsMessageDialogOptions)
                 : DialogResult.Yes;
 

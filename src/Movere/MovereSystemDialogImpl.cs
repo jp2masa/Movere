@@ -27,8 +27,6 @@ namespace Movere
 
             if (dialog is OpenFileDialog openFileDialog)
             {
-                var service = new OpenFileDialogService(host);
-
                 var options = new OpenFileDialogOptions()
                 {
                     AllowMultipleSelection = openFileDialog.AllowMultiple,
@@ -48,14 +46,12 @@ namespace Movere
                     options = options with { Title = title };
                 }
 
-                var result = await service.ShowDialogAsync(options);
+                var result = await host.ShowOpenFileDialogAsync(options);
                 return result.SelectedPaths.ToArray();
             }
 
             if (dialog is SaveFileDialog saveFileDialog)
             {
-                var service = new SaveFileDialogService(host);
-
                 var options = new SaveFileDialogOptions()
                 {
                     //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
@@ -74,7 +70,7 @@ namespace Movere
                     options = options with { Title = title };
                 }
 
-                var result = await service.ShowDialogAsync(options);
+                var result = await host.ShowSaveFileDialogAsync(options);
                 return result.SelectedPath is null ? [] : [result.SelectedPath];
             }
 
