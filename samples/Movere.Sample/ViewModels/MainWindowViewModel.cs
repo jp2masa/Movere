@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -117,7 +116,7 @@ namespace Movere.Sample.ViewModels
                     }
                 )
             )
-                .Name.GetString() ?? "null";
+                .Name.GetString();
 
         private async Task ShowCustomContentAsync()
         {
@@ -133,11 +132,11 @@ namespace Movere.Sample.ViewModels
                 DialogAction.Create(
                     DialogResult.OK.Name,
                     ReactiveCommand.Create(
-                        (CustomContentViewModel x) => FormResult.OK,
+                        (CustomContentViewModel _) => FormResult.OK,
                         Observable.CombineLatest(
                             from field in fields
                             select from value in field.WhenAnyValue(x => x.Value)
-                                    select !String.IsNullOrWhiteSpace(value),
+                                   select !String.IsNullOrWhiteSpace(value),
                             x => x.All(y => y)
                         )
                     )
@@ -145,7 +144,7 @@ namespace Movere.Sample.ViewModels
                 DialogAction.Create(
                     "Wait",
                     ReactiveCommand.CreateFromTask(
-                        async (CustomContentViewModel x) =>
+                        async (CustomContentViewModel _) =>
                         {
                             await Task.Delay(5000);
                             return FormResult.Wait;
@@ -154,7 +153,7 @@ namespace Movere.Sample.ViewModels
                 ),
                 DialogAction.Create(
                     DialogResult.Cancel.Name,
-                    ReactiveCommand.Create((CustomContentViewModel x) => FormResult.Cancel)
+                    ReactiveCommand.Create((CustomContentViewModel _) => FormResult.Cancel)
                 )
             );
 

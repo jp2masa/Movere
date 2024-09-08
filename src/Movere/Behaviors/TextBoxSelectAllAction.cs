@@ -11,11 +11,7 @@ namespace Movere.Behaviors
 
         public object? Execute(object? sender, object? parameter)
         {
-            if (!(TextBox is null))
-            {
-                TextBox.SelectAll();
-            }
-
+            TextBox?.SelectAll();
             return null;
         }
     }

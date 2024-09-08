@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:r="clr-namespace:System.Reactive;assembly=System.Reactive"
              xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:vm="clr-namespace:Movere.ViewModels"

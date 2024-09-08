@@ -43,7 +43,7 @@ namespace Movere.ViewModels
 
             Result = CloseCommand.AsObservable();
         }
-        
+
         public TContent Content { get; }
 
         object? IContentDialogViewModel.Content => Content;

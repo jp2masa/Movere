@@ -11,6 +11,6 @@ namespace Movere.ViewModels
             builder
                 .RegisterAssemblyTypes(ThisAssembly)
                 .InNamespaceOf<ViewModelsModule>();
-       }
+        }
     }
 }

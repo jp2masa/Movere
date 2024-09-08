@@ -16,7 +16,7 @@ namespace Movere.Behaviors
         {
             base.OnAttached();
 
-            if (!(AssociatedObject is InputElement input))
+            if (AssociatedObject is not InputElement input)
             {
                 return;
             }

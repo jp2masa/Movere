@@ -4,8 +4,7 @@
              x:Class="Movere.Sample.Views.FieldView"
              x:DataType="vm:FieldViewModel">
 
-    <TextBox Grid.Column="2"
-             Watermark="{Binding Name}"
+    <TextBox Watermark="{Binding Name}"
              Text="{Binding Value}" />
 
 </UserControl>

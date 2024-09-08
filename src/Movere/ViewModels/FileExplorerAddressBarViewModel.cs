@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
@@ -81,7 +80,7 @@ namespace Movere.ViewModels
 
         private void NavigateToAddress(string address) => Address = address;
 
-        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(string address)
+        private static IEnumerable<AddressSegmentViewModel> GetAddressSegments(string address)
         {
             if (Directory.Exists(address))
             {
@@ -91,12 +90,12 @@ namespace Movere.ViewModels
                 return GetAddressSegments(new Folder(directory));
             }
 
-            return Enumerable.Empty<AddressSegmentViewModel>();
+            return [];
         }
 
-        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(Folder folder)
+        private static IEnumerable<AddressSegmentViewModel> GetAddressSegments(Folder folder)
         {
-            if (folder.Parent is Folder parent)
+            if (folder.Parent is { } parent)
             {
                 foreach (var segment in GetAddressSegments(parent))
                 {

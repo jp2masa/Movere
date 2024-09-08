@@ -28,7 +28,7 @@ namespace Movere.Models
         public override string FullPath => _info.FullName;
 
         public Folder? Parent =>
-            _info.Parent is DirectoryInfo parent ? new Folder(parent) : null;
+            _info.Parent is { } parent ? new Folder(parent) : null;
 
         public IEnumerable<Folder> Folders => GetFolders();
 

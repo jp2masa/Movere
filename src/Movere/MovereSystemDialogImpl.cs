@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
+#pragma warning disable CS0618 // Type or member is obsolete
 using AvaloniaFilter = Avalonia.Controls.FileDialogFilter;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 using Movere.Avalonia.Services;
 using Movere.Models;

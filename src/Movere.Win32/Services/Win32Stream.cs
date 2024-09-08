@@ -5,7 +5,7 @@ using Windows.Win32.System.Com;
 
 namespace Movere.Win32.Services
 {
-    internal sealed partial class Win32Stream(Stream stream) : IStream.Interface
+    internal sealed class Win32Stream(Stream stream) : IStream.Interface
     {
         private readonly Stream _stream = stream;
 

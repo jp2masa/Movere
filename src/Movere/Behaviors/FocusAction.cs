@@ -11,11 +11,7 @@ namespace Movere.Behaviors
 
         public object? Execute(object? sender, object? parameter)
         {
-            if (!(Control is null))
-            {
-                Control.Focus();
-            }
-
+            Control?.Focus();
             return null;
         }
     }

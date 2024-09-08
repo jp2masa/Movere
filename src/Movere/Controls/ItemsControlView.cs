@@ -10,11 +10,11 @@ namespace Movere.Controls
 {
     public partial class ItemsControlView : StyledElement
     {
-        private static readonly ITemplate<Panel?> DefaultPanelTemplate =
+        private static readonly ITemplate<Panel?> s_defaultPanelTemplate =
             new FuncTemplate<Panel?>(() => new VirtualizingStackPanel());
 
         public static readonly StyledProperty<ITemplate<Panel?>> PanelTemplateProperty =
-            AvaloniaProperty.Register<ItemsControlView, ITemplate<Panel?>>(nameof(PanelTemplate), DefaultPanelTemplate);
+            AvaloniaProperty.Register<ItemsControlView, ITemplate<Panel?>>(nameof(PanelTemplate), s_defaultPanelTemplate);
 
         public static readonly AttachedProperty<ItemsControlView> ItemsViewProperty =
             AvaloniaProperty.RegisterAttached<ItemsControlView, ItemsControl, ItemsControlView>("ItemsView");
@@ -24,12 +24,8 @@ namespace Movere.Controls
             ItemsViewProperty.Changed.AddClassHandler<ItemsControl>(UpdateItemsView);
         }
 
-        public ItemsControlView()
-        {
-            DataTemplates = new AvaloniaList<IDataTemplate>();
-        }
-
-        public IList<IDataTemplate> DataTemplates { get; }
+        public IList<IDataTemplate> DataTemplates { get; } =
+            new AvaloniaList<IDataTemplate>();
 
         private static void UpdateItemsView(ItemsControl sender, AvaloniaPropertyChangedEventArgs e)
         {

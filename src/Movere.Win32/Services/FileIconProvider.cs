@@ -115,7 +115,7 @@ namespace Movere.Win32.Services
 
             AssertSuccess(ppIWicBitmap->GetPixelFormat(out var pixelFormat));
             AssertSuccess(frameEncoder->SetPixelFormat(ref pixelFormat));
-            
+
             var rect = new WICRect() { X = 0, Y = 0, Width = (int)width, Height = (int)height };
 
             AssertSuccess(ppIWicBitmap->QueryInterface(typeof(IWICBitmapSource).GUID, out var ppWicBitmapSource));

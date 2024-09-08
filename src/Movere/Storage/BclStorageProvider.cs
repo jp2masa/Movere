@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using Avalonia.Compatibility;
 using Avalonia.Logging;
 using Avalonia.Platform.Storage;
 
@@ -139,7 +138,7 @@ namespace Movere.Storage
             {
                 if (StorageBookmarkHelper.TryDecodeBclBookmark(bookmark, out var localPath))
                 {
-                    return StorageProviderHelpers.TryCreateBclStorageItem(localPath);   
+                    return StorageProviderHelpers.TryCreateBclStorageItem(localPath);
                 }
 
                 return null;

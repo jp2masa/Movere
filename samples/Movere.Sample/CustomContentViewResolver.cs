@@ -8,15 +8,15 @@ using Movere.Sample.Views;
 
 namespace Movere.Sample
 {
-    class CustomContentViewResolver : IDataTemplate
+    internal sealed class CustomContentViewResolver : IDataTemplate
     {
         public bool Match(object? data) => data is CustomContentViewModel || data is FieldViewModel;
 
         public Control? Build(object? param) =>
             param switch
             {
-                CustomContentViewModel _ => new CustomContentView(),
-                FieldViewModel _ => new FieldView(),
+                CustomContentViewModel => new CustomContentView(),
+                FieldViewModel => new FieldView(),
                 _ => throw new InvalidOperationException()
             };
     }

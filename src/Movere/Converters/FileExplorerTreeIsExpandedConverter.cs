@@ -22,7 +22,7 @@ namespace Movere.Converters
             if (values.Count == 2 && values[0] is Folder itemFolder && targetType == typeof(bool))
             {
                 if (values[1] is Folder selectedFolder
-                    && selectedFolder.Parent is Folder parent
+                    && selectedFolder.Parent is { } parent
                     && parent.FullPath.StartsWith(itemFolder.FullPath, StringComparison.Ordinal))
                 {
                     return true;

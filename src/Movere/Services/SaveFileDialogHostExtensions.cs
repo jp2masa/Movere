@@ -40,6 +40,5 @@ namespace Movere.Services
                         InternalDialogWindowViewModel.Create(view, options.Title, viewModelFactory(options))
                 );
         }
-            
     }
 }

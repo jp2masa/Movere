@@ -102,7 +102,7 @@ namespace Movere.ViewModels
             Close(new OpenFileDialogResult(files));
         }
 
-        private void Cancel() => Close(new OpenFileDialogResult(Enumerable.Empty<string>()));
+        private void Cancel() => Close(new OpenFileDialogResult([]));
 
         private void Close(OpenFileDialogResult result)
         {

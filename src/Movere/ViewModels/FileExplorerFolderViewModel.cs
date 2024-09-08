@@ -51,8 +51,6 @@ namespace Movere.ViewModels
 
             AllowMultipleSelection = allowMultipleSelection;
 
-            SelectedItems = new ObservableCollection<FileSystemEntryViewModel>();
-
             OpenItemCommand = ReactiveCommand.Create<FileSystemEntryViewModel, FileSystemEntry>(x => x.Entry);
 
             FileOpened = OpenItemCommand.OfType<File>();
@@ -65,7 +63,7 @@ namespace Movere.ViewModels
 
             _items = (
                 from folder in this.WhenAnyValue(x => x.Folder)
-                select (folder?.Entries ?? Enumerable.Empty<FileSystemEntry>())
+                select (folder?.Entries ?? [])
                     .ToObservable()
                     .ToObservableChangeSet()
                     .Filter(filter.Select(FilterExtensions.ToFunc), ListFilterPolicy.ClearAndReplace)
@@ -100,7 +98,7 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
-        public ObservableCollection<FileSystemEntryViewModel> SelectedItems { get; }
+        public ObservableCollection<FileSystemEntryViewModel> SelectedItems { get; } = [];
 
         public ReactiveCommand<FileSystemEntryViewModel, FileSystemEntry> OpenItemCommand { get; }
 

@@ -1,6 +1,4 @@
-﻿using Avalonia.Media.Imaging;
-
-namespace Movere.Models
+﻿namespace Movere.Models
 {
     public interface IDialogIcon
     {

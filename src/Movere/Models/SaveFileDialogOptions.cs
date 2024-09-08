@@ -17,5 +17,5 @@ namespace Movere.Models
         public DirectoryInfo? InitialDirectory { get; init; }
 
         public string? InitialFileName { get; init; }
-    };
+    }
 }

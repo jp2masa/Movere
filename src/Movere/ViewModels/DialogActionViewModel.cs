@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Windows.Input;
 
 using ReactiveUI;
 
@@ -40,7 +36,7 @@ namespace Movere.ViewModels
             foreach (var result in dialogResults)
             {
                 var action = new DialogAction<TContent, DialogResult>(
-                    result.Name, ReactiveCommand.Create((TContent x) => result));
+                    result.Name, ReactiveCommand.Create((TContent _) => result));
 
                 builder.Add(action);
 

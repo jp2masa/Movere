@@ -83,7 +83,7 @@ namespace Movere
 
             return new MultiBinding()
             {
-                Bindings = [key, ..args],
+                Bindings = [key, .. args],
                 Converter = Converter.Instance
             };
         }

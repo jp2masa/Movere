@@ -65,7 +65,7 @@ namespace Movere.Storage
                 return null;
             }
         }
-    
+
         [return: NotNullIfNotNull(nameof(path))]
         public static string? NameWithExtension(string? path, string? defaultExtension, FilePickerFileType? filter)
         {

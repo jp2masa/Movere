@@ -45,7 +45,7 @@ namespace Movere.Converters
             return vm.Icon switch
             {
                 AvaloniaBitmapFileIcon avalonia => avalonia.Bitmap,
-                IFileIcon icon => ConvertIconToBitmap(icon),
+                { } icon => ConvertIconToBitmap(icon),
                 null => _defaultFileIcon.Value
             };
         }

@@ -18,10 +18,10 @@ namespace Movere.ViewModels
     public sealed class FileExplorerViewModel : ReactiveObject
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
-        private static readonly IObservable<IFilter<FileSystemEntry>> DefaultFilterObservable =
+        private static readonly IObservable<IFilter<FileSystemEntry>> s_defaultFilterObservable =
             Observable.Return(Filter.True<FileSystemEntry>());
 
-        private static readonly IReadOnlyList<ItemsView> s_ItemsViews = new ItemsView[]
+        private static readonly IReadOnlyList<ItemsView> s_itemsViews = new ItemsView[]
         {
             ItemsView.List,
             ItemsView.Grid
@@ -48,7 +48,7 @@ namespace Movere.ViewModels
             AddressBar = addressBar;
             FileExplorerTree = fileExplorerTree;
 
-            filter ??= DefaultFilterObservable;
+            filter ??= s_defaultFilterObservable;
 
             var searchTextFilter =
                 from searchText in this.WhenAnyValue(vm => vm.SearchText)
@@ -73,7 +73,7 @@ namespace Movere.ViewModels
                 NavigateUp,
                 this.WhenAnyValue(vm => vm.CurrentFolder).Select(x => x.Parent is not null));
 
-            AddressBar.AddressChanged.Subscribe(address => NavigateToAddress(address));
+            AddressBar.AddressChanged.Subscribe(NavigateToAddress);
 
             FileExplorerTree.SelectedFolderChanged.Subscribe(folder => NavigateTo(folder));
             FileExplorerFolder.FolderOpened.Subscribe(folder => NavigateTo(folder));
@@ -91,7 +91,7 @@ namespace Movere.ViewModels
         public FileExplorerFolderViewModel FileExplorerFolder { get; }
 
         [SuppressMessage("Performance", "CA1822:Mark members as static")]
-        public IReadOnlyList<ItemsView> ItemsViews => s_ItemsViews;
+        public IReadOnlyList<ItemsView> ItemsViews => s_itemsViews;
 
         public string SearchText
         {
@@ -145,7 +145,7 @@ namespace Movere.ViewModels
 
         public void NavigateUp()
         {
-            if (CurrentFolder.Parent is Folder parent)
+            if (CurrentFolder.Parent is { } parent)
             {
                 NavigateTo(parent);
             }
@@ -179,13 +179,12 @@ namespace Movere.ViewModels
 
             if (System.IO.File.Exists(address))
             {
-                using (var process = new System.Diagnostics.Process())
-                {
-                    process.StartInfo.FileName = address;
-                    process.StartInfo.UseShellExecute = true;
+                using var process = new System.Diagnostics.Process();
 
-                    process.Start();
-                }
+                process.StartInfo.FileName = address;
+                process.StartInfo.UseShellExecute = true;
+
+                process.Start();
             }
 
             AddressBar.Address = CurrentFolder.FullPath;

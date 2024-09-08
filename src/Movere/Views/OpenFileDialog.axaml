@@ -2,7 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Movere"
-    xmlns:v="clr-namespace:Movere.Views"
     xmlns:vm="clr-namespace:Movere.ViewModels"
     x:Class="Movere.Views.OpenFileDialog"
     x:DataType="vm:OpenFileDialogViewModel"

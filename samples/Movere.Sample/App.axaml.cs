@@ -10,6 +10,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.ReactiveUI;
+#pragma warning disable CS0618 // Type or member is obsolete
+using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
+#pragma warning restore CS0618 // Type or member is obsolete
 
 using Movere.Avalonia.Services;
 using Movere.Avalonia.Storage;
@@ -17,11 +20,10 @@ using Movere.Models;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
 using Movere.Win32;
-using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
 
 namespace Movere.Sample
 {
-    internal partial class App : Application
+    internal sealed class App : Application
     {
         public override void Initialize() => AvaloniaXamlLoader.Load(this);
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Avalonia.Platform.Storage;
+
 namespace Movere.Storage
 {
     internal sealed class BclStorageFolder(DirectoryInfo directoryInfo)

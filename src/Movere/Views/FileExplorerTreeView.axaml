@@ -1,7 +1,6 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:Movere.Converters"
-             xmlns:io="clr-namespace:System.IO;assembly=System.IO.FileSystem"
              xmlns:m="clr-namespace:Movere.Models"
              xmlns:vm="clr-namespace:Movere.ViewModels"
              x:Class="Movere.Views.FileExplorerTreeView"
@@ -12,8 +11,7 @@
         <IImage x:Key="FolderIcon">/Resources/Icons/Folder.png</IImage>
     </UserControl.Resources>
 
-    <TreeView Grid.Column="0"
-              BorderThickness="0"
+    <TreeView BorderThickness="0"
               ItemsSource="{Binding FolderHierarchy}"
               SelectedItem="{Binding SelectedFolder}">
         <TreeView.Styles>

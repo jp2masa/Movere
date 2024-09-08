@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace Movere.Models.Filters
 {
@@ -8,44 +7,51 @@ namespace Movere.Models.Filters
     {
         private static class Cache<T>
         {
-            public static readonly IFilter<T> True = new FuncFilter<T>(x => true);
+            public static readonly IFilter<T> True = new FuncFilter<T>(_ => true);
 
-            public static readonly IFilter<T> False = new FuncFilter<T>(x => false);
+            public static readonly IFilter<T> False = new FuncFilter<T>(_ => false);
         }
 
         public static class String
         {
-            private static readonly Func<string, char, bool> ContainsChar = (x, c) => x.Contains(c);
+            private static readonly Func<string, char, bool> s_containsChar =
+                (x, c) => x.IndexOf(c) != -1;
 
-            private static readonly Func<string, (string str, StringComparison cmp), bool> ContainsString = (x, p) => x.IndexOf(p.str, p.cmp) != -1;
+            private static readonly Func<string, (string str, StringComparison cmp), bool> s_containsString =
+                (x, p) => x.IndexOf(p.str, p.cmp) != -1;
 
-            private static readonly Func<string, (string str, StringComparison cmp), bool> EqualsString = (x, p) => x.Equals(p.str, p.cmp);
+            private static readonly Func<string, (string str, StringComparison cmp), bool> s_equalsString =
+                (x, p) => x.Equals(p.str, p.cmp);
 
-            public static IFilter<string> Contains(char c) => StorageFuncFilter.New(c, ContainsChar);
+            public static IFilter<string> Contains(char c) => StorageFuncFilter.New(c, s_containsChar);
 
             public static IFilter<string> Contains(string str, StringComparison stringComparison) =>
-                StorageFuncFilter.New((str, stringComparison), ContainsString);
+                StorageFuncFilter.New((str, stringComparison), s_containsString);
 
             public static IFilter<string> Equals(string str, StringComparison stringComparison) =>
-                StorageFuncFilter.New((str, stringComparison), EqualsString);
+                StorageFuncFilter.New((str, stringComparison), s_equalsString);
         }
 
         public static class FileDialog
         {
-            private static readonly Func<FileSystemEntry, FileDialogFilter, bool> MatchesFilter =
-                (entry, filter) => !(entry is File file) || FileMatchesFilter(file, filter);
+            private static readonly Func<FileSystemEntry, FileDialogFilter, bool> s_matchesFilter =
+                (entry, filter) => entry is not File file || FileMatchesFilter(file, filter);
 
             public static IFilter<FileSystemEntry> Matches(FileDialogFilter? filter) =>
                 filter is null || filter.Extensions.Contains("*")
                     ? True<FileSystemEntry>()
-                    : StorageFuncFilter.New(filter, MatchesFilter);
+                    : StorageFuncFilter.New(filter, s_matchesFilter);
 
             private static bool FileMatchesFilter(File file, FileDialogFilter filter)
             {
                 var extension = Path.GetExtension(file.Name);
 
                 return !System.String.IsNullOrEmpty(extension)
-                    && filter.Extensions.Contains(extension.Substring(1), StringComparer.InvariantCultureIgnoreCase);
+                    && filter.Extensions.IndexOf(
+                        extension.Substring(1),
+                        0,
+                        StringComparer.InvariantCultureIgnoreCase
+                    ) != -1;
             }
         }
 
