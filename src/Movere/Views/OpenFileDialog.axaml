@@ -55,7 +55,8 @@
                 <Button Content="{local:LocalizedString Open}"
                         Command="{Binding OpenCommand}" />
 
-                <Button Content="{local:LocalizedString Cancel}"
+                <Button IsCancel="True"
+                        Content="{local:LocalizedString Cancel}"
                         Command="{Binding CancelCommand}" />
 
             </StackPanel>

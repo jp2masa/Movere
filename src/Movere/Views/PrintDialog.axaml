@@ -18,7 +18,8 @@
                         Spacing="8">
                 <Button Content="Print"
                         Command="{Binding PrintCommand}" />
-                <Button Content="Cancel"
+                <Button IsCancel="True"
+                        Content="Cancel"
                         Command="{Binding CancelCommand}" />
             </StackPanel>
         </DockPanel>
