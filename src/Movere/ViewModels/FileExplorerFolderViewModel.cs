@@ -29,13 +29,13 @@ namespace Movere.ViewModels
         private readonly IClipboardService _clipboard;
         private readonly IDialogHost _dialogHost;
 
-        private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<FileSystemEntry>> _items;
+        private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<FileSystemEntryViewModel>> _items;
 
         private ItemsView _itemsView = ItemsView.List;
 
         private Folder? _folder;
 
-        private FileSystemEntry? _selectedItem;
+        private FileSystemEntryViewModel? _selectedItem;
 
         public FileExplorerFolderViewModel(
             IClipboardService clipboard,
@@ -51,9 +51,9 @@ namespace Movere.ViewModels
 
             AllowMultipleSelection = allowMultipleSelection;
 
-            SelectedItems = new ObservableCollection<FileSystemEntry>();
+            SelectedItems = new ObservableCollection<FileSystemEntryViewModel>();
 
-            OpenItemCommand = ReactiveCommand.Create<FileSystemEntry, FileSystemEntry>(x => x);
+            OpenItemCommand = ReactiveCommand.Create<FileSystemEntryViewModel, FileSystemEntry>(x => x.Entry);
 
             FileOpened = OpenItemCommand.OfType<File>();
             FolderOpened = OpenItemCommand.OfType<Folder>();
@@ -69,6 +69,7 @@ namespace Movere.ViewModels
                     .ToObservable()
                     .ToObservableChangeSet()
                     .Filter(filter.Select(FilterExtensions.ToFunc), ListFilterPolicy.ClearAndReplace)
+                    .Transform(x => new FileSystemEntryViewModel(x, FileIconProvider))
                     .SubscribeRoc()
             )
                 .ToProperty(this, x => x.Items);
@@ -90,17 +91,18 @@ namespace Movere.ViewModels
             set => this.RaiseAndSetIfChanged(ref _folder, value);
         }
 
-        public ReadOnlyObservableCollection<FileSystemEntry> Items => _items.Value;
+        public ReadOnlyObservableCollection<FileSystemEntryViewModel> Items =>
+            _items.Value;
 
-        public FileSystemEntry? SelectedItem
+        public FileSystemEntryViewModel? SelectedItem
         {
             get => _selectedItem;
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
-        public ObservableCollection<FileSystemEntry> SelectedItems { get; }
+        public ObservableCollection<FileSystemEntryViewModel> SelectedItems { get; }
 
-        public ReactiveCommand<FileSystemEntry, FileSystemEntry> OpenItemCommand { get; }
+        public ReactiveCommand<FileSystemEntryViewModel, FileSystemEntry> OpenItemCommand { get; }
 
         public ICommand CopyCommand { get; }
 
@@ -114,7 +116,7 @@ namespace Movere.ViewModels
             _clipboard.SetFilesAsync(
                 ImmutableArray.CreateRange(
                     from item in SelectedItems
-                    select item.FullPath
+                    select item.Entry.FullPath
                 )
             );
 
@@ -135,7 +137,7 @@ namespace Movere.ViewModels
             {
                 await Task.WhenAll(
                     from item in SelectedItems
-                    select item.DeleteAsync()
+                    select item.Entry.DeleteAsync()
                 );
             }
         }

@@ -25,7 +25,7 @@
     <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              BorderThickness="0"
              SelectionMode="{Binding AllowMultipleSelection, Converter={StaticResource AllowMultipleSelectionConverter}}"
-             c:ItemsControlView.ItemsView="{ReflectionBinding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
+             c:ItemsControlView.ItemsView="{Binding ItemsView, Converter={StaticResource ItemsViewConverter}, ConverterParameter={StaticResource Views}}"
              ItemsSource="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              SelectedItems="{Binding SelectedItems}">
@@ -43,7 +43,7 @@
                             <b:BehaviorFactoryControl>
                                 <i:BehaviorCollection>
                                     <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                        <ia:InvokeCommandAction Command="{ReflectionBinding #root.DataContext.OpenItemCommand}"
+                                        <ia:InvokeCommandAction Command="{Binding #root.ViewModel.OpenItemCommand}"
                                                                 CommandParameter="{Binding}" />
                                     </ia:EventTriggerBehavior>
                                 </i:BehaviorCollection>

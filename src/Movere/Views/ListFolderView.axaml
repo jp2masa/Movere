@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:Movere.Controls"
                     xmlns:conv="clr-namespace:Movere.Converters"
-                    xmlns:m="clr-namespace:Movere.Models"
+                    xmlns:vm="clr-namespace:Movere.ViewModels"
                     x:Class="Movere.Views.ListFolderView">
     <c:ItemsControlView.Resources>
         <conv:FileIconConverter x:Key="FileIconConverter" />
@@ -14,32 +14,15 @@
         </ItemsPanelTemplate>
     </c:ItemsControlView.PanelTemplate>
     <c:ItemsControlView.DataTemplates>
-        <DataTemplate DataType="m:File">
+        <DataTemplate DataType="vm:FileSystemEntryViewModel">
             <StackPanel Orientation="Horizontal"
                         Spacing="4"
-                        ToolTip.Tip="{Binding Name}">
-                <Image Width="16"
-                       Height="16">
-                    <Image.Source>
-                        <MultiBinding Converter="{StaticResource FileIconConverter}">
-                            <Binding />
-                            <ReflectionBinding Path="$parent[UserControl].DataContext.FileIconProvider" />
-                        </MultiBinding>
-                    </Image.Source>
-                </Image>
-                <TextBlock TextTrimming="CharacterEllipsis"
-                           Text="{Binding Name}" />
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate DataType="m:Folder">
-            <StackPanel Orientation="Horizontal"
-                        Spacing="4"
-                        ToolTip.Tip="{Binding Name}">
+                        ToolTip.Tip="{Binding Entry.Name}">
                 <Image Width="16"
                        Height="16"
-                       Source="{StaticResource FolderIcon}" />
+                       Source="{Binding Converter={StaticResource FileIconConverter}, TargetNullValue={StaticResource FolderIcon}}" />
                 <TextBlock TextTrimming="CharacterEllipsis"
-                           Text="{Binding Name}" />
+                           Text="{Binding Entry.Name}" />
             </StackPanel>
         </DataTemplate>
     </c:ItemsControlView.DataTemplates>

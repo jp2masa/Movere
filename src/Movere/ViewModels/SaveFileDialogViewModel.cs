@@ -58,7 +58,10 @@ namespace Movere.ViewModels
 
             FileExplorer.FileOpened.Subscribe(async file => await SaveAsync());
 
-            FileExplorer.FileExplorerFolder.WhenAnyValue(vm => vm.SelectedItem).Subscribe(SelectedItemChanged);
+            FileExplorer.FileExplorerFolder
+                .WhenAnyValue(vm => vm.SelectedItem)
+                .Select(x => x?.Entry)
+                .Subscribe(SelectedItemChanged);
         }
 
         public FileExplorerViewModel FileExplorer { get; }
@@ -80,7 +83,7 @@ namespace Movere.ViewModels
 
         private async Task SaveAsync()
         {
-            if (FileExplorer.FileExplorerFolder.SelectedItem is Folder folder)
+            if (FileExplorer.FileExplorerFolder.SelectedItem?.Entry is Folder folder)
             {
                 FileExplorer.NavigateTo(folder);
                 return;

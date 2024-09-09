@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using MemoryStream = System.IO.MemoryStream;
 
 using Avalonia;
-using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -13,40 +10,48 @@ using Avalonia.Platform;
 
 using Movere.Models;
 using Movere.Services;
+using Movere.ViewModels;
 
 namespace Movere.Converters
 {
-    internal sealed class FileIconConverter : IMultiValueConverter
+    internal sealed class FileIconConverter : IValueConverter
     {
         private readonly Lazy<Bitmap> _defaultFileIcon =
             new Lazy<Bitmap>(LoadDefaultFileIcon);
 
-        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Any(v => v == AvaloniaProperty.UnsetValue))
+            if (value is null)
             {
-                return BindingOperations.DoNothing;
+                return AvaloniaProperty.UnsetValue;
             }
 
-            if (values.Count != 2
+            if (value is not FileSystemEntryViewModel vm
                 || !targetType.IsAssignableFrom(typeof(IImage)))
             {
                 throw new NotSupportedException();
             }
 
-            if (values[0] is File file
-                && values[1] is IFileIconProvider fileIconProvider)
+            if (vm.Entry is Folder)
             {
-                return fileIconProvider.GetFileIcon(file.FullPath) switch
-                {
-                    AvaloniaBitmapFileIcon avalonia => avalonia.Bitmap,
-                    IFileIcon icon => ConvertIconToBitmap(icon),
-                    null => _defaultFileIcon.Value
-                };
+                return null;
             }
 
-            return _defaultFileIcon.Value;
+            if (vm.Entry is not File)
+            {
+                throw new NotSupportedException();
+            }
+
+            return vm.Icon switch
+            {
+                AvaloniaBitmapFileIcon avalonia => avalonia.Bitmap,
+                IFileIcon icon => ConvertIconToBitmap(icon),
+                null => _defaultFileIcon.Value
+            };
         }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+            throw new NotSupportedException();
 
         private static Bitmap LoadDefaultFileIcon()
         {

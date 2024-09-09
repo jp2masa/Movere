@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Reactive.Linq;
+using System.Windows.Input;
 
 using ReactiveUI;
 
@@ -11,6 +12,8 @@ namespace Movere.ViewModels
         object? Content { get; }
 
         IEnumerable Actions { get; }
+
+        ICommand CloseCommand { get; }
     }
 
     internal static class ContentDialogViewModel
@@ -50,6 +53,9 @@ namespace Movere.ViewModels
         IEnumerable IContentDialogViewModel.Actions => Actions.Actions;
 
         public ReactiveCommand<ReactiveCommand<TContent, TResult>, IObservable<TResult>> CloseCommand { get; }
+
+        ICommand IContentDialogViewModel.CloseCommand =>
+            CloseCommand;
 
         public IObservable<IObservable<TResult>> Result { get; }
 

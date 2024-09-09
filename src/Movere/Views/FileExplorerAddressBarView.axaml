@@ -21,14 +21,14 @@
                  Text="{Binding TextBoxAddress}">
             <i:Interaction.Behaviors>
                 <ia:EventTriggerBehavior EventName="LostFocus">
-                    <ia:InvokeCommandAction Command="{ReflectionBinding CancelNavigation}" />
+                    <ia:InvokeCommandAction Command="{Binding CancelNavigation}" />
                 </ia:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             <TextBox.KeyBindings>
                 <KeyBinding Gesture="Escape"
-                            Command="{ReflectionBinding CancelNavigation}" />
+                            Command="{Binding CancelNavigation}" />
                 <KeyBinding Gesture="Enter"
-                            Command="{ReflectionBinding CommitNavigation}" />
+                            Command="{Binding CommitNavigation}" />
             </TextBox.KeyBindings>
         </TextBox>
 
@@ -55,14 +55,14 @@
                             </StackPanel.Styles>
                             <Button Classes="btn-address-bar transparent"
                                     Content="{Binding Name}"
-                                    Command="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}"
+                                    Command="{Binding #root.ViewModel.NavigateToAddressCommand}"
                                     CommandParameter="{Binding Address}" />
                             <Button x:Name="PopupButton"
                                     Classes="btn-address-bar transparent"
                                     IsVisible="{Binding Children.Count}"
                                     Content="»"
                                     Command="{Binding OpenPopupCommand}" />
-                            <Popup PlacementTarget="{ReflectionBinding #PopupButton}"
+                            <Popup PlacementTarget="{Binding #PopupButton}"
                                    IsLightDismissEnabled="True"
                                    IsOpen="{Binding IsPopupOpen, Mode=TwoWay}">
                                 <ContextMenu ItemsSource="{Binding Children}">
@@ -70,7 +70,7 @@
                                         <Style
                                             x:DataType="vm:AddressSegmentChildViewModel"
                                             Selector="MenuItem">
-                                            <Setter Property="Command" Value="{ReflectionBinding #root.DataContext.NavigateToAddressCommand}" />
+                                            <Setter Property="Command" Value="{Binding #root.ViewModel.NavigateToAddressCommand}" />
                                             <Setter Property="CommandParameter" Value="{Binding Address}" />
                                             <Setter Property="Header" Value="{Binding Name}" />
                                         </Style>
@@ -89,8 +89,8 @@
                         <ia:ChangePropertyAction TargetObject="{Binding}"
                                                  PropertyName="IsEditing"
                                                  Value="True" />
-                        <b:FocusAction Control="{ReflectionBinding #AddressTextBox}" />
-                        <b:TextBoxSelectAllAction TextBox="{ReflectionBinding #AddressTextBox}" />
+                        <b:FocusAction Control="{Binding #AddressTextBox}" />
+                        <b:TextBoxSelectAllAction TextBox="{Binding #AddressTextBox}" />
                     </b:PointerPressedTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Border>

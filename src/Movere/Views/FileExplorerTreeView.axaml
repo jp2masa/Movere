@@ -24,7 +24,7 @@
                     <Setter.Value>
                         <MultiBinding Converter="{StaticResource FileExplorerTreeIsExpandedConverter}">
                             <Binding />
-                            <ReflectionBinding Path="DataContext.SelectedFolder" ElementName="root" />
+                            <Binding Path="#root.ViewModel.SelectedFolder" />
                         </MultiBinding>
                     </Setter.Value>
                 </Setter>

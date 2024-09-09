@@ -23,7 +23,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="vm:IDialogActionViewModel">
                     <Button Content="{local:LocalizedString {Binding Title}}"
-                            Command="{ReflectionBinding #dialog.ViewModel.CloseCommand}"
+                            Command="{Binding #dialog.ViewModel.CloseCommand}"
                             CommandParameter="{Binding Command}"
                             IsCancel="{Binding IsCancel}"
                             IsDefault="{Binding IsDefault}"

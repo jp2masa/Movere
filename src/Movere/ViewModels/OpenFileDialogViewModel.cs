@@ -54,7 +54,11 @@ namespace Movere.ViewModels
             Result = _resultSubject.AsObservable();
 
             FileExplorer.FileOpened.Subscribe(_ => Open());
-            FileExplorer.FileExplorerFolder.WhenAnyValue(vm => vm.SelectedItem).Subscribe(SelectedItemChanged);
+
+            FileExplorer.FileExplorerFolder
+                .WhenAnyValue(vm => vm.SelectedItem)
+                .Select(x => x?.Entry)
+                .Subscribe(SelectedItemChanged);
         }
 
         public FileExplorerViewModel FileExplorer { get; }
@@ -84,13 +88,18 @@ namespace Movere.ViewModels
 
         private void Open()
         {
-            if (FileExplorer.FileExplorerFolder.SelectedItem is Folder folder)
+            if (FileExplorer.FileExplorerFolder.SelectedItem?.Entry is Folder folder)
             {
                 FileExplorer.NavigateTo(folder);
                 return;
             }
 
-            Close(new OpenFileDialogResult(FileExplorer.FileExplorerFolder.SelectedItems.OfType<File>().Select(info => info.FullPath)));
+            var files = FileExplorer.FileExplorerFolder.SelectedItems
+                .Select(x => x.Entry)
+                .OfType<File>()
+                .Select(x => x.FullPath);
+
+            Close(new OpenFileDialogResult(files));
         }
 
         private void Cancel() => Close(new OpenFileDialogResult(Enumerable.Empty<string>()));
