@@ -11,13 +11,19 @@
     <PropertyGroup>
         <Authors>jp2masa</Authors>
         <Copyright>Copyright © $([System.DateTime]::Now.Year) jp2masa</Copyright>
-        <PackageIconUrl>https://raw.githubusercontent.com/jp2masa/Movere/master/Icon.png</PackageIconUrl>
+        <PackageIcon>Icon.png</PackageIcon>
         <PackageProjectUrl>http://github.com/jp2masa/Movere</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageTags>movere avalonia dialogs dotnet core csharp vb visual basic fsharp</PackageTags>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/jp2masa/Movere</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(RepoRoot)Icon.png" Pack="true" PackagePath="\" Visible="false" />
+        <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="\" Visible="false" />
+    </ItemGroup>
 
 </Project>
