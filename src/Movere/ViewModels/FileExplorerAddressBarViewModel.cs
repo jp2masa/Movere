@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows.Input;
 
 using DynamicData;
 
@@ -64,7 +64,7 @@ namespace Movere.ViewModels
 
         public ReadOnlyObservableCollection<AddressSegmentViewModel> AddressSegments => _addressSegments.Value;
 
-        public ICommand NavigateToAddressCommand { get; }
+        public ReactiveCommand<string, Unit> NavigateToAddressCommand { get; }
 
         public void CancelNavigation()
         {
@@ -80,7 +80,7 @@ namespace Movere.ViewModels
 
         private void NavigateToAddress(string address) => Address = address;
 
-        private static IEnumerable<AddressSegmentViewModel> GetAddressSegments(string address)
+        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(string address)
         {
             if (Directory.Exists(address))
             {
@@ -93,7 +93,7 @@ namespace Movere.ViewModels
             return [];
         }
 
-        private static IEnumerable<AddressSegmentViewModel> GetAddressSegments(Folder folder)
+        private IEnumerable<AddressSegmentViewModel> GetAddressSegments(Folder folder)
         {
             if (folder.Parent is { } parent)
             {
@@ -103,7 +103,7 @@ namespace Movere.ViewModels
                 }
             }
 
-            yield return new AddressSegmentViewModel(folder);
+            yield return new AddressSegmentViewModel(this, folder);
         }
     }
 }

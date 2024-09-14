@@ -8,10 +8,14 @@ namespace Movere.ViewModels
     {
         private readonly Folder _folder;
 
-        public AddressSegmentChildViewModel(Folder folder)
+        public AddressSegmentChildViewModel(AddressSegmentViewModel owner, Folder folder)
         {
+            Owner = owner;
+
             _folder = folder;
         }
+
+        public AddressSegmentViewModel Owner { get; }
 
         public string Name =>
             _folder.Name;

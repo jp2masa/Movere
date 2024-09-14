@@ -54,7 +54,7 @@
                             </StackPanel.Styles>
                             <Button Classes="btn-address-bar transparent"
                                     Content="{Binding Name}"
-                                    Command="{Binding #root.ViewModel.NavigateToAddressCommand}"
+                                    Command="{Binding OpenCommand}"
                                     CommandParameter="{Binding Address}" />
                             <Button x:Name="PopupButton"
                                     Classes="btn-address-bar transparent"
@@ -69,7 +69,7 @@
                                         <Style
                                             x:DataType="vm:AddressSegmentChildViewModel"
                                             Selector="MenuItem">
-                                            <Setter Property="Command" Value="{Binding #root.ViewModel.NavigateToAddressCommand}" />
+                                            <Setter Property="Command" Value="{Binding Owner.OpenCommand}" />
                                             <Setter Property="CommandParameter" Value="{Binding Address}" />
                                             <Setter Property="Header" Value="{Binding Name}" />
                                         </Style>

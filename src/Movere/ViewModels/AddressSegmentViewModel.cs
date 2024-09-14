@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Input;
 
 using ReactiveUI;
@@ -14,15 +16,23 @@ namespace Movere.ViewModels
 
         private bool _isPopupOpen;
 
-        public AddressSegmentViewModel(Folder folder)
+        public AddressSegmentViewModel(FileExplorerAddressBarViewModel owner, Folder folder)
         {
             _folder = folder;
 
             var children = new ObservableCollection<AddressSegmentChildViewModel>(
-                _folder.Folders.Select(static x => new AddressSegmentChildViewModel(x))
+                _folder.Folders.Select(x => new AddressSegmentChildViewModel(this, x))
             );
 
             Children = new ReadOnlyObservableCollection<AddressSegmentChildViewModel>(children);
+
+            OpenCommand = ReactiveCommand.CreateFromTask(
+                async (string x) =>
+                {
+                    IsPopupOpen = false;
+                    await owner.NavigateToAddressCommand.Execute(x);
+                }
+            );
 
             OpenPopupCommand = ReactiveCommand.Create(() => IsPopupOpen = true);
         }
@@ -38,6 +48,8 @@ namespace Movere.ViewModels
         public string Address => _folder.FullPath;
 
         public ReadOnlyObservableCollection<AddressSegmentChildViewModel> Children { get; }
+
+        public ReactiveCommand<string, Unit> OpenCommand { get; }
 
         public ICommand OpenPopupCommand { get; }
     }
