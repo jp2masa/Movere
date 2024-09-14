@@ -20,11 +20,6 @@ namespace Movere.Controls
             {
                 var child = Children[Children.Count - _n - 1];
 
-                if (!child.IsVisible)
-                {
-                    break;
-                }
-
                 child.Measure(childMeasureSize);
 
                 if (width + child.DesiredSize.Width > availableSize.Width)
@@ -36,7 +31,7 @@ namespace Movere.Controls
                 height = Math.Max(height, child.DesiredSize.Height);
             }
 
-            for (int i = 0; i < Children.Count - _n; i++)
+            for (var i = 0; i < Children.Count - _n; i++)
             {
                 Children[i].Measure(default);
             }
@@ -48,7 +43,12 @@ namespace Movere.Controls
         {
             var position = default(Point);
 
-            for (int i = _n; i >= 1; i--)
+            for (var i = 0; i < Children.Count - _n; i++)
+            {
+                Children[i].Arrange(default);
+            }
+
+            for (var i = _n; i >= 1; i--)
             {
                 var child = Children[Children.Count - i];
 
