@@ -26,18 +26,19 @@ namespace Movere.Services
         {
             options ??= SaveFileDialogOptions.Default;
 
-            var container = (@this as IMovereDialogHost)?.Container
-                ?? throw new InvalidOperationException(
-                    $"{nameof(SaveFileDialogHostExtensions)} only supports dialog hosts implemented by Movere!"
-                );
-
-            var viewModelFactory = container
-                .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>();
-
             return @this
                 .ShowDialog<SaveFileDialogViewModel, SaveFileDialogResult>(
                     view =>
-                        InternalDialogWindowViewModel.Create(view, options.Title, viewModelFactory(options))
+                        InternalDialogWindowViewModel.Create(
+                            view,
+                            options.Title,
+                            (view as IMovereDialogView<SaveFileDialogResult>)?.LifetimeScope
+                                .Resolve<Func<SaveFileDialogOptions, SaveFileDialogViewModel>>()
+                                (options)
+                            ?? throw new InvalidOperationException(
+                                $"{nameof(SaveFileDialogHostExtensions)} only supports dialog hosts implemented by Movere!"
+                            )
+                        )
                 );
         }
     }

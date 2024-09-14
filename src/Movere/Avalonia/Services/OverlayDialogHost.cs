@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Input;
 
-using Movere.Services;
-using Movere.ViewModels;
 using Movere.Views;
 
 namespace Movere.Avalonia.Services
@@ -16,28 +15,37 @@ namespace Movere.Avalonia.Services
     public sealed class OverlayDialogHost(Application application, Visual target, IDataTemplate? dataTemplate = null)
         : DialogHostBase(application, dataTemplate)
     {
-        private sealed class DialogView<TResult> : IDialogView<TResult>
+        private sealed class AvaloniaDialogView<TResult>(OverlayLayer layer, DialogOverlay overlay, DialogHostBase host)
+            : AvaloniaDialogViewBase<TResult>
         {
-            private readonly OverlayLayer _layer;
-            private readonly DialogOverlay _overlay;
-
             private readonly ISubject<TResult> _resultSubject = new Subject<TResult>();
 
-            public DialogView(OverlayLayer layer, DialogOverlay overlay)
-            {
-                _layer = layer;
-                _overlay = overlay;
+            public OverlayLayer Layer =>
+                layer;
 
-                Result = _resultSubject.AsObservable();
+            public override Control Root =>
+                overlay;
+
+            public override DialogHostBase Host =>
+                host;
+
+            public override IObservable<TResult> Show()
+            {
+                var disposable = (Layer.Parent as VisualLayerManager)?.Child is { } child
+                    ? new VisibilityDisposable(child)
+                    : null;
+
+                Layer.Children.Add(overlay);
+
+                return _resultSubject
+                    .Do(_ => disposable?.Dispose());
             }
 
-            public IObservable<TResult> Result { get; }
-
-            public void Close(TResult result)
+            public override void Close(TResult result)
             {
-                if (_overlay.OnClosing())
+                if (overlay.OnClosing())
                 {
-                    _layer.Children.Remove(_overlay);
+                    Layer.Children.Remove(overlay);
 
                     _resultSubject.OnNext(result);
                     _resultSubject.OnCompleted();
@@ -45,30 +53,33 @@ namespace Movere.Avalonia.Services
             }
         }
 
-        public override IObservable<TResult> ShowDialog<TContent, TResult>(
-            Func<IDialogView<TResult>, IDialogWindowViewModel<TContent>> viewModelFactory
-        )
+        private sealed class VisibilityDisposable : IDisposable
         {
-            var layer = OverlayLayer.GetOverlayLayer(target);
+            private readonly Control _control;
+            private readonly bool _wasEnabled;
 
-            if (layer is null)
+            public VisibilityDisposable(Control control)
             {
-                return Observable.Create<TResult>(
-                    observer =>
-                    {
-                        observer.OnError(new Exception());
-                        return Disposable.Empty;
-                    }
-                );
+                _control = control;
+                _wasEnabled = _control.GetValue(InputElement.IsEnabledProperty);
+
+                _control.SetCurrentValue(InputElement.IsEnabledProperty, false);
             }
 
-            var overlay = new DialogOverlay() { DataTemplates = { DataTemplate } };
-            var view = new DialogView<TResult>(layer, overlay);
-
-            overlay.DataContext = viewModelFactory(view);
-            layer.Children.Add(overlay);
-
-            return view.Result;
+            public void Dispose()
+            {
+                _control.SetCurrentValue(InputElement.IsEnabledProperty, _wasEnabled);
+            }
         }
+
+        public Visual Target =>
+            target;
+
+        protected override AvaloniaDialogViewBase<TResult>? CreateAvaloniaDialogView<TResult>() =>
+            OverlayLayer.GetOverlayLayer(target) is { } layer
+                && new DialogOverlay() is { } overlay
+                && new OverlayDialogHost(Application, overlay, DataTemplate) is { } host
+                ? new AvaloniaDialogView<TResult>(layer, overlay, host)
+                : null;
     }
 }

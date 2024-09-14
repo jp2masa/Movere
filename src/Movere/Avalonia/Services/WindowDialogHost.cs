@@ -5,8 +5,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
-using Movere.Services;
-using Movere.ViewModels;
 using Movere.Views;
 
 namespace Movere.Avalonia.Services
@@ -14,20 +12,31 @@ namespace Movere.Avalonia.Services
     public sealed class WindowDialogHost(Application application, Window owner, IDataTemplate? dataTemplate = null)
         : DialogHostBase(application, dataTemplate)
     {
-        private sealed class DialogView<TResult>(Window window) : IDialogView<TResult>
+        private sealed class AvaloniaDialogView<TResult>(Window owner, Window window, DialogHostBase host)
+            : AvaloniaDialogViewBase<TResult>
         {
-            public void Close(TResult result) =>
+            public override Control Root =>
+                window;
+
+            public override DialogHostBase Host =>
+                host;
+
+            public override IObservable<TResult> Show() =>
+                window
+                    .ShowDialog<TResult>(owner)
+                    .ToObservable();
+
+            public override void Close(TResult result) =>
                 window.Close(result);
         }
 
-        public override IObservable<TResult> ShowDialog<TContent, TResult>(
-            Func<IDialogView<TResult>, IDialogWindowViewModel<TContent>> viewModelFactory
-        )
-        {
-            var window = new DialogWindow() { DataTemplates = { DataTemplate } };
-            window.DataContext = viewModelFactory(new DialogView<TResult>(window));
+        public Window Owner =>
+            owner;
 
-            return window.ShowDialog<TResult>(owner).ToObservable();
-        }
+        protected override AvaloniaDialogViewBase<TResult>? CreateAvaloniaDialogView<TResult>() =>
+            new DialogWindow() is { } window
+                && new WindowDialogHost(Application, window, DataTemplate) is { } host
+                ? new AvaloniaDialogView<TResult>(owner, window, host)
+                : null;
     }
 }

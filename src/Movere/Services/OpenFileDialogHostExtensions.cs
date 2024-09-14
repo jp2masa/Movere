@@ -26,18 +26,19 @@ namespace Movere.Services
         {
             options ??= OpenFileDialogOptions.Default;
 
-            var container = (@this as IMovereDialogHost)?.Container
-                ?? throw new InvalidOperationException(
-                    $"{nameof(OpenFileDialogHostExtensions)} only supports dialog hosts implemented by Movere!"
-                );
-
-            var viewModelFactory = container
-                .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>();
-
             return @this
                 .ShowDialog<OpenFileDialogViewModel, OpenFileDialogResult>(
                     view =>
-                        InternalDialogWindowViewModel.Create(view, options.Title, viewModelFactory(options))
+                        InternalDialogWindowViewModel.Create(
+                            view,
+                            options.Title,
+                            (view as IMovereDialogView<OpenFileDialogResult>)?.LifetimeScope
+                                .Resolve<Func<OpenFileDialogOptions, OpenFileDialogViewModel>>()
+                                (options)
+                            ?? throw new InvalidOperationException(
+                                $"{nameof(OpenFileDialogHostExtensions)} only supports dialog hosts implemented by Movere!"
+                            )
+                        )
                 );
         }
     }
