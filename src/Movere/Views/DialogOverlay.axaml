@@ -33,33 +33,36 @@
         </vm:DesignDialogWindowViewModel>
     </Design.DataContext>
 
-    <Border
-        CornerRadius="4"
-        BorderBrush="#FF888888"
-        BorderThickness="1"
-        BoxShadow="0 0 8 2 #FF888888">
-
+    <VisualLayerManager>
         <Border
-            ClipToBounds="True"
             CornerRadius="4"
-            Background="{DynamicResource SystemRegionBrush}">
+            BorderBrush="#FF888888"
+            BorderThickness="1"
+            BoxShadow="0 0 8 2 #FF888888">
 
-            <DockPanel>
+            <Border
+                ClipToBounds="True"
+                CornerRadius="4"
+                Background="{DynamicResource SystemRegionBrush}">
 
-                <TextBlock
-                    DockPanel.Dock="Top"
-                    Background="{DynamicResource SystemControlBackgroundAccentBrush}"
-                    Foreground="{DynamicResource SystemControlBackgroundChromeWhiteBrush}"
-                    Padding="12,8"
-                    Text="{local:LocalizedString {Binding Title}}" />
+                <DockPanel>
 
-                <ContentControl
-                    Content="{Binding Content}" />
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        Background="{DynamicResource SystemControlBackgroundAccentBrush}"
+                        Foreground="{DynamicResource SystemControlBackgroundChromeWhiteBrush}"
+                        Padding="12,8"
+                        Text="{local:LocalizedString {Binding Title}}" />
 
-            </DockPanel>
+                    <ContentControl
+                        Content="{Binding Content}" />
+
+                </DockPanel>
+
+            </Border>
 
         </Border>
 
-    </Border>
+    </VisualLayerManager>
 
 </UserControl>
