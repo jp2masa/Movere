@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
              xmlns:b="clr-namespace:Movere.Behaviors"
              xmlns:c="clr-namespace:Movere.Controls"
              xmlns:conv="clr-namespace:Movere.Converters"
@@ -46,6 +47,13 @@
                                         <ia:InvokeCommandAction Command="{Binding #root.ViewModel.OpenItemCommand}"
                                                                 CommandParameter="{Binding}" />
                                     </ia:EventTriggerBehavior>
+                                    <iac:KeyDownTrigger
+                                        EventRoutingStrategy="Bubble"
+                                        Key="Enter">
+                                        <ia:InvokeCommandAction
+                                            Command="{Binding #root.ViewModel.OpenItemCommand}"
+                                            CommandParameter="{Binding}" />
+                                    </iac:KeyDownTrigger>
                                 </i:BehaviorCollection>
                             </b:BehaviorFactoryControl>
                         </b:BehaviorCollectionTemplate>
