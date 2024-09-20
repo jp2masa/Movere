@@ -15,9 +15,9 @@ jobs:
       MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .nuke/temp
