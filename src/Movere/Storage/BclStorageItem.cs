@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/tree/82d64089e15dca3712dc87dce757a29ccef2a04e/src/Avalonia.Base/Platform/Storage/FileIO
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageItem.cs
 
 using System;
 using System.Collections.Generic;
@@ -87,7 +87,7 @@ namespace Movere.Storage
                 return new StorageItemProperties(
                     fileSystemInfo is FileInfo fileInfo ? (ulong)fileInfo.Length : 0,
                     fileSystemInfo.CreationTimeUtc,
-                    fileSystemInfo.LastAccessTimeUtc);
+                    fileSystemInfo.LastWriteTimeUtc);
             }
 
             return new StorageItemProperties();
@@ -130,6 +130,28 @@ namespace Movere.Storage
             .EnumerateDirectories()
             .OfType<FileSystemInfo>()
             .Concat(directoryInfo.EnumerateFiles());
+
+        internal static FileSystemInfo? GetFolderCore(DirectoryInfo directoryInfo, string name)
+        {
+            var path = System.IO.Path.Combine(directoryInfo.FullName, name);
+            if (Directory.Exists(path))
+            {
+                return new DirectoryInfo(path);
+            }
+
+            return null;
+        }
+
+        internal static FileSystemInfo? GetFileCore(DirectoryInfo directoryInfo, string name)
+        {
+            var path = System.IO.Path.Combine(directoryInfo.FullName, name);
+            if (File.Exists(path))
+            {
+                return new FileInfo(path);
+            }
+
+            return null;
+        }
 
         internal static FileInfo CreateFileCore(DirectoryInfo directoryInfo, string name)
         {

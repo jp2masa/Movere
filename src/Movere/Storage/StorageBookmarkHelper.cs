@@ -1,4 +1,4 @@
-// https://github.com/AvaloniaUI/Avalonia/blob/82d64089e15dca3712dc87dce757a29ccef2a04e/src/Avalonia.Base/Platform/Storage/FileIO/StorageBookmarkHelper.cs
+// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/StorageBookmarkHelper.cs
 
 using System;
 using System.Buffers;
@@ -138,6 +138,7 @@ namespace Movere.Storage
                 localPath = Encoding.UTF8.GetString(bytes!);
                 return true;
             }
+
             if (decodeResult == DecodeResult.InvalidFormat
                 && nativeBookmark.IndexOfAny(Path.GetInvalidPathChars()) < 0
                 && !string.IsNullOrEmpty(Path.GetDirectoryName(nativeBookmark)))

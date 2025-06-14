@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/82d64089e15dca3712dc87dce757a29ccef2a04e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFolder.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFolder.cs
 
 using System.Collections.Generic;
 using System.IO;
@@ -22,5 +22,11 @@ namespace Movere.Storage
 
         public Task<IStorageFolder?> CreateFolderAsync(string name) => Task.FromResult(
             (IStorageFolder?)WrapFileSystemInfo(CreateFolderCore(directoryInfo, name)));
+
+        public Task<IStorageFolder?> GetFolderAsync(string name) => Task.FromResult(
+            (IStorageFolder?)WrapFileSystemInfo(GetFolderCore(directoryInfo, name)));
+
+        public Task<IStorageFile?> GetFileAsync(string name) => Task.FromResult(
+            (IStorageFile?)WrapFileSystemInfo(GetFileCore(directoryInfo, name)));
     }
 }

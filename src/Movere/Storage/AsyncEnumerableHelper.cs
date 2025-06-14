@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/82d64089e15dca3712dc87dce757a29ccef2a04e/src/Avalonia.Base/Utilities/AsyncEnumerableHelper.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Utilities/AsyncEnumerableHelper.cs
 
 using System.Collections.Generic;
 using System.Threading;
@@ -37,9 +37,9 @@ namespace Movere.Storage
                 => _enumerator.Current;
 
             public ValueTask<bool> MoveNextAsync()
-                => _cancellationToken.IsCancellationRequested ?
-                    new(Task.FromCanceled<bool>(_cancellationToken)) :
-                    new(_enumerator.MoveNext());
+                => _cancellationToken.IsCancellationRequested
+                    ? new(Task.FromCanceled<bool>(_cancellationToken))
+                    : new(_enumerator.MoveNext());
 
             public ValueTask DisposeAsync()
             {
