@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 using Movere.Models;
@@ -24,22 +25,22 @@ namespace Movere.ViewModels
 
         private string GetDisplayText()
         {
+            if (Filter.Extensions.Length == 0)
+            {
+                return Filter.Name;
+            }
+
             var builder = new StringBuilder();
 
             builder.Append(Filter.Name);
             builder.Append(" (");
 
-            var first = true;
+            builder.Append("*.");
+            builder.Append(Filter.Extensions.First());
 
-            foreach (var extension in Filter.Extensions)
+            foreach (var extension in Filter.Extensions.Skip(1))
             {
-                if (!first)
-                {
-                    builder.Append(", ");
-                    first = false;
-                }
-
-                builder.Append("*.");
+                builder.Append(", *.");
                 builder.Append(extension);
             }
 
