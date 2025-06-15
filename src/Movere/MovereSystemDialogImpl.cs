@@ -62,7 +62,8 @@ namespace Movere
                         || new DirectoryInfo(dialog.Directory) is not { Exists: true } initialDirectory
                             ? null
                             : initialDirectory,
-                    InitialFileName = dialog.InitialFileName
+                    InitialFileName = dialog.InitialFileName,
+                    ShowOverwritePrompt = saveFileDialog.ShowOverwritePrompt ?? true
                 };
 
                 if (dialog.Title is { } title)

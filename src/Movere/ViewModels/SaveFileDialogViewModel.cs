@@ -29,6 +29,8 @@ namespace Movere.ViewModels
 
         private readonly IDialogHost _dialogHost;
 
+        private readonly bool _showOverwritePrompt;
+
         private readonly ISubject<IObservable<SaveFileDialogResult>> _resultSubject =
             new Subject<IObservable<SaveFileDialogResult>>();
 
@@ -41,6 +43,8 @@ namespace Movere.ViewModels
         )
         {
             _dialogHost = dialogHost;
+
+            _showOverwritePrompt = options.ShowOverwritePrompt;
 
             _fileName = options.InitialFileName ?? String.Empty;
 
@@ -98,7 +102,7 @@ namespace Movere.ViewModels
 
             path = Path.GetFullPath(path);
 
-            var result = System.IO.File.Exists(path)
+            var result = _showOverwritePrompt && System.IO.File.Exists(path)
                 ? await _dialogHost
                     .ShowMessageDialogAsync(s_fileAlreadyExistsMessageDialogOptions)
                 : DialogResult.Yes;

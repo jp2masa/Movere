@@ -57,12 +57,12 @@ namespace Movere.Storage
             await using var host = hostFactory();
 
             // TODO: implement FileTypeChoices and DefaultExtension
-            // TODO: implement ShowOverwritePrompt (it's always shown)
             var convertedOptions = new SaveFileDialogOptions()
             {
                 //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
                 InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
-                InitialFileName = options.SuggestedFileName
+                InitialFileName = options.SuggestedFileName,
+                ShowOverwritePrompt = options.ShowOverwritePrompt ?? true
             };
 
             if (options.Title is { } title)
