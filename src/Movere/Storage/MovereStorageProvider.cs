@@ -56,10 +56,20 @@ namespace Movere.Storage
         {
             await using var host = hostFactory();
 
-            // TODO: implement FileTypeChoices and DefaultExtension
             var convertedOptions = new SaveFileDialogOptions()
             {
-                //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                DefaultExtension = options.DefaultExtension is null
+                    ? null
+                    : RemovePrefix(
+                        options.DefaultExtension,
+#if NETSTANDARD2_0
+                            "."
+#else
+                            '.'
+#endif
+                    ),
+                Filters = options.FileTypeChoices?.Select(ConvertFilter).ToImmutableArray()
+                    ?? ImmutableArray<MovereFilter>.Empty,
                 InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
                 InitialFileName = options.SuggestedFileName,
                 ShowOverwritePrompt = options.ShowOverwritePrompt ?? true
@@ -94,11 +104,23 @@ namespace Movere.Storage
 
         private static ImmutableArray<string> GetExtensions(FilePickerFileType filter) =>
             (
-                filter.Patterns
-                    ?? filter.MimeTypes
-                    ?? filter.AppleUniformTypeIdentifiers
-                    ?? Array.Empty<string>()
+                filter.Patterns?.Select(x => RemovePrefix(x, "*."))
+                    //?? filter.MimeTypes
+                    //?? filter.AppleUniformTypeIdentifiers
             )
-                .ToImmutableArray();
+                ?.ToImmutableArray()
+                ?? ImmutableArray<string>.Empty;
+
+        internal static string RemovePrefix(string str, string prefix) =>
+            str.StartsWith(prefix, StringComparison.Ordinal)
+                ? str.Substring(prefix.Length)
+                : str;
+
+#if !NETSTANDARD2_0
+        internal static string RemovePrefix(string str, char prefix) =>
+            str.StartsWith(prefix)
+                ? str.Substring(1)
+                : str;
+#endif
     }
 }

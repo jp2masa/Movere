@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using ReactiveUI;
-
 using Movere.Models;
+using Movere.Models.Filters;
 using Movere.Resources;
 using Movere.Services;
+
+using ReactiveUI;
+
 using File = Movere.Models.File;
 
 namespace Movere.ViewModels
@@ -36,19 +41,47 @@ namespace Movere.ViewModels
 
         private string _fileName;
 
+        private FileDialogFilterViewModel? _selectedFilter;
+
         public SaveFileDialogViewModel(
             SaveFileDialogOptions options,
-            Func<bool, FileExplorerViewModel> fileExplorerFactory,
+            Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerViewModel> fileExplorerFactory,
             IDialogHost dialogHost
         )
         {
             _dialogHost = dialogHost;
 
+            Filters = options.Filters.Select(FileDialogFilterViewModel.New).ToImmutableArray();
+
+            SelectedFilter = (
+                options.DefaultExtension is null
+                    ? null
+                    : Filters.FirstOrDefault(
+                        x => x.Filter.Extensions
+                            .Contains(options.DefaultExtension, StringComparer.OrdinalIgnoreCase)
+                    )
+            )
+                ?? Filters.FirstOrDefault(x => x.Filter.Extensions.Contains("*"))
+                ?? Filters.FirstOrDefault();
+
             _showOverwritePrompt = options.ShowOverwritePrompt;
 
-            _fileName = options.InitialFileName ?? String.Empty;
+            _fileName = options.InitialFileName is null
+                ? String.Empty
+                : (
+                    options.InitialFileName.EndsWith($".{options.DefaultExtension}")
+                        ? options.InitialFileName
+                        : $"{options.InitialFileName}.{options.DefaultExtension}"
+                );
 
-            FileExplorer = fileExplorerFactory(false);
+            static IFilter<FileSystemEntry> FileFilterMatches(FileDialogFilterViewModel? x) =>
+                Filter.FileDialog.Matches(x?.Filter);
+
+            var filter = this
+                .WhenAnyValue(vm => vm.SelectedFilter)
+                .Select(FileFilterMatches);
+
+            FileExplorer = fileExplorerFactory(false, filter);
 
             if (options.InitialDirectory is { } initialDirectory)
             {
@@ -74,6 +107,13 @@ namespace Movere.ViewModels
         {
             get => _fileName;
             set => this.RaiseAndSetIfChanged(ref _fileName, value);
+        }
+        public IEnumerable<FileDialogFilterViewModel> Filters { get; }
+
+        public FileDialogFilterViewModel? SelectedFilter
+        {
+            get => _selectedFilter;
+            set => this.RaiseAndSetIfChanged(ref _selectedFilter, value);
         }
 
         public ICommand SaveCommand { get; }

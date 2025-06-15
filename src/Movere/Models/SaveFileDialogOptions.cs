@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using Movere.Resources;
 
@@ -11,8 +12,9 @@ namespace Movere.Models
         public LocalizedString Title { get; init; } =
             new LocalizedString(Strings.ResourceManager, nameof(Strings.SaveFile));
 
-        // not supported yet
-        //public IEnumerable<FileDialogFilter> Filters { get; init; } = [];
+        public string? DefaultExtension { get; init; }
+
+        public IEnumerable<FileDialogFilter> Filters { get; init; } = [];
 
         public DirectoryInfo? InitialDirectory { get; init; }
 

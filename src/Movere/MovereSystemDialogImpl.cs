@@ -56,7 +56,17 @@ namespace Movere
             {
                 var options = new SaveFileDialogOptions()
                 {
-                    //Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
+                    DefaultExtension = saveFileDialog.DefaultExtension is null
+                        ? null
+                        : MovereStorageProvider.RemovePrefix(
+                            saveFileDialog.DefaultExtension,
+#if NETSTANDARD2_0
+                            "."
+#else
+                            '.'
+#endif
+                        ),
+                    Filters = dialog.Filters.Select(ConvertFilter).ToImmutableArray(),
                     InitialDirectory =
                         String.IsNullOrWhiteSpace(dialog.Directory)
                         || new DirectoryInfo(dialog.Directory) is not { Exists: true } initialDirectory
