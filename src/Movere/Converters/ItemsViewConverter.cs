@@ -23,7 +23,7 @@ namespace Movere.Converters
                 throw new InvalidOperationException("Item view not found!");
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>

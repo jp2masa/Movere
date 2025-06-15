@@ -77,11 +77,11 @@ namespace Movere
                 return result.SelectedPath is null ? [] : [result.SelectedPath];
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public Task<string?> ShowFolderDialogAsync(OpenFolderDialog dialog, Window parent) =>
-            throw new NotImplementedException();
+            throw new NotSupportedException();
 
         private static MovereFilter ConvertFilter(AvaloniaFilter filter) =>
             new MovereFilter(filter.Name ?? String.Join(", ", filter.Extensions), filter.Extensions.ToImmutableArray());
