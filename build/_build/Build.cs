@@ -1,25 +1,17 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 using NuGet.Configuration;
 using NuGet.Versioning;
 
 using Nuke.Common;
-using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 
 using Octokit;
 
@@ -60,7 +52,7 @@ class Build : NukeBuild
     [GitRepository]
     private readonly GitRepository Repository;
 
-    private GitHubActions GitHubActions =>
+    private GitHubActions? GitHubActions =>
         GitHubActions.Instance;
 
     private AbsolutePath MovereSlnPath =>
@@ -73,12 +65,14 @@ class Build : NukeBuild
         ArtifactsPath / "nupkg";
 
     private string? BranchName =>
-        StringEqualsOrdinalIgnoreCase(GitHubActions.RefType, "branch")
+        GitHubActions is not null
+        && StringEqualsOrdinalIgnoreCase(GitHubActions.RefType, "branch")
             ? GitHubActions.RefName
             : null;
 
     private string? TagName =>
-        StringEqualsOrdinalIgnoreCase(GitHubActions.RefType, "tag")
+        GitHubActions is not null
+        && StringEqualsOrdinalIgnoreCase(GitHubActions.RefType, "tag")
             ? GitHubActions.RefName
             : null;
 
@@ -90,11 +84,8 @@ class Build : NukeBuild
             ? version
             : null;
 
-    private long BuildNumber =>
-        BuildNumberOffset + GitHubActions.RunNumber;
-
     private string PackageVersionSuffix =>
-        IsLocalBuild
+        GitHubActions is null
             ? String.Empty
             : (
                 TagVersion is not null
@@ -103,7 +94,7 @@ class Build : NukeBuild
                             ? String.Empty
                             : $"-{TagVersion.Release}"
                     )
-                    : $"-build2.{BuildNumber}+{GitHubActions.Sha[0..7]}"
+                    : $"-build2.{GetBuildNumber(GitHubActions)}+{GitHubActions.Sha[0..7]}"
             );
 
 
@@ -141,7 +132,8 @@ class Build : NukeBuild
         .TriggeredBy(Pack)
         .OnlyWhenStatic(
             () =>
-                !GitHubActions.IsPullRequest
+                GitHubActions is not null
+                && !GitHubActions.IsPullRequest
                 && Configuration == Configuration.Debug
         )
         .Requires(() => MyGetApiKey)
@@ -260,6 +252,9 @@ class Build : NukeBuild
                         .SetTargetPath(nupkg)
                 )
             );
+
+    private long GetBuildNumber(GitHubActions gitHubActions) =>
+        BuildNumberOffset + gitHubActions.RunNumber;
 
     private static bool StringEqualsOrdinalIgnoreCase(string? x, string? y) =>
         String.Equals(x, y, StringComparison.OrdinalIgnoreCase);
