@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -82,10 +81,11 @@ namespace Movere.Sample
             {
                 AllowMultiple = true,
                 SuggestedStartLocation = new Folder(new DirectoryInfo(userProfilePath)).ToStorageFolder(),
-                FileTypeFilter = ImmutableArray.Create(
+                FileTypeFilter =
+                [
                     new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } },
                     new FilePickerFileType("Music files") { Patterns = new List<string>() { "mp3", "wav" } }
-                )
+                ]
             };
 
             return parent.StorageProvider.OpenFilePickerAsync(options);
@@ -98,9 +98,11 @@ namespace Movere.Sample
             var options = new FilePickerSaveOptions()
             {
                 SuggestedStartLocation = new Folder(new DirectoryInfo(userProfilePath)).ToStorageFolder(),
-                FileTypeChoices = ImmutableArray.Create(
-                    new FilePickerFileType("Picture files") { Patterns = new List<string>() { "png", "jpg" } }
-                )
+                FileTypeChoices =
+                [
+                    FilePickerFileTypes.ImageAll,
+                    FilePickerFileTypes.Pdf
+                ]
             };
 
             return parent.StorageProvider.SaveFilePickerAsync(options);
@@ -113,11 +115,11 @@ namespace Movere.Sample
             {
                 AllowMultiple = true,
                 Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                Filters = new List<FileDialogFilter>()
-                {
-                    new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } },
-                    new FileDialogFilter() { Name = "Music files", Extensions = new List<string>() { "mp3", "wav" } }
-                }
+                Filters =
+                [
+                    new FileDialogFilter() { Name = "Picture files", Extensions = ["png", "jpg"] },
+                    new FileDialogFilter() { Name = "Music files", Extensions = ["mp3", "wav"] }
+                ]
             };
 
             return dialog.ShowAsync(parent);
@@ -129,10 +131,10 @@ namespace Movere.Sample
             var dialog = new SaveFileDialog()
             {
                 Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                Filters = new List<FileDialogFilter>()
-                {
-                    new FileDialogFilter() { Name = "Picture files", Extensions = new List<string>() { "png", "jpg" } }
-                }
+                Filters =
+                [
+                    new FileDialogFilter() { Name = "Picture files", Extensions = ["png", "jpg"] }
+                ]
             };
 
             return dialog.ShowAsync(parent);

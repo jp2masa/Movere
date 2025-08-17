@@ -1,52 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using static Movere.Models.DialogResult;
 
 namespace Movere.Models
 {
     public sealed class DialogResultSet : IReadOnlyList<DialogResult>
     {
         public static DialogResultSet AbortRetryIgnore { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.Abort, DialogResult.Retry, DialogResult.Ignore),
-                DialogResult.Retry,
-                DialogResult.Ignore
-            );
+            new DialogResultSet([Abort, Retry, Ignore], Retry, Ignore);
 
         public static DialogResultSet OK { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.OK),
-                DialogResult.OK,
-                DialogResult.OK
-            );
+            new DialogResultSet([DialogResult.OK], DialogResult.OK, DialogResult.OK);
 
         public static DialogResultSet OKCancel { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.OK, DialogResult.Cancel),
-                DialogResult.OK,
-                DialogResult.Cancel
-            );
-
+            new DialogResultSet([DialogResult.OK, Cancel], DialogResult.OK, Cancel);
         public static DialogResultSet RetryCancel { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.Retry, DialogResult.Cancel),
-                DialogResult.Retry,
-                DialogResult.Cancel
-            );
+            new DialogResultSet([Retry, Cancel], Retry, Cancel);
 
         public static DialogResultSet YesNo { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.Yes, DialogResult.No),
-                DialogResult.Yes,
-                DialogResult.No
-            );
+            new DialogResultSet([Yes, No], Yes, No);
 
         public static DialogResultSet YesNoCancel { get; } =
-            new DialogResultSet(
-                ImmutableArray.Create(DialogResult.Yes, DialogResult.No, DialogResult.Cancel),
-                DialogResult.Yes,
-                DialogResult.Cancel
-            );
+            new DialogResultSet([Yes, No, Cancel], Yes, Cancel);
+
 
         public DialogResultSet(ImmutableArray<DialogResult> results, DialogResult defaultResult, DialogResult cancelResult)
         {
@@ -55,6 +32,7 @@ namespace Movere.Models
             DefaultResult = defaultResult;
             CancelResult = cancelResult;
         }
+
         public ImmutableArray<DialogResult> Results { get; }
 
         public DialogResult DefaultResult { get; }
