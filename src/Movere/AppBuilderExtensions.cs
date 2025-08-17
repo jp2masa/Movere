@@ -8,7 +8,7 @@ using Movere.Storage;
 
 namespace Movere
 {
-    public static class AppBuilderExtensions
+    public static partial class AppBuilderExtensions
     {
         internal static readonly AttachedProperty<ImmutableArray<Extension>> MovereExtensionsProperty =
             AvaloniaProperty.RegisterAttached<Application, ImmutableArray<Extension>>(

@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace Movere
 {
-    internal static class WindowExtensions
+    internal static partial class WindowExtensions
     {
         public static readonly AttachedProperty<bool> EnableWin32DialogModalFrameProperty =
             AvaloniaProperty.RegisterAttached<Window, bool>("EnableWin32DialogModalFrame", typeof(WindowExtensions));
@@ -14,12 +14,6 @@ namespace Movere
         {
             EnableWin32DialogModalFrameProperty.Changed.AddClassHandler<Window>(OnEnableWin32DialogModalFramePropertyChanged);
         }
-
-        public static bool GetEnableWin32DialogModalFrame(Window window) =>
-            window.GetValue(EnableWin32DialogModalFrameProperty);
-
-        public static void SetEnableWin32DialogModalFrame(Window window, bool value) =>
-            window.SetValue(EnableWin32DialogModalFrameProperty, value);
 
         private static void OnEnableWin32DialogModalFramePropertyChanged(Window window, AvaloniaPropertyChangedEventArgs e)
         {

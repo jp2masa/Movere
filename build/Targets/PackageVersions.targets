@@ -4,7 +4,7 @@
         <AutofacVersion>8.3.0</AutofacVersion>
         <AvaloniaVersion>11.3.1</AvaloniaVersion>
         <AvaloniaLabsVersion>11.3.0</AvaloniaLabsVersion>
-        <AvaloniaPropertyGeneratorVersion>0.10.0-beta7</AvaloniaPropertyGeneratorVersion>
+        <AvaloniaPropertyGeneratorVersion>0.11.0-beta2</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>11.3.0.6</AvaloniaXamlBehaviorsVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
