@@ -54,6 +54,31 @@ namespace Movere.Storage
 
         public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
+            var result = await SaveFileDialogAsync(options);
+
+            return result.SelectedPath is null
+                ? null
+                : new BclStorageFile(new FileInfo(result.SelectedPath));
+        }
+
+        public override async Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
+        {
+            var result = await SaveFileDialogAsync(options);
+
+            return new SaveFilePickerResult()
+            {
+                File = result.SelectedPath is null
+                    ? null
+                    : new BclStorageFile(new FileInfo(result.SelectedPath)),
+                SelectedFileType = result.SelectedFilter is null
+                    ? null
+                    : options.FileTypeChoices
+                        ?.First(x => String.Equals(x.Name, result.SelectedFilter.Name, StringComparison.Ordinal))
+            };
+        }
+
+        private async ValueTask<SaveFileDialogResult> SaveFileDialogAsync(FilePickerSaveOptions options)
+        {
             await using var host = hostFactory();
 
             var convertedOptions = new SaveFileDialogOptions()
@@ -63,9 +88,9 @@ namespace Movere.Storage
                     : RemovePrefix(
                         options.DefaultExtension,
 #if NETSTANDARD2_0
-                            "."
+                        "."
 #else
-                            '.'
+                        '.'
 #endif
                     ),
                 Filters = options.FileTypeChoices?.Select(ConvertFilter).ToImmutableArray()
@@ -82,21 +107,7 @@ namespace Movere.Storage
                 convertedOptions = convertedOptions with { Title = title };
             }
 
-            var result = await host.ShowSaveFileDialogAsync(convertedOptions);
-
-            return result.SelectedPath is null
-                ? null
-                : new BclStorageFile(new FileInfo(result.SelectedPath));
-        }
-
-        public override async Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
-        {
-            var result = await SaveFilePickerAsync(options);
-
-            return new SaveFilePickerResult()
-            {
-                File = result
-            };
+            return await host.ShowSaveFileDialogAsync(convertedOptions);
         }
 
         public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
