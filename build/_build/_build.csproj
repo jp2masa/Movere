@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <RootNamespace></RootNamespace>
         <NoWarn>CS0649;CS0169;CA1050;CA1822;CA2211;IDE1006</NoWarn>
@@ -16,7 +16,6 @@
         <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.1" />
         <PackageReference Include="NuGet.Packaging" Version="7.0.1" />
         <PackageReference Include="Nuke.Common" Version="10.1.0" />
-        <PackageReference Include="System.Formats.Asn1" Version="10.0.1" />
     </ItemGroup>
 
 </Project>
