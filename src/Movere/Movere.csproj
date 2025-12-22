@@ -30,10 +30,10 @@
         <PackageReference Include="Avalonia.Desktop" />
         <PackageReference Include="Avalonia.Labs.Panels" />
         <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
-        <PackageReference Include="Avalonia.ReactiveUI" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
         <PackageReference Include="ReactiveUI" />
+        <PackageReference Include="ReactiveUI.Avalonia" />
         <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 

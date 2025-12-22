@@ -1,7 +1,8 @@
 ﻿#if AVALONIA_DIAGNOSTICS
 using Avalonia;
 #endif
-using Avalonia.ReactiveUI;
+
+using ReactiveUI.Avalonia;
 
 using Movere.Sample.ViewModels;
 

@@ -2,7 +2,8 @@
 using Avalonia;
 #endif
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
+
+using ReactiveUI.Avalonia;
 
 using Movere.ViewModels;
 

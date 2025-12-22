@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFile.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageFile.cs
 
 using System.IO;
 using System.Threading.Tasks;

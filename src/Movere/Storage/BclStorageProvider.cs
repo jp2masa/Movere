@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageProvider.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageProvider.cs
 
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,7 @@ namespace Movere.Storage
 
         public abstract bool CanSave { get; }
         public abstract Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options);
+        public abstract Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options);
 
         public abstract bool CanPickFolder { get; }
         public abstract Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options);

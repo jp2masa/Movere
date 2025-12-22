@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/StorageProviderHelpers.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/StorageProviderHelpers.cs
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -13,7 +13,7 @@ namespace Movere.Storage
 {
     internal static class StorageProviderHelpers
     {
-        public static BclStorageItem? TryCreateBclStorageItem(string path)
+        public static BclStorageItem? TryCreateBclStorageItem(string? path)
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
@@ -41,11 +41,19 @@ namespace Movere.Storage
 
         public static Uri UriFromFilePath(string path, bool isDirectory)
         {
-            var uriPath = new StringBuilder(path)
-                .Replace("%", $"%{(int)'%':X2}")
+            var uriPath = new StringBuilder();
+            bool isLongPath = path.StartsWith(@"\\?\", StringComparison.Ordinal);//Windows long path prefix
+            if (isLongPath)
+            {
+                uriPath.Append(path, 4, path.Length - 4);
+            }
+            else
+            {
+                uriPath.Append(path);
+            }
+            uriPath = uriPath.Replace("%", $"%{(int)'%':X2}")
                 .Replace("[", $"%{(int)'[':X2}")
                 .Replace("]", $"%{(int)']':X2}");
-
             if (!path.EndsWith('/') && isDirectory)
             {
                 uriPath.Append('/');
@@ -97,7 +105,7 @@ namespace Movere.Storage
             return path;
         }
 
-        // https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Shared/StringCompatibilityExtensions.cs#L12-L14
+        // https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Shared/StringCompatibilityExtensions.cs#L12-L14
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool EndsWith(this string str, char search) =>
             str.Length > 0 && str[str.Length - 1] == search;

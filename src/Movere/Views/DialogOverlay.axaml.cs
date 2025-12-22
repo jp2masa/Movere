@@ -7,7 +7,8 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.ReactiveUI;
+
+using ReactiveUI.Avalonia;
 
 using Movere.ViewModels;
 

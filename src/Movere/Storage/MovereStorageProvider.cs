@@ -89,6 +89,16 @@ namespace Movere.Storage
                 : new BclStorageFile(new FileInfo(result.SelectedPath));
         }
 
+        public override async Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
+        {
+            var result = await SaveFilePickerAsync(options);
+
+            return new SaveFilePickerResult()
+            {
+                File = result
+            };
+        }
+
         public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
             throw new NotSupportedException();
 
@@ -105,8 +115,8 @@ namespace Movere.Storage
         private static ImmutableArray<string> GetExtensions(FilePickerFileType filter) =>
             (
                 filter.Patterns?.Select(x => RemovePrefix(x, "*."))
-                    //?? filter.MimeTypes
-                    //?? filter.AppleUniformTypeIdentifiers
+            //?? filter.MimeTypes
+            //?? filter.AppleUniformTypeIdentifiers
             )
                 ?.ToImmutableArray()
                 ?? ImmutableArray<string>.Empty;

@@ -3,7 +3,8 @@
 using Autofac;
 
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
+
+using ReactiveUI.Avalonia;
 
 using Movere.ViewModels;
 

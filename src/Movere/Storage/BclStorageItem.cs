@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/13413579b5677cd8740c41b466a1e11c2c8c3e2e/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageItem.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageItem.cs
 
 using System;
 using System.Collections.Generic;
@@ -62,7 +62,17 @@ namespace Movere.Storage
             _ => null
         };
 
-        internal static void DeleteCore(FileSystemInfo fileSystemInfo) => fileSystemInfo.Delete();
+        internal static void DeleteCore(FileSystemInfo fileSystemInfo)
+        {
+            if (fileSystemInfo is DirectoryInfo directoryInfo)
+            {
+                directoryInfo.Delete(true);
+            }
+            else
+            {
+                fileSystemInfo.Delete();
+            }
+        }
 
         internal static Uri GetPathCore(FileSystemInfo fileSystemInfo)
         {

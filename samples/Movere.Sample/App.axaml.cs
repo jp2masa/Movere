@@ -8,10 +8,11 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Avalonia.ReactiveUI;
 #pragma warning disable CS0618 // Type or member is obsolete
 using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
 #pragma warning restore CS0618 // Type or member is obsolete
+
+using ReactiveUI.Avalonia;
 
 using Movere.Avalonia.Services;
 using Movere.Avalonia.Storage;
