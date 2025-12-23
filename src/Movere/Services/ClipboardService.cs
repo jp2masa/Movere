@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Avalonia;
-using Avalonia.Input;
 using Avalonia.Input.Platform;
+using Avalonia.Platform.Storage;
+
+using Movere.Storage;
 
 namespace Movere.Services
 {
@@ -12,30 +17,29 @@ namespace Movere.Services
     {
         private static readonly IClipboard s_clipboard = AvaloniaLocator.Current.GetRequiredService<IClipboard>();
 
-        public Task ClearAsync() => s_clipboard.ClearAsync();
+        public Task ClearAsync() =>
+            s_clipboard.ClearAsync();
 
-        public Task<string?> GetTextAsync() => s_clipboard.GetTextAsync();
+        public Task<string?> GetTextAsync() =>
+            s_clipboard.TryGetTextAsync();
 
-        public Task SetTextAsync(string? text) => s_clipboard.SetTextAsync(text);
+        public Task SetTextAsync(string? text) =>
+            s_clipboard.SetTextAsync(text);
 
-        public async Task<IReadOnlyCollection<string>> GetFilesAsync()
-        {
-            var result = await s_clipboard.GetDataAsync(DataFormats.FileNames);
+        public async Task<IReadOnlyCollection<string>> GetFilesAsync() =>
+            await s_clipboard.TryGetFilesAsync() is { } files
+                ? files.Select(x => x.Path.LocalPath).ToImmutableArray()
+                : Array.Empty<string>();
 
-            if (result is IReadOnlyCollection<string> files)
-            {
-                return files;
-            }
-
-            return Array.Empty<string>();
-        }
-
-        public Task SetFilesAsync(IReadOnlyCollection<string> files)
-        {
-            var data = new DataObject();
-            data.Set(DataFormats.FileNames, files);
-
-            return s_clipboard.SetDataObjectAsync(data);
-        }
+        public Task SetFilesAsync(IReadOnlyCollection<string> files) =>
+            s_clipboard.SetFilesAsync(
+                files
+                    .Select(
+                        x =>
+                            Directory.Exists(x)
+                                ? (IStorageItem)new BclStorageFolder(new DirectoryInfo(x))
+                                : new BclStorageFile(new FileInfo(x))
+                    )
+            );
     }
 }
