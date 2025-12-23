@@ -2,7 +2,7 @@
 
 namespace Movere.Models
 {
-    public sealed class DialogResult
+    public sealed class DialogResult(LocalizedString name)
     {
         public static DialogResult OK { get; } = FromResource(nameof(Strings.OK));
         public static DialogResult Cancel { get; } = FromResource(nameof(Strings.Cancel));
@@ -14,12 +14,7 @@ namespace Movere.Models
         public static DialogResult Retry { get; } = FromResource(nameof(Strings.Retry));
         public static DialogResult Ignore { get; } = FromResource(nameof(Strings.Ignore));
 
-        public DialogResult(LocalizedString name)
-        {
-            Name = name;
-        }
-
-        public LocalizedString Name { get; }
+        public LocalizedString Name { get; } = name;
 
         private static DialogResult FromResource(string name) =>
             new DialogResult(LocalizedName(name));

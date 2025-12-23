@@ -4,14 +4,9 @@ using System.Threading.Tasks;
 
 namespace Movere.Models
 {
-    public sealed class File : FileSystemEntry, IEquatable<File>
+    public sealed class File(FileInfo info) : FileSystemEntry, IEquatable<File>
     {
-        private readonly FileInfo _info;
-
-        public File(FileInfo info)
-        {
-            _info = info;
-        }
+        private readonly FileInfo _info = info;
 
         public override string Name => _info.Name;
 
@@ -23,9 +18,12 @@ namespace Movere.Models
             return Task.CompletedTask;
         }
 
-        public bool Equals(File? other) => other is not null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(File? other) =>
+            other is not null
+            && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
-        public override bool Equals(object? obj) => obj is File file && Equals(file);
+        public override bool Equals(object? obj) =>
+            obj is File file && Equals(file);
 
         public override int GetHashCode() => HashCode.Combine(FullPath);
 

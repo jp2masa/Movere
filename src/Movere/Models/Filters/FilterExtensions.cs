@@ -6,17 +6,20 @@ namespace Movere.Models.Filters
     {
         private static class Cache<T>
         {
-            public static readonly Func<T, (IFilter<T> f1, IFilter<T> f2), bool> And = (x, p) => p.f1.Matches(x) && p.f2.Matches(x);
+            public static readonly Func<T, (IFilter<T> f1, IFilter<T> f2), bool> And =
+                static (x, p) => p.f1.Matches(x) && p.f2.Matches(x);
 
-            public static readonly Func<T, (IFilter<T> f1, IFilter<T> f2), bool> Or = (x, p) => p.f1.Matches(x) || p.f2.Matches(x);
+            public static readonly Func<T, (IFilter<T> f1, IFilter<T> f2), bool> Or =
+                static (x, p) => p.f1.Matches(x) || p.f2.Matches(x);
 
-            public static readonly Func<T, IFilter<T>, bool> Not = (x, f) => !f.Matches(x);
+            public static readonly Func<T, IFilter<T>, bool> Not =
+                static (x, f) => !f.Matches(x);
         }
 
         private static class Cache<T1, T2>
         {
             public static readonly Func<T2, (IFilter<T1> f, Func<T2, T1> conv), bool> Cast =
-                (value, p) => p.f.Matches(p.conv(value));
+                static (value, p) => p.f.Matches(p.conv(value));
         }
 
         public static IFilter<T> And<T>(this IFilter<T> filter1, IFilter<T> filter2) =>

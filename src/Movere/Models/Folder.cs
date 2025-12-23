@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-
 #if NETSTANDARD2_0
 using System.Security;
 #endif
+using System.Threading.Tasks;
 
 namespace Movere.Models
 {
-    public sealed class Folder : FileSystemEntry, IEquatable<Folder>
+    public sealed class Folder(DirectoryInfo info) : FileSystemEntry, IEquatable<Folder>
     {
 #if !NETSTANDARD2_0
         private static readonly EnumerationOptions DefaultEnumerationOptions = new EnumerationOptions();
 #endif
 
-        private readonly DirectoryInfo _info;
-
-        public Folder(DirectoryInfo info)
-        {
-            _info = info;
-        }
+        private readonly DirectoryInfo _info = info;
 
         public override string Name => _info.Name;
 
@@ -42,9 +36,12 @@ namespace Movere.Models
             return Task.CompletedTask;
         }
 
-        public bool Equals(Folder? other) => other is not null && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
+        public bool Equals(Folder? other) =>
+            other is not null
+            && String.Equals(FullPath, other.FullPath, StringComparison.Ordinal);
 
-        public override bool Equals(object? obj) => obj is Folder folder && Equals(folder);
+        public override bool Equals(object? obj) =>
+            obj is Folder folder && Equals(folder);
 
         public override int GetHashCode() => HashCode.Combine(FullPath);
 
@@ -59,7 +56,7 @@ namespace Movere.Models
             {
                 return _info.EnumerateDirectories().Select(NewFolder);
             }
-            catch (Exception e) when (e is SecurityException || e is UnauthorizedAccessException)
+            catch (Exception e) when (e is SecurityException or UnauthorizedAccessException)
             {
                 return Array.Empty<Folder>();
             }
@@ -76,7 +73,7 @@ namespace Movere.Models
             {
                 return _info.EnumerateFiles().Select(NewFile);
             }
-            catch (Exception e) when (e is SecurityException || e is UnauthorizedAccessException)
+            catch (Exception e) when (e is SecurityException or UnauthorizedAccessException)
             {
                 return Array.Empty<File>();
             }

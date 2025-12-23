@@ -111,7 +111,8 @@ namespace Movere.Sample.ViewModels
                         (LocalizedString)"Message Dialog"
                     )
                     {
-                        Icon = AvaloniaDialogIcon.Error,
+                        Icon = AvaloniaDialogIcon.Error
+                            ?? AvaloniaDialogIcon.Null,
                         DialogResults = DialogResultSet.AbortRetryIgnore
                     }
                 )

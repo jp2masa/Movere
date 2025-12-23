@@ -7,37 +7,44 @@ namespace Movere.Models
 {
     public sealed class AvaloniaDialogIcon : IDialogIcon
     {
-        private sealed class AvaloniaBitmap : IBitmap
+        private sealed class AvaloniaBitmap(Uri uri) : IBitmap
         {
-            private readonly Uri _uri;
-
-            public AvaloniaBitmap(Uri uri)
-            {
-                _uri = uri;
-            }
+            private readonly Uri _uri = uri;
 
             public Stream Open() =>
                 AssetLoader.Open(_uri);
         }
 
-        public static IDialogIcon Info { get; } = new AvaloniaDialogIcon("avares://Movere/Resources/Icons/Info.png");
+        public static IDialogIcon Null { get; } = new AvaloniaDialogIcon(null);
 
-        public static IDialogIcon Warning { get; } = new AvaloniaDialogIcon("avares://Movere/Resources/Icons/Warning.png");
+        public static IDialogIcon? Info { get; } = TryCreate("avares://Movere/Resources/Icons/Info.png");
 
-        public static IDialogIcon Error { get; } = new AvaloniaDialogIcon("avares://Movere/Resources/Icons/Error.png");
+        public static IDialogIcon? Warning { get; } = TryCreate("avares://Movere/Resources/Icons/Warning.png");
+
+        public static IDialogIcon? Error { get; } = TryCreate("avares://Movere/Resources/Icons/Error.png");
 
         private readonly AvaloniaBitmap? _bitmap;
 
-        public AvaloniaDialogIcon(string path)
+        private AvaloniaDialogIcon(Uri? uri)
         {
-            var uri = new Uri(path);
-
-            _bitmap = AssetLoader.Exists(uri)
-                ? new AvaloniaBitmap(uri)
-                : null;
+            if (uri is null)
+            {
+                return;
+            }
+            
+            _bitmap = new AvaloniaBitmap(uri);
         }
 
         public IBitmap? LoadIcon() =>
             _bitmap;
+
+        public static AvaloniaDialogIcon? TryCreate(string path)
+        {
+            var uri = new Uri(path);
+
+            return AssetLoader.Exists(uri)
+                ? new AvaloniaDialogIcon(uri)
+                : null;
+        }
     }
 }

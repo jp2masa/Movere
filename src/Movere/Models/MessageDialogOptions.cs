@@ -2,35 +2,24 @@
 
 namespace Movere.Models
 {
-    public sealed record MessageDialogOptions
+    public sealed record MessageDialogOptions(
+        LocalizedString Message,
+        LocalizedString Title
+    )
     {
-        public MessageDialogOptions(
-            LocalizedString message,
-            LocalizedString title
-        )
-        {
-            Message = message;
-            Title = title;
-        }
-
         [Obsolete("Use `new MessageDialogOptions(message, title)` instead")]
         public MessageDialogOptions(
             string message,
             string title = "Message",
             IDialogIcon? icon = null,
-            DialogResultSet? dialogResults = null)
+            DialogResultSet? dialogResults = null
+        )
+            : this((LocalizedString)message, title)
         {
-            Message = message;
-            Title = title;
-
             Icon = icon ?? DialogIcon.None;
 
             DialogResults = dialogResults ?? DialogResultSet.OK;
         }
-
-        public LocalizedString Message { get; init; }
-
-        public LocalizedString Title { get; init; }
 
         public IDialogIcon Icon { get; init; } =
             DialogIcon.None;

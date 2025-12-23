@@ -126,7 +126,8 @@ namespace Movere.ViewModels
                     (LocalizedString)"Delete items"
                 )
                 {
-                    Icon = AvaloniaDialogIcon.Warning,
+                    Icon = AvaloniaDialogIcon.Warning
+                        ?? AvaloniaDialogIcon.Null,
                     DialogResults = DialogResultSet.YesNo
                 }
             );

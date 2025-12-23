@@ -15,13 +15,13 @@ namespace Movere.Models.Filters
         public static class String
         {
             private static readonly Func<string, char, bool> s_containsChar =
-                (x, c) => x.IndexOf(c) != -1;
+                static (x, c) => x.IndexOf(c) != -1;
 
             private static readonly Func<string, (string str, StringComparison cmp), bool> s_containsString =
-                (x, p) => x.IndexOf(p.str, p.cmp) != -1;
+                static (x, p) => x.IndexOf(p.str, p.cmp) != -1;
 
             private static readonly Func<string, (string str, StringComparison cmp), bool> s_equalsString =
-                (x, p) => x.Equals(p.str, p.cmp);
+                static (x, p) => x.Equals(p.str, p.cmp);
 
             public static IFilter<string> Contains(char c) => StorageFuncFilter.New(c, s_containsChar);
 
@@ -35,7 +35,7 @@ namespace Movere.Models.Filters
         public static class FileDialog
         {
             private static readonly Func<FileSystemEntry, FileDialogFilter, bool> s_matchesFilter =
-                (entry, filter) => entry is not File file || FileMatchesFilter(file, filter);
+                static (entry, filter) => entry is not File file || FileMatchesFilter(file, filter);
 
             public static IFilter<FileSystemEntry> Matches(FileDialogFilter? filter) =>
                 filter is null || filter.Extensions.Contains("*")

@@ -28,7 +28,8 @@ namespace Movere.ViewModels
                 new LocalizedString(Strings.ResourceManager, nameof(Strings.Save))
             )
             {
-                Icon = AvaloniaDialogIcon.Warning,
+                Icon = AvaloniaDialogIcon.Warning
+                    ?? AvaloniaDialogIcon.Null,
                 DialogResults = DialogResultSet.YesNoCancel
             };
 

@@ -5,7 +5,12 @@ using static Movere.Models.DialogResult;
 
 namespace Movere.Models
 {
-    public sealed class DialogResultSet : IReadOnlyList<DialogResult>
+    public sealed class DialogResultSet(
+        ImmutableArray<DialogResult> results,
+        DialogResult defaultResult,
+        DialogResult cancelResult
+    )
+        : IReadOnlyList<DialogResult>
     {
         public static DialogResultSet AbortRetryIgnore { get; } =
             new DialogResultSet([Abort, Retry, Ignore], Retry, Ignore);
@@ -24,20 +29,11 @@ namespace Movere.Models
         public static DialogResultSet YesNoCancel { get; } =
             new DialogResultSet([Yes, No, Cancel], Yes, Cancel);
 
+        public ImmutableArray<DialogResult> Results { get; } = results;
 
-        public DialogResultSet(ImmutableArray<DialogResult> results, DialogResult defaultResult, DialogResult cancelResult)
-        {
-            Results = results;
+        public DialogResult DefaultResult { get; } = defaultResult;
 
-            DefaultResult = defaultResult;
-            CancelResult = cancelResult;
-        }
-
-        public ImmutableArray<DialogResult> Results { get; }
-
-        public DialogResult DefaultResult { get; }
-
-        public DialogResult CancelResult { get; }
+        public DialogResult CancelResult { get; } = cancelResult;
 
         public int Count => Results.Length;
 
