@@ -1,15 +1,12 @@
-﻿namespace Movere.Models
+﻿using Dunet;
+
+namespace Movere.Models
 {
-    public sealed class SaveFileDialogResult
+    [Union]
+    public abstract partial record SaveFileDialogResult
     {
-        public SaveFileDialogResult(string? selectedPath, FileDialogFilter? selectedFilter)
-        {
-            SelectedPath = selectedPath;
-            SelectedFilter = selectedFilter;
-        }
+        public sealed partial record Save(string SelectedPath, FileDialogFilter? SelectedFilter);
 
-        public string? SelectedPath { get; }
-
-        public FileDialogFilter? SelectedFilter { get; }
+        public sealed partial record Cancel();
     }
 }

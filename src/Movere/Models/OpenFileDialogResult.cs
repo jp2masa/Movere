@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
+
+using Dunet;
 
 namespace Movere.Models
 {
-    public sealed class OpenFileDialogResult
+    [Union]
+    public abstract partial record OpenFileDialogResult
     {
-        public OpenFileDialogResult(IEnumerable<string> selectedPaths)
-        {
-            SelectedPaths = selectedPaths;
-        }
+        public sealed partial record Open(ImmutableArray<string> SelectedPaths);
 
-        public IEnumerable<string> SelectedPaths { get; }
+        public sealed partial record Cancel();
     }
 }

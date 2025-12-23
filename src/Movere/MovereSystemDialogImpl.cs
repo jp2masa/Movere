@@ -49,7 +49,12 @@ namespace Movere
                 }
 
                 var result = await host.ShowOpenFileDialogAsync(options);
-                return result.SelectedPaths.ToArray();
+
+                return result
+                    .Match<string[]?>(
+                        open => open.SelectedPaths.ToArray(),
+                        cancel => null
+                    );
             }
 
             if (dialog is SaveFileDialog saveFileDialog)
@@ -84,7 +89,12 @@ namespace Movere
                 }
 
                 var result = await host.ShowSaveFileDialogAsync(options);
-                return result.SelectedPath is null ? [] : [result.SelectedPath];
+
+                return result
+                    .Match<string[]?>(
+                        save => [save.SelectedPath],
+                        cancel => null
+                    );
             }
 
             throw new NotSupportedException();

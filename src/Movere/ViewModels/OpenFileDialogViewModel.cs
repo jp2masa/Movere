@@ -97,12 +97,13 @@ namespace Movere.ViewModels
             var files = FileExplorer.FileExplorerFolder.SelectedItems
                 .Select(x => x.Entry)
                 .OfType<File>()
-                .Select(x => x.FullPath);
+                .Select(x => x.FullPath)
+                .ToImmutableArray();
 
-            Close(new OpenFileDialogResult(files));
+            Close(new OpenFileDialogResult.Open(files));
         }
 
-        private void Cancel() => Close(new OpenFileDialogResult([]));
+        private void Cancel() => Close(new OpenFileDialogResult.Cancel());
 
         private void Close(OpenFileDialogResult result)
         {

@@ -19,6 +19,9 @@ namespace Movere.Storage
     )
         : BclStorageProvider
     {
+        private static readonly SaveFilePickerResult s_cancelSaveFilePickerResult =
+            new SaveFilePickerResult();
+
         public override bool CanOpen => true;
 
         public override bool CanSave => true;
@@ -47,34 +50,45 @@ namespace Movere.Storage
 
             var result = await host.ShowOpenFileDialogAsync(convertedOptions);
 
-            return result.SelectedPaths
-                .Select(static x => new BclStorageFile(new FileInfo(x)))
-                .ToImmutableArray();
+            return result
+                .Match(
+                    open =>
+                        open
+                            .SelectedPaths
+                            .Select(static x => new BclStorageFile(new FileInfo(x)))
+                            .ToImmutableArray(),
+                    cancel => []
+                );
         }
 
         public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
         {
             var result = await SaveFileDialogAsync(options);
 
-            return result.SelectedPath is null
-                ? null
-                : new BclStorageFile(new FileInfo(result.SelectedPath));
+            return result
+                .Match<IStorageFile?>(
+                    save => new BclStorageFile(new FileInfo(save.SelectedPath)),
+                    cancel => null
+                );
         }
 
         public override async Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
         {
             var result = await SaveFileDialogAsync(options);
 
-            return new SaveFilePickerResult()
-            {
-                File = result.SelectedPath is null
-                    ? null
-                    : new BclStorageFile(new FileInfo(result.SelectedPath)),
-                SelectedFileType = result.SelectedFilter is null
-                    ? null
-                    : options.FileTypeChoices
-                        ?.First(x => String.Equals(x.Name, result.SelectedFilter.Name, StringComparison.Ordinal))
-            };
+            return result
+                .Match(
+                    save =>
+                        new SaveFilePickerResult()
+                        {
+                            File = new BclStorageFile(new FileInfo(save.SelectedPath)),
+                            SelectedFileType = save.SelectedFilter is { } filter
+                                ? options.FileTypeChoices
+                                    ?.First(x => String.Equals(x.Name, filter.Name, StringComparison.Ordinal))
+                                : null
+                        },
+                    cancel => s_cancelSaveFilePickerResult
+                );
         }
 
         private async ValueTask<SaveFileDialogResult> SaveFileDialogAsync(FilePickerSaveOptions options)

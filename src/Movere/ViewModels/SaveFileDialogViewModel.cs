@@ -149,7 +149,7 @@ namespace Movere.ViewModels
 
             if (result == DialogResult.Yes)
             {
-                Close(new SaveFileDialogResult(path, SelectedFilter?.Filter));
+                Close(new SaveFileDialogResult.Save(path, SelectedFilter?.Filter));
             }
             else if (result == DialogResult.No)
             {
@@ -162,7 +162,7 @@ namespace Movere.ViewModels
         }
 
         private void Cancel() =>
-            Close(new SaveFileDialogResult(null, SelectedFilter?.Filter));
+            Close(new SaveFileDialogResult.Cancel());
 
         private void Close(SaveFileDialogResult result)
         {

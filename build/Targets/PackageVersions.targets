@@ -7,6 +7,7 @@
         <AvaloniaPropertyGeneratorVersion>0.11.0-beta2</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>11.3.0.6</AvaloniaXamlBehaviorsVersion>
+        <DunetVersion>1.11.3</DunetVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>6.0.0</MicrosoftBclHashCodeVersion>
         <MicrosoftSourceLinkGitHubVersion>8.0.0</MicrosoftSourceLinkGitHubVersion>
@@ -28,6 +29,7 @@
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
+        <PackageReference Update="Dunet" Version="$(DunetVersion)" />
         <PackageReference Update="IsExternalInit" Version="$(IsExternalInitVersion)" />
         <PackageReference Update="Microsoft.Bcl.HashCode" Version="$(MicrosoftBclHashCodeVersion)" />
         <PackageReference Update="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubVersion)" />

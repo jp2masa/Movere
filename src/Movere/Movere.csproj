@@ -31,6 +31,7 @@
         <PackageReference Include="Avalonia.Labs.Panels" />
         <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" />
+        <PackageReference Include="Dunet" PrivateAssets="All" ExcludeAssets="Compile;Runtime" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
         <PackageReference Include="ReactiveUI" />
         <PackageReference Include="ReactiveUI.Avalonia" />
