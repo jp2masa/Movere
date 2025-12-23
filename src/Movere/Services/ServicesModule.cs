@@ -5,7 +5,7 @@ using Avalonia;
 
 namespace Movere.Services
 {
-    internal class ServicesModule : Module
+    internal sealed class ServicesModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

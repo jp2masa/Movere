@@ -12,7 +12,7 @@ namespace Movere.ViewModels
             new DialogActionSetViewModel<TContent, TResult>(actions);
     }
 
-    internal class DialogActionSetViewModel<TContent, TResult> : ReactiveObject
+    internal sealed class DialogActionSetViewModel<TContent, TResult> : ReactiveObject
     {
         public DialogActionSetViewModel(
             DialogActionSet<TContent, TResult> actions)

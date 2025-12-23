@@ -22,7 +22,7 @@ namespace Movere.Sample.ViewModels
         Cancel
     }
 
-    internal class MainWindowViewModel : ReactiveObject
+    internal sealed class MainWindowViewModel : ReactiveObject
     {
         private readonly IDialogHost _windowDialogHost;
         private readonly IDialogHost _overlayDialogHost;

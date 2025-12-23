@@ -4,7 +4,7 @@ using ReactiveUI;
 
 namespace Movere.Sample.ViewModels
 {
-    internal class FieldViewModel : ReactiveObject
+    internal sealed class FieldViewModel : ReactiveObject
     {
         private string _value = String.Empty;
 

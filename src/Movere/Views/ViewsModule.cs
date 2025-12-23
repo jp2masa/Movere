@@ -10,7 +10,7 @@ using Movere.ViewModels;
 
 namespace Movere.Views
 {
-    internal class ViewsModule : Module
+    internal sealed class ViewsModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

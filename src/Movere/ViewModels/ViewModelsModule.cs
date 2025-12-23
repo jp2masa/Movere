@@ -2,7 +2,7 @@
 
 namespace Movere.ViewModels
 {
-    internal class ViewModelsModule : Module
+    internal sealed class ViewModelsModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
