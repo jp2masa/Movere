@@ -56,16 +56,17 @@ namespace Movere.Avalonia.Services
             Application = application;
             DataTemplate = dataTemplate;
 
-            var containerBuilder = new ContainerBuilder()
-            {
-                Properties =
-                {
-                    ["Application"] = Application
-                }
-            };
+            var containerBuilder = new ContainerBuilder();
 
             containerBuilder
                 .RegisterAssemblyModules(typeof(DialogHostBase).Assembly);
+
+            var extensions = Application.GetValue(AppBuilderExtensions.MovereExtensionsProperty);
+
+            foreach (var extension in extensions)
+            {
+                extension.RegisterExtension(containerBuilder);
+            }
 
             _container = containerBuilder.Build();
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.Versioning;
 
+using Autofac;
+
 using Avalonia;
 
 using Movere.Services;
@@ -12,7 +14,9 @@ namespace Movere.Win32
     {
         [SupportedOSPlatform("windows5.1.2600")]
         private static readonly Movere.AppBuilderExtensions.Extension s_fileIconProviderExtension =
-            new Movere.AppBuilderExtensions.Extension(typeof(IFileIconProvider), () => new FileIconProvider());
+            new Movere.AppBuilderExtensions.Extension(
+                x => x.Register<IFileIconProvider>((_, _) => new FileIconProvider())
+            );
 
         public static AppBuilder UseMovereWin32(this AppBuilder builder) =>
             builder.AfterSetup(

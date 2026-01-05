@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Immutable;
 
+using Autofac;
+
 using Avalonia;
 using Avalonia.Controls.Platform;
 
@@ -17,7 +19,7 @@ namespace Movere
                 ImmutableArray<Extension>.Empty
             );
 
-        internal sealed record Extension(Type Type, Func<object> Factory);
+        internal sealed record Extension(Action<ContainerBuilder> RegisterExtension);
 
         internal static void AddExtension(this Application application, Extension extension) =>
             application.SetValue(
