@@ -7,7 +7,7 @@ namespace Movere.Behaviors
     internal sealed partial class TextBoxSelectAllAction : AvaloniaObject, IAction
     {
         public static readonly StyledProperty<TextBox?> TextBoxProperty =
-            AvaloniaProperty.Register<FocusAction, TextBox?>(nameof(TextBox));
+            AvaloniaProperty.Register<TextBoxSelectAllAction, TextBox?>(nameof(TextBox));
 
         public object? Execute(object? sender, object? parameter)
         {
