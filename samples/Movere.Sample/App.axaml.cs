@@ -18,6 +18,7 @@ using Movere.Avalonia.Services;
 using Movere.Avalonia.Storage;
 using Movere.FileDialogs;
 using Movere.Models;
+using Movere.PrintDialog;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
 using Movere.Win32;
@@ -69,8 +70,10 @@ namespace Movere.Sample
 #if DEBUG
                 .LogToTrace()
 #endif
+                .UseMovereFileDialogs()
                 .UseMovereSystemDialogs()
                 .UseMovereStorageProvider(new MovereStorageProviderOptions() { IsFallback = false })
+                .UseMoverePrintDialogs()
 #pragma warning restore CS0612 // Type or member is obsolete
                 .UseMovereWin32()
                 .UseReactiveUI();
