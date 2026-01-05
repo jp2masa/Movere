@@ -1,6 +1,10 @@
 [![Build Status](https://github.com/jp2masa/Movere/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jp2masa/Movere/actions/workflows/build.yml)
-[![NuGet](https://img.shields.io/nuget/v/Movere.svg)](https://www.nuget.org/packages/Movere/)
-[![MyGet](https://img.shields.io/myget/jp2masa/vpre/Movere.svg?label=myget)](https://www.myget.org/feed/jp2masa/package/nuget/Movere)
+
+| Package            | NuGet                                                                                                                 | MyGet                                                                                                                                                         |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Movere             | [![NuGet](https://img.shields.io/nuget/v/Movere.svg)](https://www.nuget.org/packages/Movere/)                         | [![MyGet](https://img.shields.io/myget/jp2masa/vpre/Movere.svg?label=myget)](https://www.myget.org/feed/jp2masa/package/nuget/Movere)                         |
+| Movere.FileDialogs | [![NuGet](https://img.shields.io/nuget/v/Movere.FileDialogs.svg)](https://www.nuget.org/packages/Movere.FileDialogs/) | [![MyGet](https://img.shields.io/myget/jp2masa/vpre/Movere.FileDialogs.svg?label=myget)](https://www.myget.org/feed/jp2masa/package/nuget/Movere.FileDialogs) |
+| Movere.Win32       | [![NuGet](https://img.shields.io/nuget/v/Movere.Win32.svg)](https://www.nuget.org/packages/Movere.Win32/)             | [![MyGet](https://img.shields.io/myget/jp2masa/vpre/Movere.Win32.svg?label=myget)](https://www.myget.org/feed/jp2masa/package/nuget/Movere.Win32)             |
 
 # Movere
 
@@ -12,7 +16,7 @@ Movere is an implementation of managed dialogs for Avalonia. Currently there are
 
 ### Registering file dialogs with Avalonia
 
-To use Avalonia system dialog APIs, it's possible to simply register Movere dialogs with `AppBuilder`:
+To use Avalonia storage provider APIs, it's possible to simply register Movere dialogs with `AppBuilder`:
 
 1. Import `Movere` namespace:
 
@@ -20,57 +24,75 @@ To use Avalonia system dialog APIs, it's possible to simply register Movere dial
 using Movere;
 ```
 
-2. Add `UseMovere` to `AppBuilder` configuration. Example:
+2. Add `UseMovereStorageProvider` to `AppBuilder` configuration. Example:
 
 ```cs
 AppBuilder.Configure<App>()
     .UsePlatformDetect()
-    .UseMovere();
+    .UseMovereStorageProvider();
 ```
 
 3. Then use Avalonia system dialog APIs. Example:
+
+```cs
+var options = new FilePickerOpenOptions()
+{
+    ...
+};
+
+var result = parent.StorageProvider.OpenFilePickerAsync(options);
+```
+
+#### (Deprecated) System Dialog APIs
+
+If using the old system dialogs APIs, the `AppBuilder` extension method is `UseMovereSystemDialogs` and an example is:
 
 ```cs
 var dialog = new OpenFileDialog();
 var result = await dialog.ShowAsync(parent);
 ```
 
-### Using dialog services
+### Using dialog hosts
 
 To simply use the dialogs (this example is for message dialogs, but it's similar for others):
 
-1. Create a dialog service for `Window` (owner):
+1. Create a dialog host for the `owner`:
 
 ```cs
-var messageDialogService = new MessageDialogService(owner);
+var dialogHost = new WindowDialogHost(owner);
+// OR
+var dialogHost = new OverlayDialogHost(owner);
 ```
 
-2. Pass the service to View Model:
+2. Pass the host to the view model:
 
 ```cs
-window.DataContext = new ViewModel(messageDialogService);
+window.DataContext = new ViewModel(dialogHost);
 ```
 
-3. Show dialog from View Model when you need to:
+3. Show dialog from the view model when you need to:
 
 ```cs
 private Task ShowInfoAsync() =>
-    _messageDialogService.ShowMessageDialogAsync(
-        new MessageDialogOptions(
-            DialogIcon.Info,
-            "Message Dialog",
-            "Some info",
-            DialogResultSet.OK));
+    _dialogHost
+        .ShowMessageDialog(
+            new MessageDialogOptions((LocalizedString)"Message Dialog", "Some info")
+            {
+                Icon = AvaloniaDialogIcon.Info,
+                DialogResults = DialogResultSet.OK
+            }
+        );
 ```
 
 Available icons are:
 
 - `DialogIcon.None`
-- `DialogIcon.Info`
-- `DialogIcon.Warning`
-- `DialogIcon.Error`
+- `AvaloniaDialogIcon.Info`
+- `AvaloniaDialogIcon.Warning`
+- `AvaloniaDialogIcon.Error`
 
-To add your own icon, just create an instance of `DialogIcon` and pass the resource string, e.g `avares://My.App/Resources/Icons/MyIcon.png`.
+To add your own icon, just call `AvaloniaDialogIcon.TryCreate`, passing the
+resource string, e.g `avares://My.App/Resources/Icons/MyIcon.png`.
 
 Dialog results are extensible as well, and support localization.
 
