@@ -1,9 +1,9 @@
 ﻿<UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:flex="clr-namespace:Avalonia.Labs.Panels;assembly=Avalonia.Labs.Panels"
-    xmlns:local="clr-namespace:Movere"
-    xmlns:vm="clr-namespace:Movere.ViewModels"
+    xmlns:flex="using:Avalonia.Labs.Panels"
+    xmlns:local="using:Movere"
+    xmlns:vm="using:Movere.ViewModels"
     x:Class="Movere.Views.ContentDialogView"
     x:DataType="vm:IContentDialogViewModel"
     x:Name="dialog">

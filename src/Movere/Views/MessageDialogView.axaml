@@ -1,7 +1,7 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Movere"
-             xmlns:vm="clr-namespace:Movere.ViewModels"
+             xmlns:local="using:Movere"
+             xmlns:vm="using:Movere.ViewModels"
              x:Class="Movere.Views.MessageDialogView"
              x:DataType="vm:MessageDialogViewModel"
              MaxWidth="512">

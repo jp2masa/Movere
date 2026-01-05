@@ -1,8 +1,8 @@
 ﻿<c:ItemsControlView xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:c="clr-namespace:Movere.Controls"
-                    xmlns:conv="clr-namespace:Movere.Converters"
-                    xmlns:vm="clr-namespace:Movere.ViewModels"
+                    xmlns:c="using:Movere.Controls"
+                    xmlns:conv="using:Movere.Converters"
+                    xmlns:vm="using:Movere.ViewModels"
                     x:Class="Movere.Views.GridFolderView">
     <c:ItemsControlView.Resources>
         <conv:FileIconConverter x:Key="FileIconConverter" />
