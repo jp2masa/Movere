@@ -2,40 +2,28 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+		<RootNamespace>Movere</RootNamespace>
         <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
         <AvaloniaAccessUnstablePrivateApis>true</AvaloniaAccessUnstablePrivateApis>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
         <AvaloniaResource Include="**\*.xaml" SubType="Designer" />
-        <AvaloniaResource Include="Resources\**" Exclude="**\*.resx" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Resources\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
-        <EmbeddedResource Update="Resources\Strings.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Strings.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>
         <InternalsVisibleTo Include="Movere.Explorer" />
-        <InternalsVisibleTo Include="Movere.FileDialogs" />
-        <InternalsVisibleTo Include="Movere.PrintDialog" />
         <InternalsVisibleTo Include="Movere.Win32" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" />
-        <PackageReference Include="Avalonia" />
-        <PackageReference Include="Avalonia.Desktop" />
-        <PackageReference Include="Avalonia.Labs.Panels" />
         <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" />
         <PackageReference Include="Dunet" PrivateAssets="All" ExcludeAssets="Compile;Runtime" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-        <PackageReference Include="ReactiveUI" />
-        <PackageReference Include="ReactiveUI.Avalonia" />
+        <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -43,6 +31,10 @@
         <PackageReference Include="Microsoft.Bcl.HashCode" PrivateAssets="All" />
         <PackageReference Include="Nullable" PrivateAssets="All" />
         <PackageReference Include="System.Collections.Immutable" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Movere\Movere.csproj" />
     </ItemGroup>
 
 </Project>

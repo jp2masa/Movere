@@ -23,6 +23,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Movere\Movere.csproj" />
         <ProjectReference Include="..\..\src\Movere.FileDialogs\Movere.FileDialogs.csproj" />
+        <ProjectReference Include="..\..\src\Movere.PrintDialog\Movere.PrintDialog.csproj" />
         <ProjectReference Include="..\..\src\Movere.Win32\Movere.Win32.csproj" />
     </ItemGroup>
 
