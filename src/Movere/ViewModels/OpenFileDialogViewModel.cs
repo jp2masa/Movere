@@ -35,7 +35,7 @@ namespace Movere.ViewModels
             _fileName = options.InitialFileName ?? String.Empty;
 
             static IFilter<FileSystemEntry> FileFilterMatches(FileDialogFilterViewModel? x) =>
-                Filter.FileDialog.Matches(x?.Filter);
+                (x?.Filter).AsFilter();
 
             var filter = this
                 .WhenAnyValue(vm => vm.SelectedFilter)

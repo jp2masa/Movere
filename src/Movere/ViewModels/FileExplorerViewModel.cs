@@ -52,8 +52,9 @@ namespace Movere.ViewModels
 
             var searchTextFilter =
                 from searchText in this.WhenAnyValue(vm => vm.SearchText)
-                select Filter.String.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                                    .Cast<string, FileSystemEntry>(e => e.Name);
+                select StringFilter
+                    .Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                    .Cast<string, FileSystemEntry>(e => e.Name);
 
             filter = Observable.CombineLatest(filter, searchTextFilter, (f, s) => f.And(s));
 
