@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Movere\Movere.csproj" />
+        <ProjectReference Include="..\Movere.FileDialogs\Movere.FileDialogs.csproj" />
     </ItemGroup>
 
 </Project>

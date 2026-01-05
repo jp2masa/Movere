@@ -16,6 +16,7 @@ using ReactiveUI.Avalonia;
 
 using Movere.Avalonia.Services;
 using Movere.Avalonia.Storage;
+using Movere.FileDialogs;
 using Movere.Models;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;

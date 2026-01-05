@@ -4,9 +4,6 @@ using System.Collections.Immutable;
 using Autofac;
 
 using Avalonia;
-using Avalonia.Controls.Platform;
-
-using Movere.Storage;
 
 namespace Movere
 {
@@ -28,31 +25,5 @@ namespace Movere
                     .GetValue(MovereExtensionsProperty)
                     .Add(extension)
             );
-
-        public static AppBuilder UseMovereStorageProvider(
-            this AppBuilder builder,
-            MovereStorageProviderOptions? options = null
-        ) =>
-            builder.AfterSetup(
-                _ =>
-                    AvaloniaLocator.CurrentMutable
-                        .Bind<IStorageProviderFactory>()
-                        .ToConstant(new MovereStorageProviderFactory(options))
-            );
-
-        [Obsolete]
-        public static AppBuilder UseMovereSystemDialogs(this AppBuilder builder) =>
-            builder.AfterSetup(
-                _ =>
-                    AvaloniaLocator.CurrentMutable
-                        .Bind<ISystemDialogImpl>()
-                        .ToSingleton<MovereSystemDialogImpl>()
-            );
-
-        [Obsolete]
-        public static AppBuilder UseMovere(this AppBuilder builder) =>
-            builder
-                .UseMovereSystemDialogs()
-                .UseMovereStorageProvider();
     }
 }
