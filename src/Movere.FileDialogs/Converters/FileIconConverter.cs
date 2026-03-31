@@ -56,7 +56,7 @@ namespace Movere.Converters
         private static Bitmap LoadDefaultFileIcon()
         {
             var assetLoader = AvaloniaLocator.Current.GetRequiredService<IAssetLoader>();
-            var stream = assetLoader.Open(new Uri("avares://Movere/Resources/Icons/File.png"));
+            var stream = assetLoader.Open(new Uri("avares://Movere.FileDialogs/Resources/Icons/File.png"));
 
             return new Bitmap(stream);
         }
