@@ -76,7 +76,7 @@ namespace Movere.Sample
                 .UseMoverePrintDialogs()
 #pragma warning restore CS0612 // Type or member is obsolete
                 .UseMovereWin32()
-                .UseReactiveUI();
+                .UseReactiveUI(static _ => { });
 
         private static Task AvaloniaOpenFile(TopLevel parent)
         {

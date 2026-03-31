@@ -5,6 +5,11 @@
     </PropertyGroup>
 
     <PropertyGroup>
+        <LatestNetCoreTargetFramework>net10.0</LatestNetCoreTargetFramework>
+        <NetCoreTargetFrameworks>net8.0;net10.0</NetCoreTargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <DebugType Condition="'$(Configuration)' == 'Debug'">Embedded</DebugType>
     </PropertyGroup>
 

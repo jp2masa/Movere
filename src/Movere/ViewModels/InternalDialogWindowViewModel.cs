@@ -45,7 +45,7 @@ namespace Movere.ViewModels
 
             Content.Result
                 .Concat()
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(Close);
         }
 
