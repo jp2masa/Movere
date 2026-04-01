@@ -10,7 +10,6 @@
         <DunetVersion>1.16.1</DunetVersion>
         <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
         <MicrosoftBclHashCodeVersion>6.0.0</MicrosoftBclHashCodeVersion>
-        <MicrosoftSourceLinkGitHubVersion>8.0.0</MicrosoftSourceLinkGitHubVersion>
         <MicrosoftWindowsCsWin32Version>0.3.269</MicrosoftWindowsCsWin32Version>
         <NullableVersion>1.3.1</NullableVersion>
         <ReactiveUIVersion>23.1.8</ReactiveUIVersion>
@@ -32,7 +31,6 @@
         <PackageReference Update="Dunet" Version="$(DunetVersion)" />
         <PackageReference Update="IsExternalInit" Version="$(IsExternalInitVersion)" />
         <PackageReference Update="Microsoft.Bcl.HashCode" Version="$(MicrosoftBclHashCodeVersion)" />
-        <PackageReference Update="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubVersion)" />
         <PackageReference Update="Microsoft.Windows.CsWin32" Version="$(MicrosoftWindowsCsWin32Version)" />
         <PackageReference Update="Nullable" Version="$(NullableVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />

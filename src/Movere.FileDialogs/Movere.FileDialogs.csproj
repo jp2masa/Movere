@@ -23,7 +23,6 @@
     <ItemGroup>
         <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
         <PackageReference Include="Dunet" PrivateAssets="All" ExcludeAssets="Compile;Runtime" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

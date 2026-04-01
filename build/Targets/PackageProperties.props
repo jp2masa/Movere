@@ -12,13 +12,12 @@
         <Authors>jp2masa</Authors>
         <Copyright>Copyright © $([System.DateTime]::Now.Year) jp2masa</Copyright>
         <PackageIcon>Icon.png</PackageIcon>
-        <PackageProjectUrl>http://github.com/jp2masa/Movere</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/jp2masa/Movere</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageTags>movere avalonia dialogs dotnet core csharp vb visual basic fsharp</PackageTags>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/jp2masa/Movere</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

@@ -10,7 +10,11 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <DebugType Condition="'$(Configuration)' == 'Debug'">Embedded</DebugType>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <PropertyGroup>
