@@ -25,13 +25,6 @@
         <PackageReference Include="System.Drawing.Common" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-        <PackageReference Include="IsExternalInit" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" PrivateAssets="All" />
-        <PackageReference Include="Nullable" PrivateAssets="All" />
-        <PackageReference Include="System.Collections.Immutable" />
-    </ItemGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\Movere\Movere.csproj" />
     </ItemGroup>

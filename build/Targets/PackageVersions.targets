@@ -8,13 +8,9 @@
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
         <AvaloniaXamlBehaviorsVersion>11.3.0.6</AvaloniaXamlBehaviorsVersion>
         <DunetVersion>1.16.1</DunetVersion>
-        <IsExternalInitVersion>1.0.3</IsExternalInitVersion>
-        <MicrosoftBclHashCodeVersion>6.0.0</MicrosoftBclHashCodeVersion>
         <MicrosoftWindowsCsWin32Version>0.3.269</MicrosoftWindowsCsWin32Version>
-        <NullableVersion>1.3.1</NullableVersion>
         <ReactiveUIVersion>23.1.8</ReactiveUIVersion>
         <ReactiveUIAvaloniaVersion>11.4.12</ReactiveUIAvaloniaVersion>
-        <SystemCollectionsImmutableVersion>10.0.5</SystemCollectionsImmutableVersion>
         <SystemDrawingCommonVersion>10.0.5</SystemDrawingCommonVersion>
     </PropertyGroup>
 
@@ -29,13 +25,9 @@
         <PackageReference Update="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Dunet" Version="$(DunetVersion)" />
-        <PackageReference Update="IsExternalInit" Version="$(IsExternalInitVersion)" />
-        <PackageReference Update="Microsoft.Bcl.HashCode" Version="$(MicrosoftBclHashCodeVersion)" />
         <PackageReference Update="Microsoft.Windows.CsWin32" Version="$(MicrosoftWindowsCsWin32Version)" />
-        <PackageReference Update="Nullable" Version="$(NullableVersion)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="ReactiveUI.Avalonia" Version="$(ReactiveUIAvaloniaVersion)" />
-        <PackageReference Update="System.Collections.Immutable" Version="$(SystemCollectionsImmutableVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
     </ItemGroup>
 
