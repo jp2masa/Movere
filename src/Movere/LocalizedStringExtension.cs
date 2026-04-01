@@ -8,6 +8,11 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
+#if AVALONIA_RC
+using BindingBase = Avalonia.Data.BindingBase;
+#else
+using BindingBase = Avalonia.Data.IBinding;
+#endif
 
 using Movere.Models;
 using Movere.Resources;
@@ -73,12 +78,12 @@ namespace Movere
 
         public object?[] Args { get; }
 
-        public IBinding ProvideValue(IServiceProvider serviceProvider)
+        public BindingBase ProvideValue(IServiceProvider serviceProvider)
         {
-            var key = (Key as IBinding) ?? CreateConstantBinding(Key);
+            var key = (Key as BindingBase) ?? CreateConstantBinding(Key);
 
             var args = Args
-                .Select(x => (x as IBinding) ?? CreateConstantBinding(x))
+                .Select(x => (x as BindingBase) ?? CreateConstantBinding(x))
                 .ToArray();
 
             return new MultiBinding()

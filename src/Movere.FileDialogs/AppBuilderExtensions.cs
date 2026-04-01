@@ -30,7 +30,8 @@ namespace Movere.FileDialogs
                             .ToConstant(new MovereStorageProviderFactory(options))
                 );
 
-        [Obsolete]
+#if !AVALONIA_RC
+        [Obsolete("Replace with UseMovereStorageProvider.")]
         public static AppBuilder UseMovereSystemDialogs(this AppBuilder builder) =>
             builder
                 .UseMovereFileDialogs()
@@ -40,11 +41,14 @@ namespace Movere.FileDialogs
                             .Bind<ISystemDialogImpl>()
                             .ToSingleton<MovereSystemDialogImpl>()
                 );
+#endif
 
-        [Obsolete]
+        [Obsolete("Replace with UseMovereStorageProvider.")]
         public static AppBuilder UseMovere(this AppBuilder builder) =>
             builder
+#if !AVALONIA_RC
                 .UseMovereSystemDialogs()
+#endif
                 .UseMovereStorageProvider();
     }
 }

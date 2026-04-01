@@ -34,7 +34,9 @@
 
     <PropertyGroup>
         <!-- Always rebuild after changing this -->
-        <EnableAvaloniaDiagnostics>False</EnableAvaloniaDiagnostics>
+        <EnableAvaloniaDiagnostics>false</EnableAvaloniaDiagnostics>
+        <EnableAvaloniaRc>false</EnableAvaloniaRc>
+        <DefineConstants Condition="'$(EnableAvaloniaRc)' == 'true'">AVALONIA_RC;$(DefineConstants)</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup>

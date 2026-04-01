@@ -2,7 +2,8 @@
 
     <PropertyGroup>
         <AutofacVersion>9.1.0</AutofacVersion>
-        <AvaloniaVersion>11.3.13</AvaloniaVersion>
+        <AvaloniaVersion Condition="'$(EnableAvaloniaRc)' == 'true'">12.0.0-rc2</AvaloniaVersion>
+        <AvaloniaVersion Condition="'$(AvaloniaVersion)' == ''">11.3.13</AvaloniaVersion>
         <AvaloniaLabsVersion>11.3.1</AvaloniaLabsVersion>
         <AvaloniaPropertyGeneratorVersion>0.11.0-beta2</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>

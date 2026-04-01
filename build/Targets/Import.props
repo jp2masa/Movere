@@ -4,6 +4,14 @@
     
     <Import Project="PackageProperties.props" />
 
-    <Import Project="AvaloniaDiagnostics.props" Condition="'$(EnableAvaloniaDiagnostics)' == 'True'" />
+    <Import Project="AvaloniaDiagnostics.props" Condition="'$(EnableAvaloniaDiagnostics)' == 'true' and '$(EnableAvaloniaRc)' != 'true'" />
+
+    <Target
+        Name="WarnIfAvaloniaDiagnosticsAndRc"
+        BeforeTargets="CoreCompile"
+        Condition="'$(EnableAvaloniaDiagnostics)' == 'true' and '$(EnableAvaloniaRc)' == 'true'">
+        <Warning
+            Text="Avalonia.Diagnostics does not exist on Avalonia 12.0!" />
+    </Target>
 
 </Project>

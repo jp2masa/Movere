@@ -28,7 +28,7 @@ namespace Movere.Behaviors
         [Content]
         public BehaviorCollectionTemplate? Content { get; set; }
 
-        public IBinding ProvideValue(IServiceProvider serviceProvider) =>
+        public BindingBase ProvideValue(IServiceProvider serviceProvider) =>
             new CompiledBindingExtension(
                 new CompiledBindingPathBuilder()
                     .Self()

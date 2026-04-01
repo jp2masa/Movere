@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !AVALONIA_RC
+using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -107,3 +108,4 @@ namespace Movere
             new MovereFilter(filter.Name ?? String.Join(", ", filter.Extensions), filter.Extensions.ToImmutableArray());
     }
 }
+#endif
