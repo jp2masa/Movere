@@ -4,15 +4,16 @@
         <AutofacVersion>9.1.0</AutofacVersion>
         <AvaloniaVersion Condition="'$(EnableAvaloniaRc)' == 'true'">12.0.0-rc2</AvaloniaVersion>
         <AvaloniaVersion Condition="'$(AvaloniaVersion)' == ''">11.3.13</AvaloniaVersion>
+        <AvaloniaUIDiagnosticsSupportVersion>2.2.1</AvaloniaUIDiagnosticsSupportVersion>
         <AvaloniaLabsVersion>11.3.1</AvaloniaLabsVersion>
         <AvaloniaPropertyGeneratorVersion>0.11.0-beta2</AvaloniaPropertyGeneratorVersion>
         <AvaloniaSkiaLinuxNativesVersion>1.68.0.2</AvaloniaSkiaLinuxNativesVersion>
-        <AvaloniaXamlBehaviorsVersion>11.3.0.6</AvaloniaXamlBehaviorsVersion>
         <DunetVersion>1.16.1</DunetVersion>
-        <MicrosoftWindowsCsWin32Version>0.3.269</MicrosoftWindowsCsWin32Version>
-        <ReactiveUIVersion>23.1.8</ReactiveUIVersion>
+        <MicrosoftWindowsCsWin32Version>0.3.275</MicrosoftWindowsCsWin32Version>
+        <ReactiveUIVersion>23.2.1</ReactiveUIVersion>
         <ReactiveUIAvaloniaVersion>11.4.12</ReactiveUIAvaloniaVersion>
-        <SystemDrawingCommonVersion>10.0.5</SystemDrawingCommonVersion>
+        <SystemDrawingCommonVersion>10.0.7</SystemDrawingCommonVersion>
+        <XamlBehaviorsVersion>11.3.9.5</XamlBehaviorsVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,16 +21,17 @@
         <PackageReference Update="Avalonia" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
         <PackageReference Update="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+        <PackageReference Update="AvaloniaUI.DiagnosticsSupport" Version="$(AvaloniaUIDiagnosticsSupportVersion)" />
         <PackageReference Update="Avalonia.Labs.Panels" Version="$(AvaloniaLabsVersion)" />
         <PackageReference Update="jp2masa.Avalonia.PropertyGenerator.CSharp" Version="$(AvaloniaPropertyGeneratorVersion)" />
         <PackageReference Update="Avalonia.Skia.Linux.Natives" Version="$(AvaloniaSkiaLinuxNativesVersion)" />
         <PackageReference Update="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-        <PackageReference Update="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
         <PackageReference Update="Dunet" Version="$(DunetVersion)" />
         <PackageReference Update="Microsoft.Windows.CsWin32" Version="$(MicrosoftWindowsCsWin32Version)" />
         <PackageReference Update="ReactiveUI" Version="$(ReactiveUIVersion)" />
         <PackageReference Update="ReactiveUI.Avalonia" Version="$(ReactiveUIAvaloniaVersion)" />
         <PackageReference Update="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
+        <PackageReference Update="Xaml.Behaviors" Version="$(XamlBehaviorsVersion)" />
     </ItemGroup>
 
 </Project>
