@@ -4,11 +4,7 @@
         <DefineConstants Condition="'$(EnableAvaloniaDiagnostics)' == 'True'">AVALONIA_DIAGNOSTICS;$(DefineConstants)</DefineConstants>
     </PropertyGroup>
 
-    <ItemGroup Condition="'(EnableAvaloniaRc)' != 'true'">
-        <PackageReference Include="Avalonia.Diagnostics" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'(EnableAvaloniaRc)' == 'true'">
+    <ItemGroup>
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" />
     </ItemGroup>
 

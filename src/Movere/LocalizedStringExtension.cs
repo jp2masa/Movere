@@ -7,12 +7,6 @@ using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
-#if AVALONIA_RC
-using BindingBase = Avalonia.Data.BindingBase;
-#else
-using BindingBase = Avalonia.Data.IBinding;
-#endif
 
 using Movere.Models;
 using Movere.Resources;

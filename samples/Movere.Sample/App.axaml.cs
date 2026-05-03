@@ -8,11 +8,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-#if !AVALONIA_RC
-#pragma warning disable CS0618 // Type or member is obsolete
-using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
-#pragma warning restore CS0618 // Type or member is obsolete
-#endif
 
 using ReactiveUI.Avalonia;
 
@@ -23,7 +18,6 @@ using Movere.Models;
 using Movere.PrintDialog;
 using Movere.Sample.ViewModels;
 using Movere.Sample.Views;
-using Movere.Services;
 using Movere.Win32;
 
 namespace Movere.Sample
@@ -49,11 +43,7 @@ namespace Movere.Sample
                     windowHost,
                     overlayHost,
                     () => AvaloniaOpenFile(mainWindow),
-                    () => AvaloniaSaveFile(mainWindow),
-#pragma warning disable CS0612 // Type or member is obsolete
-                    () => AvaloniaOldOpenFile(mainWindow, windowHost),
-                    () => AvaloniaOldSaveFile(mainWindow, windowHost)
-#pragma warning restore CS0612 // Type or member is obsolete
+                    () => AvaloniaSaveFile(mainWindow)
                 );
 
                 desktop.MainWindow = mainWindow;
@@ -74,9 +64,6 @@ namespace Movere.Sample
                 .LogToTrace()
 #endif
                 .UseMovereFileDialogs()
-#if !AVALONIA_RC
-                .UseMovereSystemDialogs()
-#endif
                 .UseMovereStorageProvider(new MovereStorageProviderOptions() { IsFallback = false })
                 .UseMoverePrintDialogs()
 #pragma warning restore CS0612 // Type or member is obsolete
@@ -116,64 +103,6 @@ namespace Movere.Sample
             };
 
             return parent.StorageProvider.SaveFilePickerAsync(options);
-        }
-
-        [Obsolete]
-        private static Task AvaloniaOldOpenFile(Window parent, IDialogHost dialogHost)
-        {
-#if AVALONIA_RC
-            return dialogHost.ShowMessageDialogAsync(
-                new MessageDialogOptions(
-                    (LocalizedString)"Only supported on older Avalonia versions (< 12).",
-                    "Unsupported Avalonia Version"
-                )
-                {
-                    Icon = AvaloniaDialogIcon.Error
-                        ?? AvaloniaDialogIcon.Null,
-                }
-            );
-#else
-            var dialog = new OpenFileDialog()
-            {
-                AllowMultiple = true,
-                Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                Filters =
-                [
-                    new FileDialogFilter() { Name = "Picture files", Extensions = ["png", "jpg"] },
-                    new FileDialogFilter() { Name = "Music files", Extensions = ["mp3", "wav"] }
-                ]
-            };
-
-            return dialog.ShowAsync(parent);
-#endif
-        }
-
-        [Obsolete]
-        private static Task AvaloniaOldSaveFile(Window parent, IDialogHost dialogHost)
-        {
-#if AVALONIA_RC
-            return dialogHost.ShowMessageDialogAsync(
-                new MessageDialogOptions(
-                    (LocalizedString)"Only supported on older Avalonia versions (< 12).",
-                    "Unsupported Avalonia Version"
-                )
-                {
-                    Icon = AvaloniaDialogIcon.Error
-                        ?? AvaloniaDialogIcon.Null,
-                }
-            );
-#else
-            var dialog = new SaveFileDialog()
-            {
-                Directory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                Filters =
-                [
-                    new FileDialogFilter() { Name = "Picture files", Extensions = ["png", "jpg"] }
-                ]
-            };
-
-            return dialog.ShowAsync(parent);
-#endif
         }
     }
 }

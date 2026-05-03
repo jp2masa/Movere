@@ -36,9 +36,7 @@ namespace Movere.Sample.ViewModels
             IDialogHost windowHost,
             IDialogHost overlayHost,
             Func<Task> avaloniaOpenFile,
-            Func<Task> avaloniaSaveFile,
-            Func<Task> avaloniaOldOpenFile,
-            Func<Task> avaloniaOldSaveFile
+            Func<Task> avaloniaSaveFile
         )
         {
             _windowDialogHost = windowHost;
@@ -54,9 +52,6 @@ namespace Movere.Sample.ViewModels
 
             AvaloniaOpenFileCommand = ReactiveCommand.CreateFromTask(avaloniaOpenFile);
             AvaloniaSaveFileCommand = ReactiveCommand.CreateFromTask(avaloniaSaveFile);
-
-            AvaloniaOldOpenFileCommand = ReactiveCommand.CreateFromTask(avaloniaOldOpenFile);
-            AvaloniaOldSaveFileCommand = ReactiveCommand.CreateFromTask(avaloniaOldSaveFile);
         }
 
         public string MessageDialogResult
@@ -84,10 +79,6 @@ namespace Movere.Sample.ViewModels
         public ICommand AvaloniaOpenFileCommand { get; }
 
         public ICommand AvaloniaSaveFileCommand { get; }
-
-        public ICommand AvaloniaOldOpenFileCommand { get; }
-
-        public ICommand AvaloniaOldSaveFileCommand { get; }
 
         public bool UseOverlayDialogs
         {

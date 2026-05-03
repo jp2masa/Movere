@@ -128,14 +128,13 @@ namespace Movere.Views
 
             SetCurrentValue(RootDialogOverlayProperty, this);
 
-            if (e.Root is IInputElement ie
-                && e.Root is AvaloniaObject obj)
+            if (e.RootVisual is IInputElement ie)
             {
-                var overlays = obj.GetValue(DialogOverlaysProperty)
+                var overlays = e.RootVisual.GetValue(DialogOverlaysProperty)
                     ?? new AvaloniaList<DialogOverlay>();
 
                 overlays.Add(this);
-                obj.SetValue(DialogOverlaysProperty, overlays);
+                e.RootVisual.SetValue(DialogOverlaysProperty, overlays);
 
                 ie.AddHandler(KeyDownEvent, HandleKeyDown);
             }
@@ -143,16 +142,15 @@ namespace Movere.Views
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
-            if (e.Root is IInputElement ie
-                && e.Root is AvaloniaObject obj)
+            if (e.RootVisual is IInputElement ie)
             {
                 ie.RemoveHandler(KeyDownEvent, HandleKeyDown);
 
-                var overlays = obj.GetValue(DialogOverlaysProperty)
+                var overlays = e.RootVisual.GetValue(DialogOverlaysProperty)
                     ?? new AvaloniaList<DialogOverlay>();
 
                 overlays.Remove(this);
-                obj.SetValue(DialogOverlaysProperty, overlays);
+                e.RootVisual.SetValue(DialogOverlaysProperty, overlays);
             }
 
             SetCurrentValue(RootDialogOverlayProperty, null);
