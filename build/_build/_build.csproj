@@ -16,6 +16,7 @@
         <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.7" />
         <PackageReference Include="NuGet.Packaging" Version="7.3.1" />
         <PackageReference Include="Nuke.Common" Version="10.1.0" />
+        <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.7" />
     </ItemGroup>
 
 </Project>
