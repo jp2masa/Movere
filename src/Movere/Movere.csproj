@@ -14,11 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Resources\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
-        <EmbeddedResource Update="Resources\Strings.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Strings.Designer.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
         <InternalsVisibleTo Include="Movere.Explorer" />
         <InternalsVisibleTo Include="Movere.FileDialogs" />
         <InternalsVisibleTo Include="Movere.PrintDialog" />
@@ -26,15 +21,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" />
         <PackageReference Include="Avalonia" />
         <PackageReference Include="Avalonia.Desktop" />
         <PackageReference Include="Avalonia.Labs.Panels" />
         <PackageReference Include="jp2masa.Avalonia.PropertyGenerator.CSharp" PrivateAssets="All" />
         <PackageReference Include="Dunet" PrivateAssets="All" ExcludeAssets="Compile;Runtime" />
-        <PackageReference Include="ReactiveUI" />
         <PackageReference Include="ReactiveUI.Avalonia" />
         <PackageReference Include="Xaml.Behaviors" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Movere.Base\Movere.Base.csproj" />
     </ItemGroup>
 
 </Project>

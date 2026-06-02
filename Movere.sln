@@ -46,6 +46,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere.FileDialogs", "src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movere.PrintDialog", "src\Movere.PrintDialog\Movere.PrintDialog.csproj", "{1AD37CE2-DA6A-2E18-F1BF-DA3C6EF61E98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movere.Base", "src\Movere.Base\Movere.Base.csproj", "{ECB181C3-9DDF-3FDB-8F52-FBB63B6D43E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{1AD37CE2-DA6A-2E18-F1BF-DA3C6EF61E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AD37CE2-DA6A-2E18-F1BF-DA3C6EF61E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AD37CE2-DA6A-2E18-F1BF-DA3C6EF61E98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB181C3-9DDF-3FDB-8F52-FBB63B6D43E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB181C3-9DDF-3FDB-8F52-FBB63B6D43E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB181C3-9DDF-3FDB-8F52-FBB63B6D43E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB181C3-9DDF-3FDB-8F52-FBB63B6D43E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

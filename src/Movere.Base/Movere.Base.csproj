@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(NetCoreTargetFrameworks)</TargetFrameworks>
+        <RootNamespace>Movere</RootNamespace>
+        <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources\Strings.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Strings.resx" />
+        <EmbeddedResource Update="Resources\Strings.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Strings.Designer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Movere" />
+        <InternalsVisibleTo Include="Movere.Explorer" />
+        <InternalsVisibleTo Include="Movere.FileDialogs" />
+        <InternalsVisibleTo Include="Movere.PrintDialog" />
+        <InternalsVisibleTo Include="Movere.Win32" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" />
+        <PackageReference Include="Dunet" PrivateAssets="All" ExcludeAssets="Compile;Runtime" />
+        <PackageReference Include="ReactiveUI" />
+    </ItemGroup>
+
+</Project>

@@ -1,10 +1,14 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Movere"
+             xmlns:conv="using:Movere.Converters"
              xmlns:vm="using:Movere.ViewModels"
              x:Class="Movere.Views.MessageDialogView"
              x:DataType="vm:MessageDialogViewModel"
              MaxWidth="512">
+    <UserControl.Resources>
+        <conv:BitmapConverter x:Key="BitmapConverter" />
+    </UserControl.Resources>
 
     <DockPanel Margin="4">
 
@@ -14,7 +18,7 @@
                VerticalAlignment="Top"
                Width="48"
                Height="48"
-               Source="{Binding Icon}" />
+               Source="{Binding Icon, Converter={StaticResource BitmapConverter}}" />
 
         <TextBlock Margin="4"
                    VerticalAlignment="Stretch"

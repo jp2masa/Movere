@@ -59,6 +59,7 @@ namespace Movere.Avalonia.Services
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder
+                .RegisterAssemblyModules(typeof(IDialogHost).Assembly)
                 .RegisterAssemblyModules(typeof(DialogHostBase).Assembly);
 
             var extensions = Application.GetValue(AppBuilderExtensions.MovereExtensionsProperty);
