@@ -15,13 +15,6 @@ using Movere.ViewModels;
 
 namespace Movere.Sample.ViewModels
 {
-    internal enum FormResult
-    {
-        OK,
-        Wait,
-        Cancel
-    }
-
     internal sealed class MainWindowViewModel : ReactiveObject
     {
         private readonly IDialogHost _windowDialogHost;

@@ -3,7 +3,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
-using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 
 using Movere.Avalonia.Services;

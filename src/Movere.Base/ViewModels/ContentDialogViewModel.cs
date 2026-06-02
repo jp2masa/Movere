@@ -7,15 +7,6 @@ using ReactiveUI;
 
 namespace Movere.ViewModels
 {
-    internal interface IContentDialogViewModel
-    {
-        object? Content { get; }
-
-        IEnumerable Actions { get; }
-
-        ICommand CloseCommand { get; }
-    }
-
     internal static class ContentDialogViewModel
     {
         public static ContentDialogViewModel<TContent, TResult> Create<TContent, TResult>(
