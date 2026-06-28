@@ -91,8 +91,7 @@ namespace Movere.Win32.Services
 
             var pUnknown = (IUnknown*)Marshal.GetIUnknownForObject(win32Stream);
 
-            AssertSuccess(pUnknown->QueryInterface(typeof(IStream).GUID, out var _pIStream));
-            var pIStream = (IStream*)_pIStream;
+            AssertSuccess(pUnknown->QueryInterface<IStream>(out var pIStream));
 
             AssertSuccess(encoder->Initialize(pIStream, WICBitmapEncoderCacheOption.WICBitmapEncoderNoCache));
 
@@ -118,8 +117,8 @@ namespace Movere.Win32.Services
 
             var rect = new WICRect() { X = 0, Y = 0, Width = (int)width, Height = (int)height };
 
-            AssertSuccess(ppIWicBitmap->QueryInterface(typeof(IWICBitmapSource).GUID, out var ppWicBitmapSource));
-            AssertSuccess(frameEncoder->WriteSource((IWICBitmapSource*)ppWicBitmapSource, in rect));
+            AssertSuccess(ppIWicBitmap->QueryInterface<IWICBitmapSource>(out var ppWicBitmapSource));
+            AssertSuccess(frameEncoder->WriteSource(ppWicBitmapSource, in rect));
 
             AssertSuccess(frameEncoder->Commit());
 
