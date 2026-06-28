@@ -157,7 +157,7 @@ namespace Movere.Sample.ViewModels
 
         private async Task PrintAsync()
         {
-            if (!OperatingSystem.IsWindows())
+            if (!OperatingSystem.IsWindowsVersionAtLeast(6, 1))
             {
                 return;
             }
@@ -172,7 +172,7 @@ namespace Movere.Sample.ViewModels
 
         private static void PrintDocument(object sender, PrintPageEventArgs e)
         {
-            if (!OperatingSystem.IsWindows())
+            if (!OperatingSystem.IsWindowsVersionAtLeast(6, 1))
             {
                 return;
             }
