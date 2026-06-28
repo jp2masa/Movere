@@ -194,6 +194,7 @@ namespace Movere.ViewModels
         private void CurrentFolderChanged(Folder folder)
         {
             AddressBar.Address = folder.FullPath;
+            SearchText = String.Empty;
 
             FileExplorerTree.SelectedFolder = folder;
             FileExplorerFolder.Folder = folder;
