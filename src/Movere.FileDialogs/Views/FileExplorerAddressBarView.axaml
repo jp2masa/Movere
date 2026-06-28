@@ -85,9 +85,7 @@
                     HorizontalAlignment="Stretch">
                 <i:Interaction.Behaviors>
                     <b:PointerPressedTriggerBehavior PointerUpdateKind="LeftButtonPressed">
-                        <ia:ChangePropertyAction TargetObject="{Binding}"
-                                                 PropertyName="IsEditing"
-                                                 Value="True" />
+                        <ia:InvokeCommandAction Command="{Binding #root.ViewModel.EnterEditModeCommand}" />
                         <b:FocusAction Control="{Binding #AddressTextBox}" />
                         <b:TextBoxSelectAllAction TextBox="{Binding #AddressTextBox}" />
                     </b:PointerPressedTriggerBehavior>

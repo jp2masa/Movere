@@ -27,6 +27,7 @@ namespace Movere.ViewModels
         public FileExplorerAddressBarViewModel()
         {
             NavigateToAddressCommand = ReactiveCommand.Create<string>(NavigateToAddress);
+            EnterEditModeCommand = ReactiveCommand.Create(() => { IsEditing = true; });
 
             AddressChanged = this.WhenAnyValue(vm => vm.Address);
             AddressChanged.Subscribe(x => TextBoxAddress = x);
@@ -65,6 +66,8 @@ namespace Movere.ViewModels
         public ReadOnlyObservableCollection<AddressSegmentViewModel> AddressSegments => _addressSegments.Value;
 
         public ReactiveCommand<string, Unit> NavigateToAddressCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> EnterEditModeCommand { get; }
 
         public void CancelNavigation()
         {
