@@ -19,11 +19,6 @@ namespace Movere.ViewModels
     {
         private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<AddressSegmentViewModel>> _addressSegments;
 
-        private bool _isEditing;
-
-        private string _address = String.Empty;
-        private string _textBoxAddress = String.Empty;
-
         public FileExplorerAddressBarViewModel()
         {
             NavigateToAddressCommand = ReactiveCommand.Create<string>(NavigateToAddress);
@@ -44,22 +39,22 @@ namespace Movere.ViewModels
 
         public bool IsEditing
         {
-            get => _isEditing;
-            set => this.RaiseAndSetIfChanged(ref _isEditing, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public string Address
         {
-            get => _address;
-            set => this.RaiseAndSetIfChanged(ref _address, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = String.Empty;
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string TextBoxAddress
         {
-            get => _textBoxAddress;
-            set => this.RaiseAndSetIfChanged(ref _textBoxAddress, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = String.Empty;
 
         public IObservable<string> AddressChanged { get; }
 

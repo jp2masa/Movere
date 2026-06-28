@@ -6,8 +6,6 @@ namespace Movere.Sample.ViewModels
 {
     internal sealed class FieldViewModel : ReactiveObject
     {
-        private string _value = String.Empty;
-
         public FieldViewModel(string name)
         {
             Name = name;
@@ -17,8 +15,8 @@ namespace Movere.Sample.ViewModels
 
         public string Value
         {
-            get => _value;
-            set => this.RaiseAndSetIfChanged(ref _value, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = String.Empty;
     }
 }

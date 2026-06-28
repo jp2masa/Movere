@@ -20,11 +20,6 @@ namespace Movere.Sample.ViewModels
         private readonly IDialogHost _windowDialogHost;
         private readonly IDialogHost _overlayDialogHost;
 
-        private string _messageDialogResult = "Not opened yet";
-        private string _contentDialogResult = "Not opened yet";
-
-        private bool _useOverlayDialogs = false;
-
         public MainWindowViewModel(
             IDialogHost windowHost,
             IDialogHost overlayHost,
@@ -49,15 +44,15 @@ namespace Movere.Sample.ViewModels
 
         public string MessageDialogResult
         {
-            get => _messageDialogResult;
-            set => this.RaiseAndSetIfChanged(ref _messageDialogResult, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = "Not opened yet";
 
         public string ContentDialogResult
         {
-            get => _contentDialogResult;
-            set => this.RaiseAndSetIfChanged(ref _contentDialogResult, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = "Not opened yet";
 
         public ICommand ShowMessageCommand { get; }
 
@@ -75,9 +70,9 @@ namespace Movere.Sample.ViewModels
 
         public bool UseOverlayDialogs
         {
-            get => _useOverlayDialogs;
-            set => this.RaiseAndSetIfChanged(ref _useOverlayDialogs, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = false;
 
         private IDialogHost DialogHost =>
             UseOverlayDialogs

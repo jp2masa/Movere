@@ -32,8 +32,6 @@ namespace Movere.ViewModels
         private readonly Stack<Folder> _navigationHistoryBack = new Stack<Folder>();
         private readonly Stack<Folder> _navigationHistoryForward = new Stack<Folder>();
 
-        private string _searchText = String.Empty;
-
         private Folder _currentFolder;
 
         public FileExplorerViewModel(
@@ -96,9 +94,9 @@ namespace Movere.ViewModels
 
         public string SearchText
         {
-            get => _searchText;
-            set => this.RaiseAndSetIfChanged(ref _searchText, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = String.Empty;
 
         public Folder CurrentFolder
         {

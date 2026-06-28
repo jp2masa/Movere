@@ -22,8 +22,6 @@ namespace Movere.ViewModels
 
         private string _fileName;
 
-        private FileDialogFilterViewModel? _selectedFilter;
-
         public OpenFileDialogViewModel(
             OpenFileDialogOptions options,
             Func<bool, IObservable<IFilter<FileSystemEntry>>, FileExplorerViewModel> fileExplorerFactory
@@ -73,8 +71,8 @@ namespace Movere.ViewModels
 
         public FileDialogFilterViewModel? SelectedFilter
         {
-            get => _selectedFilter;
-            set => this.RaiseAndSetIfChanged(ref _selectedFilter, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public ICommand OpenCommand { get; }

@@ -31,12 +31,6 @@ namespace Movere.ViewModels
 
         private readonly ObservableAsPropertyHelper<ReadOnlyObservableCollection<FileSystemEntryViewModel>> _items;
 
-        private ItemsView _itemsView = ItemsView.List;
-
-        private Folder? _folder;
-
-        private FileSystemEntryViewModel? _selectedItem;
-
         public FileExplorerFolderViewModel(
             IClipboardService clipboard,
             IDialogHost dialogHost,
@@ -77,16 +71,16 @@ namespace Movere.ViewModels
 
         public ItemsView ItemsView
         {
-            get => _itemsView;
-            set => this.RaiseAndSetIfChanged(ref _itemsView, value);
-        }
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
+        } = ItemsView.List;
 
         public bool AllowMultipleSelection { get; }
 
         public Folder? Folder
         {
-            get => _folder;
-            set => this.RaiseAndSetIfChanged(ref _folder, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public ReadOnlyObservableCollection<FileSystemEntryViewModel> Items =>
@@ -94,8 +88,8 @@ namespace Movere.ViewModels
 
         public FileSystemEntryViewModel? SelectedItem
         {
-            get => _selectedItem;
-            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public ObservableCollection<FileSystemEntryViewModel> SelectedItems { get; } = [];

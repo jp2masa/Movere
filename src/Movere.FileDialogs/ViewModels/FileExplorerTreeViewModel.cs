@@ -14,8 +14,6 @@ namespace Movere.ViewModels
     {
         private readonly DriveInfo[] _drives;
 
-        private Folder? _selectedFolder;
-
         public FileExplorerTreeViewModel()
         {
             _drives = DriveInfo.GetDrives();
@@ -31,8 +29,8 @@ namespace Movere.ViewModels
 
         public Folder? SelectedFolder
         {
-            get => _selectedFolder;
-            set => this.RaiseAndSetIfChanged(ref _selectedFolder, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public IObservable<Folder> SelectedFolderChanged { get; }

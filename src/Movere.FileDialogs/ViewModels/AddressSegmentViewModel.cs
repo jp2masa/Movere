@@ -14,8 +14,6 @@ namespace Movere.ViewModels
     {
         private readonly Folder _folder;
 
-        private bool _isPopupOpen;
-
         public AddressSegmentViewModel(FileExplorerAddressBarViewModel owner, Folder folder)
         {
             _folder = folder;
@@ -39,8 +37,8 @@ namespace Movere.ViewModels
 
         public bool IsPopupOpen
         {
-            get => _isPopupOpen;
-            set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
+            get;
+            set => this.RaiseAndSetIfChanged(ref field, value);
         }
 
         public string Name => _folder.Name;
