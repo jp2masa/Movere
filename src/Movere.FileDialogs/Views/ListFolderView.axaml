@@ -10,7 +10,9 @@
     </c:ItemsControlView.Resources>
     <c:ItemsControlView.PanelTemplate>
         <ItemsPanelTemplate>
-            <VirtualizingStackPanel />
+            <!-- note: behaviors fail if virtualizing -->
+            <!--<VirtualizingStackPanel />-->
+            <StackPanel />
         </ItemsPanelTemplate>
     </c:ItemsControlView.PanelTemplate>
     <c:ItemsControlView.DataTemplates>
