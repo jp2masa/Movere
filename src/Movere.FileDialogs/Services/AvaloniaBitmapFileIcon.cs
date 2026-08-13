@@ -14,7 +14,7 @@ namespace Movere.Services
         public Bitmap Bitmap { get; }
 
         public void Save(Stream stream) =>
-            Bitmap.Save(stream);
+            Bitmap.Save(stream, PngBitmapEncoderOptions.Default);
 
         public void Dispose() =>
             Bitmap.Dispose();

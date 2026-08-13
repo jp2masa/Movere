@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/IStorageBookmarkItem.cs#L7-L10
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/e33eaed9c106846b200680751022385d9cc5dc6f/src/Avalonia.Base/Platform/Storage/IStorageBookmarkItem.cs#L7-L10
 
 using System.IO;
 

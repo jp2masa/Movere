@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageProvider.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/e33eaed9c106846b200680751022385d9cc5dc6f/src/Avalonia.Base/Platform/Storage/FileIO/BclStorageProvider.cs
 
 using System;
 using System.Collections.Generic;
@@ -14,13 +14,27 @@ namespace Movere.Storage
     internal abstract class BclStorageProvider : IStorageProvider
     {
         public abstract bool CanOpen { get; }
-        public abstract Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options);
+
+        public async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
+        {
+            var result = await OpenFilePickerWithResultAsync(options).ConfigureAwait(false);
+            return result.Files;
+        }
+
+        public abstract Task<OpenFilePickerResult> OpenFilePickerWithResultAsync(FilePickerOpenOptions options);
 
         public abstract bool CanSave { get; }
-        public abstract Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options);
+
+        public async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
+        {
+            var result = await SaveFilePickerWithResultAsync(options).ConfigureAwait(false);
+            return result.File;
+        }
+
         public abstract Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options);
 
         public abstract bool CanPickFolder { get; }
+
         public abstract Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options);
 
         public virtual Task<IStorageBookmarkFile?> OpenFileBookmarkAsync(string bookmark)
@@ -110,14 +124,14 @@ namespace Movere.Storage
         // Normally we want to avoid platform specific code in the Avalonia.Base assembly.
         protected static string? GetDownloadsWellKnownFolder()
         {
-            if (OperatingSystemEx.IsWindows())
+            if (OperatingSystem.IsWindows())
             {
                 return Environment.OSVersion.Version.Major < 6
                     ? null
                     : TryGetWindowsKnownFolder(s_folderDownloads);
             }
 
-            if (OperatingSystemEx.IsLinux())
+            if (OperatingSystem.IsLinux())
             {
                 var envDir = Environment.GetEnvironmentVariable("XDG_DOWNLOAD_DIR");
                 if (envDir != null && Directory.Exists(envDir))
@@ -126,7 +140,7 @@ namespace Movere.Storage
                 }
             }
 
-            if (OperatingSystemEx.IsLinux() || OperatingSystemEx.IsMacOS())
+            if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
             {
                 return "~/Downloads";
             }

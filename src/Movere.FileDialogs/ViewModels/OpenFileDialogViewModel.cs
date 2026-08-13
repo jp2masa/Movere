@@ -98,7 +98,7 @@ namespace Movere.ViewModels
                 .Select(x => x.FullPath)
                 .ToImmutableArray();
 
-            Close(new OpenFileDialogResult.Open(files));
+            Close(new OpenFileDialogResult.Open(files, SelectedFilter?.Filter));
         }
 
         private void Cancel() => Close(new OpenFileDialogResult.Cancel());

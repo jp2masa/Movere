@@ -19,6 +19,9 @@ namespace Movere.Storage
     )
         : BclStorageProvider
     {
+        private static readonly OpenFilePickerResult s_cancelOpenFilePickerResult =
+            new OpenFilePickerResult();
+
         private static readonly SaveFilePickerResult s_cancelSaveFilePickerResult =
             new SaveFilePickerResult();
 
@@ -28,7 +31,7 @@ namespace Movere.Storage
 
         public override bool CanPickFolder => false;
 
-        public override async Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
+        public override async Task<OpenFilePickerResult> OpenFilePickerWithResultAsync(FilePickerOpenOptions options)
         {
             await using var host = hostFactory();
 
@@ -53,28 +56,45 @@ namespace Movere.Storage
             return result
                 .Match(
                     open =>
-                        open
-                            .SelectedPaths
-                            .Select(static x => new BclStorageFile(new FileInfo(x)))
-                            .ToImmutableArray(),
-                    cancel => []
-                );
-        }
-
-        public override async Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
-        {
-            var result = await SaveFileDialogAsync(options);
-
-            return result
-                .Match<IStorageFile?>(
-                    save => new BclStorageFile(new FileInfo(save.SelectedPath)),
-                    cancel => null
+                        new OpenFilePickerResult()
+                        {
+                            Files = open
+                                .SelectedPaths
+                                .Select(static x => new BclStorageFile(new FileInfo(x)))
+                                .ToImmutableArray(),
+                            SelectedFileType = open.SelectedFilter is { } filter
+                                ? options.FileTypeFilter
+                                    ?.First(x => String.Equals(x.Name, filter.Name, StringComparison.Ordinal))
+                                : null
+                        },
+                    cancel => s_cancelOpenFilePickerResult
                 );
         }
 
         public override async Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
         {
-            var result = await SaveFileDialogAsync(options);
+            await using var host = hostFactory();
+
+            var convertedOptions = new SaveFileDialogOptions()
+            {
+                DefaultExtension = options.DefaultExtension is null
+                    ? null
+                    : RemovePrefix(options.DefaultExtension, '.'),
+                Filters = options.FileTypeChoices?.Select(ConvertFilter).ToImmutableArray()
+                          ?? ImmutableArray<MovereFilter>.Empty,
+                InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
+                InitialFileName = options.SuggestedFileName,
+                ShowOverwritePrompt = options.ShowOverwritePrompt ?? true
+            };
+
+            if (options.Title is { } title)
+            {
+                // no conditional assignment of init properties
+                // (https://github.com/dotnet/csharplang/discussions/5588)
+                convertedOptions = convertedOptions with { Title = title };
+            }
+
+            var result = await host.ShowSaveFileDialogAsync(convertedOptions);
 
             return result
                 .Match(
@@ -89,39 +109,6 @@ namespace Movere.Storage
                         },
                     cancel => s_cancelSaveFilePickerResult
                 );
-        }
-
-        private async ValueTask<SaveFileDialogResult> SaveFileDialogAsync(FilePickerSaveOptions options)
-        {
-            await using var host = hostFactory();
-
-            var convertedOptions = new SaveFileDialogOptions()
-            {
-                DefaultExtension = options.DefaultExtension is null
-                    ? null
-                    : RemovePrefix(
-                        options.DefaultExtension,
-#if NETSTANDARD2_0
-                        "."
-#else
-                        '.'
-#endif
-                    ),
-                Filters = options.FileTypeChoices?.Select(ConvertFilter).ToImmutableArray()
-                    ?? ImmutableArray<MovereFilter>.Empty,
-                InitialDirectory = TryConvertStorageFolder(options.SuggestedStartLocation, checkIfExists: true),
-                InitialFileName = options.SuggestedFileName,
-                ShowOverwritePrompt = options.ShowOverwritePrompt ?? true
-            };
-
-            if (options.Title is { } title)
-            {
-                // no conditional assignment of init properties
-                // (https://github.com/dotnet/csharplang/discussions/5588)
-                convertedOptions = convertedOptions with { Title = title };
-            }
-
-            return await host.ShowSaveFileDialogAsync(convertedOptions);
         }
 
         public override Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options) =>
@@ -151,11 +138,9 @@ namespace Movere.Storage
                 ? str.Substring(prefix.Length)
                 : str;
 
-#if !NETSTANDARD2_0
         internal static string RemovePrefix(string str, char prefix) =>
             str.StartsWith(prefix)
                 ? str.Substring(1)
                 : str;
-#endif
     }
 }

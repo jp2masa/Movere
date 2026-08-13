@@ -1,4 +1,4 @@
-﻿// https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Avalonia.Base/Platform/Storage/FileIO/StorageProviderHelpers.cs
+﻿// https://github.com/AvaloniaUI/Avalonia/blob/e33eaed9c106846b200680751022385d9cc5dc6f/src/Avalonia.Base/Platform/Storage/FileIO/StorageProviderHelpers.cs
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -104,10 +104,5 @@ namespace Movere.Storage
 
             return path;
         }
-
-        // https://github.com/AvaloniaUI/Avalonia/blob/6e04c167f0aead96a7489f88779d596d6d3766c8/src/Shared/StringCompatibilityExtensions.cs#L12-L14
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool EndsWith(this string str, char search) =>
-            str.Length > 0 && str[str.Length - 1] == search;
     }
 }
