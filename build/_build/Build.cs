@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-
+using System.Text;
 using NuGet.Configuration;
 using NuGet.Versioning;
 
@@ -97,6 +97,39 @@ class Build : NukeBuild
                     : $"-build2.{GetBuildNumber(GitHubActions)}+{GitHubActions.Sha[0..7]}"
             );
 
+
+    private Target PrepareEnv => _ => _
+        .Executes(
+            () =>
+            {
+                if (GitHubActions is null)
+                {
+                    return;
+                }
+
+                var githubEnv = Environment.GetEnvironmentVariable(
+                    "GITHUB_ENV",
+                    EnvironmentVariableTarget.User
+                );
+
+                var builder = new StringBuilder(githubEnv);
+
+                builder.Append("SHOULD_PUBLISH_TO_NUGET=");
+
+                builder.AppendLine(
+                    TagVersion is not null
+                    && Configuration == Configuration.Release
+                        ? "true"
+                        : "false"
+                );
+
+                Environment.SetEnvironmentVariable(
+                    "GITHUB_ENV",
+                    builder.ToString(),
+                    EnvironmentVariableTarget.User
+                );
+            }
+        );
 
     private Target Restore => _ => _
         .Executes(

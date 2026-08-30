@@ -13,15 +13,34 @@ jobs:
       CONFIGURATION: ${{ matrix.configuration }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    permissions:
+      id-token: write
     steps:
-      - uses: actions/checkout@v6
-      - name: 'Cache: .nuke/temp, ~/.nuget/packages'
+      - name: "Checkout"
+        uses: actions/checkout@v6
+        id: checkout
+      - name: "Cache: .nuke/temp, ~/.nuget/packages"
         uses: actions/cache@v5
+        id: cache
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Run: '
-        run: ./build.cmd
+      - name: "Prepare env: "
+        id: prepare_env
+        run: ./build.ps1 --target PrepareEnv
+      - name: "NuGet login (OIDC → temp API key)"
+        uses: NuGet/login@v1
+        id: nuget_login
+        if: ${{ env.SHOULD_PUBLISH_TO_NUGET }}
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: "Set NuGet API key in env"
+        id: nuget_api_key
+        if: ${{ env.SHOULD_PUBLISH_TO_NUGET }}
+        run: |
+          "NUGET_API_KEY=${{ steps.login.outputs.NUGET_API_KEY }}" >> $env:GITHUB_ENV
+      - name: "Run: "
+        id: run
+        run: ./build.ps1
